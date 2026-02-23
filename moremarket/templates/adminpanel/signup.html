@@ -1,8 +1,91 @@
-<h2>Admin Signup</h2>
-<form method="POST">
-    {% csrf_token %}
-    <input type="text" name="username" placeholder="Username"><br><br>
-    <input type="password" name="password" placeholder="Password"><br><br>
-    <button type="submit">Signup</button>
-</form>
-<a href="{% url 'login' %}">Login</a>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Signup</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0B1F3A, #142B4F);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .signup-box {
+            background: #ffffff;
+            padding: 40px;
+            width: 350px;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .signup-box h2 {
+            text-align: center;
+            color: #0B1F3A;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #2563EB;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #1D4ED8;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .link a {
+            text-decoration: none;
+            color: #2563EB;
+        }
+    </style>
+</head>
+<body>
+
+<div class="signup-box">
+    <h2>Create Admin Account</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="text" name="username" placeholder="Username">
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="password" placeholder="Password">
+        </div>
+
+        <button type="submit" class="btn">Signup</button>
+    </form>
+
+    <div class="link">
+        <p>Already have account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+</div>
+
+</body>
+</html>
