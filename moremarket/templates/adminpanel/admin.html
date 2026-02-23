@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #F5F7FA;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background-color: #0B1F3A;
+            position: fixed;
+            padding-top: 20px;
+            color: white;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px 20px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #142B4F;
+        }
+
+        /* Top Navbar */
+        .navbar {
+            margin-left: 240px;
+            height: 60px;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .navbar h3 {
+            color: #0B1F3A;
+        }
+
+        .logout-btn {
+            background-color: #0B1F3A;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .logout-btn:hover {
+            background-color: #142B4F;
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: 240px;
+            padding: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .card h4 {
+            margin: 0;
+            color: #0B1F3A;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-box {
+            flex: 1;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-box h2 {
+            color: #0B1F3A;
+            margin: 10px 0;
+        }
+
+        .stat-box p {
+            color: #555;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>AdminPane</h2>
+        <a href="#">Dashboard</a>
+        <a href="#">Users</a>
+        <a href="#">Orders</a>
+        <a href="#">Analytics</a>
+    </div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <h3>Welcome, {{ request.user.username }}</h3>
+        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <div class="stats">
+            <div class="stat-box">
+                <h2>120</h2>
+                <p>Total Users</p>
+            </div>
+
+            <div class="stat-box">
+                <h2>75</h2>
+                <p>Total Orders</p>
+            </div>
+
+            <div class="stat-box">
+                <h2>₹45,000</h2>
+                <p>Total Revenue</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>Recent Activity</h4>
+            <p>This is your custom admin dashboard.</p>
+        </div>
+    </div>
+
+</body>
+</html>

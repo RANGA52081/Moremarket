@@ -23,6 +23,7 @@ urlpatterns = [
     path('adminpanel/', include('adminpanel.urls')),
     path('analytics/', include('analytics.urls')),
     path('delivery/', include('delivery.urls')),
+    path('nono/', include('adminpanel.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
