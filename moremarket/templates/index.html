@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- HERO CAROUSEL -->
+    <div id="heroCarousel" class="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-inner rounded-4 overflow-hidden shadow-sm">
+
+            <div class="carousel-item active">
+                <div class="hero-slide d-flex align-items-center justify-content-center text-white">
+                    <h2 class="fw-bold text-center">Best Deals on MS Scaffolding</h2>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="hero-slide bg-primary d-flex align-items-center justify-content-center text-white">
+                    <h2 class="fw-bold text-center">Quality Aluminium Scaffolding</h2>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="hero-slide bg-success d-flex align-items-center justify-content-center text-white">
+                    <h2 class="fw-bold text-center">Accessories & Boards Available</h2>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+    <!-- CATEGORY CARDS -->
+    <div class="d-flex flex-nowrap flex-md-wrap gap-3 overflow-auto mb-5 pb-2">
+
+        <div class="category-card">MS Scaffolding</div>
+        <div class="category-card">Aluminium</div>
+        <div class="category-card">Boards</div>
+        <div class="category-card">Jacks</div>
+        <div class="category-card">Accessories</div>
+
+    </div>
+
+    <!-- PRODUCT GRID -->
+    <div class="row g-4">
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card product-card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="fw-semibold">Product Name</h5>
+                    <p class="text-primary fw-bold mb-3">₹ 1200</p>
+                    <button class="btn btn-primary w-100">View</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

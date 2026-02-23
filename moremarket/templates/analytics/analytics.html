@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h3 class="mb-4">📊 Analytics Dashboard</h3>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card p-3 shadow-sm">
+                <h6>Daily Orders</h6>
+                <h3>{{ daily_orders }}</h3>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3 shadow-sm">
+                <h6>Total Sales</h6>
+                <h3>₹ {{ total_sales }}</h3>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3 shadow-sm">
+                <h6>Pending Orders</h6>
+                <h3>{{ pending_orders }}</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Chart placeholder -->
+    <div class="card mt-5 p-4 shadow-sm">
+        <h5>Sales Overview</h5>
+        <canvas id="salesChart" height="100"></canvas>
+    </div>
+
+</div>
+{% endblock %}
