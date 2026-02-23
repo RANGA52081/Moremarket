@@ -1,0 +1,25 @@
+:root {
+    --primary-color: #1f3a63;  /* dark industrial blue */
+    --accent-color: #f4b400;   /* construction yellow */
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #162b4a;
+}
+
+.category-card {
+    background: white;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.category-card:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-5px);
+}
