@@ -1,15 +1,11 @@
 from django.urls import path
 from . import views
 
+app_name = "adminpanel"
+
 urlpatterns = [
-    # Authentication
-    path('login/', views.login_view, name='login'),
-    path('signup/', views.signup_view, name='signup'),
-    path('logout/', views.logout_view, name='logout'),
-
-    # Dashboard
-    path('dashboard/', views.admin_dashboard, name='dashboard'),
-
-    # Example Protected Page
-    path('nono/', views.nono_view, name='nono'),
+    path('auth/signup/', views.signup_view, name='signup'),
+    path('auth/login/', views.login_view, name='login'),
+    path('auth/logout/', views.logout_view, name='logout'),
+    path('', views.admin_dashboard, name='dashboard'),  # Default admin home
 ]
