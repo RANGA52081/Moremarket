@@ -1,25 +1,306 @@
-:root {
-    --primary-color: #1f3a63;  /* dark industrial blue */
-    --accent-color: #f4b400;   /* construction yellow */
+/* ===============================
+   GLOBAL PREMIUM THEME
+================================ */
+
+body {
+    background: #f4f6f9;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+/* Page Fade Animation */
+body {
+    animation: fadeInPage 0.6s ease-in-out;
+    animation: smoothAppear 0.5s ease-in-out;
+}
+@keyframes smoothAppear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes fadeInPage {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.btn-primary {
-    background-color: var(--primary-color);
-    border: none;
+/* ===============================
+   NAVBAR EFFECTS
+=/* =========================
+   HEADER ALIGNMENT FIX
+========================= */
+
+.navbar {
+    height: 75px;
 }
 
-.btn-primary:hover {
-    background-color: #162b4a;
+.header-search input {
+    height: 42px;
+    border-radius: 6px;
 }
+
+.header-search button {
+    height: 42px;
+    border-radius: 6px;
+}
+
+.header-right {
+    height: 100%;
+}
+
+.location-wrapper {
+    min-width: 200px;
+    max-width: 250px;
+    cursor: pointer;
+}
+
+/* ===============================
+   CATEGORY BAR
+================================ */
 
 .category-card {
     background: white;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .category-card:hover {
-    background: var(--primary-color);
-    color: white;
     transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    background: linear-gradient(135deg, #0d6efd, #4da3ff);
+    color: white;
+}
+
+/* ===============================
+   PRODUCT CARD EFFECTS
+================================ */
+.card-body h6 {
+    font-weight: 600;
+}
+
+.card-body p {
+    font-size: 1.1rem;
+}
+.card {
+    transition: all 0.4s ease;
+    border-radius: 18px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+}
+
+.card img {
+    transition: transform 0.4s ease;
+}
+
+.card:hover img {
+    transform: scale(1.05);
+}
+
+/* Button Hover Animation */
+.btn-primary {
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(13,110,253,0.3);
+}
+
+/* ===============================
+   HERO CAROUSEL EFFECT
+================================ */
+
+.carousel-item img {
+    transition: transform 0.8s ease;
+}
+
+.carousel-item.active img {
+    transform: scale(1.05);
+}
+
+/* Caption Fade */
+.carousel-caption {
+    animation: fadeSlide 1s ease-in-out;
+}
+
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===============================
+   FOOTER HOVER
+================================ */
+
+footer i {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+footer i:hover {
+    color: #0d6efd;
+    transform: scale(1.2);
+}
+/* ===============================
+   LOCATION DROPDOWN
+================================ */
+
+.location-wrapper {
+    cursor: pointer;
+    cursor: pointer;
+    min-width: 180px;
+    max-width: 240px;
+}
+.location-wrapper:hover .location-dropdown {
+    display: block;
+}
+
+.location-dropdown.active {
+    display: block;
+}
+.location-trigger:hover {
+    color: #0d6efd;
+    transition: 0.3s ease;
+}
+/* =========================
+   Navbar Location Styling
+========================= */
+
+.location-wrapper i {
+    font-size: 18px;
+    color: #6c757d;
+}
+
+.location-text {
+    line-height: 1.1;
+}
+
+.location-text small {
+    font-size: 11px;
+}
+
+#selected-location {
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 180px;
+}
+/* ===============================
+   LOCATION DROPDOWN
+================================= */
+
+/* LOCATION DROPDOWN IMPROVED */
+
+.location-dropdown.active {
+    display: block;
+}
+
+.saved-address-card {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: 0.2s;
+}
+
+.saved-address-card:hover {
+    background: #e9ecef;
+}
+
+.close-btn {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.location-dropdown {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 320px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    display: none;
+    z-index: 9999;
+}
+
+
+#selected-location {
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.location-text {
+    line-height: 1.1;
+}
+
+#selected-location {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+    display: block;
+}
+
+.navbar .btn-primary {
+    border-radius: 8px;
+    height: 40px;
+}
+/* ===============================
+   LANGUAGE DROPDOWN
+================================ */
+
+.language-trigger:hover {
+    color: #0d6efd;
+    transform: translateY(-2px);
+    transition: 0.3s ease;
+}
+
+.dropdown-menu {
+    min-width: 200px;
+}
+
+.dropdown-item:hover {
+    background: #f4f6f9;
+}
+
+/* ===============================
+   SMOOTH FADE ANIMATION
+================================ */
+
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
