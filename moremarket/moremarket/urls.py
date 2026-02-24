@@ -17,13 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from customer import views as customer_views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('i18n/', include('django.conf.urls.i18n')),
     path('', include('customer.urls')),
     path('adminpanel/', include('adminpanel.urls')),
     path('analytics/', include('analytics.urls')),
@@ -31,6 +29,7 @@ urlpatterns = [
     path('login/', customer_views.login_view, name='login'),
     path('register/', customer_views.register_view, name='register'),
     path('logout/', customer_views.logout_view, name='logout'),
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
