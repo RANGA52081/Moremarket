@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verify OTP</title>
+</head>
+<body class="auth-body">
+<style>
+    /* ===============================
+   ADVANCED AUTH UI
+================================ */
+
+.auth-body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0d6efd, #001f5f);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.auth-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* LEFT SIDE */
+.auth-left {
+    flex: 1;
+    background: linear-gradient(135deg, #001f5f, #0d6efd);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-left h1 {
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.auth-left p {
+    opacity: 0.8;
+    margin-top: 10px;
+}
+
+/* Floating Particles */
+.floating-shapes::before,
+.floating-shapes::after {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+    animation: float 6s infinite ease-in-out;
+}
+
+.floating-shapes::before {
+    top: 20%;
+    left: 20%;
+}
+
+.floating-shapes::after {
+    bottom: 20%;
+    right: 20%;
+    animation-delay: 3s;
+}
+
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* RIGHT SIDE */
+.auth-right {
+    flex: 1;
+    background: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-card {
+    width: 400px;
+    padding: 40px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    animation: slideIn 0.8s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(50px); opacity:0; }
+    to { transform: translateX(0); opacity:1; }
+}
+
+.auth-title {
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+/* Floating input */
+.floating-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.floating-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.floating-group label {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    font-size: 14px;
+    color: #777;
+    transition: 0.3s;
+}
+
+.floating-group input:focus + label,
+.floating-group input:valid + label {
+    top: -8px;
+    left: 8px;
+    background: white;
+    padding: 0 5px;
+    font-size: 11px;
+    color: #0d6efd;
+}
+
+/* Password toggle */
+.password-group {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 14px;
+    cursor: pointer;
+    color: #777;
+}
+
+/* Button */
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    background: #0d6efd;
+    color: white;
+    border: none;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.auth-btn:hover {
+    background: #003ea1;
+    transform: translateY(-2px);
+}
+
+/* Google button */
+.google-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #ddd;
+    margin-top: 15px;
+    transition: 0.3s;
+}
+
+.google-btn:hover {
+    background: #f1f1f1;
+}
+
+/* Shake animation */
+.shake {
+    animation: shake 0.4s;
+}
+
+@keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+}
+
+/* Error */
+.error-message {
+    background: #ffe5e5;
+    color: #d10000;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+</style>
+<div class="auth-container">
+    <div class="auth-right">
+        <div class="auth-card">
+
+            <h3 class="auth-title">Verify OTP</h3>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="error-message">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="floating-group">
+                    <input type="text" name="otp" maxlength="6" required>
+                    <label>Enter 6 Digit OTP</label>
+                </div>
+
+                <button class="auth-btn">Verify</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
