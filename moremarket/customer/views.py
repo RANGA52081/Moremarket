@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Banner, UserOTP
+from products.models import Product
 import random
 from django.core.mail import send_mail
 from django.conf import settings
@@ -16,8 +17,17 @@ from datetime import timedelta
 def customer_home(request):
     banners = Banner.objects.filter(is_active=True)
 
+    category = request.GET.get("category")
+
+    if category:
+        products = Product.objects.filter(category=category, is_active=True)
+    else:
+        products = Product.objects.filter(is_active=True)
+
     return render(request, 'customer/customer.html', {
-        'banners': banners
+        'banners': banners,
+        'products': products,
+        'active_category': category
     })
 # ========================
 # CART PAGE

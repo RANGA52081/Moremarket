@@ -37,26 +37,32 @@
     {% load static %}
 <div class="container py-5">
 
-    <!-- CATEGORY SECTION -->
+    <!-- ================= CATEGORY SECTION ================= -->
     <div class="text-center mb-5">
-        <h2 class="fw-bold">Shop by Category</h2>
+        <h2 class="fw-bold display-6">Shop by Category</h2>
 
-        <div class="d-flex justify-content-center gap-4 mt-4">
+        <div class="d-flex justify-content-center flex-wrap gap-3 mt-4">
 
-            <a href="?category=MS"
+            <a href="{% url 'customer_home' %}?category=MS"
                class="category-btn {% if active_category == 'MS' %}active-category{% endif %}">
                MS Scaffolding
             </a>
 
-            <a href="?category=AL"
+            <a href="{% url 'customer_home' %}?category=AL"
                class="category-btn {% if active_category == 'AL' %}active-category{% endif %}">
                Aluminium Scaffolding
+            </a>
+
+            <a href="{% url 'customer_home' %}"
+               class="category-btn {% if not active_category %}active-category{% endif %}">
+               All Products
             </a>
 
         </div>
     </div>
 
-    <!-- PRODUCT GRID -->
+
+    <!-- ================= PRODUCT GRID ================= -->
     <div class="row g-4">
 
         {% for product in products %}
@@ -64,21 +70,31 @@
         <div class="col-12 col-md-6 col-lg-4">
             <div class="premium-card">
 
+                <!-- Image with soft outline effect -->
                 <div class="premium-image">
-                    <img src="{{ product.image.url }}">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
                 </div>
 
                 <div class="premium-body">
 
-                    <h5>{{ product.name }}</h5>
+                    <h5 class="fw-semibold">{{ product.name }}</h5>
 
                     <div class="premium-price">
                         ₹ {{ product.price }}
                     </div>
 
-                    <div class="premium-actions">
-                        <button class="btn-buy">Buy Now</button>
-                        <button class="btn-cart">Add to Cart</button>
+                    <div class="premium-actions mt-3">
+
+                        <a href="{% url 'product_detail' product.id %}"
+                           class="btn-buy">
+                           View Details
+                        </a>
+
+                        <a href="{% url 'orders:add_to_cart' product.id %}"
+                           class="btn-cart">
+                           Add to Cart
+                        </a>
+
                     </div>
 
                 </div>
@@ -87,7 +103,13 @@
         </div>
 
         {% empty %}
-        <p class="text-center">No products available.</p>
+
+        <div class="col-12">
+            <div class="text-center py-5">
+                <h5 class="text-muted">No products available in this category.</h5>
+            </div>
+        </div>
+
         {% endfor %}
 
     </div>
