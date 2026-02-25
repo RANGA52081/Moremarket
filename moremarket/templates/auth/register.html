@@ -3,8 +3,15 @@
 <html>
 <head>
     <title>Create Account - MoreMarket</title>
+
+    <!-- Bootstrap -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
+
 <body class="auth-body">
 <style>
      /* ===============================
@@ -203,71 +210,114 @@
     margin-bottom: 15px;
 }
 </style>
-<div class="auth-container">
+<div class="container-fluid">
+    <div class="row min-vh-100">
 
-    <!-- LEFT BRAND PANEL -->
-    <div class="auth-left">
-        <h1>MoreMarket</h1>
-        <p>Build smarter. Shop faster. Grow stronger.</p>
-        <div class="floating-shapes"></div>
-    </div>
+        <!-- LEFT PANEL (Hidden on Mobile Automatically) -->
+        <div class="col-lg-6 d-none d-lg-flex auth-left">
+            <div>
+                <h1>MoreMarket</h1>
+                <p>Build smarter. Shop faster. Grow stronger.</p>
+                <div class="floating-shapes"></div>
+            </div>
+        </div>
 
-    <!-- RIGHT FORM PANEL -->
-    <div class="auth-right">
+        <!-- RIGHT PANEL -->
+        <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center auth-right">
 
-        <div class="auth-card">
+            <div class="auth-card">
 
-            <h3 class="auth-title">Create Account</h3>
+                <h3 class="auth-title text-center">Create Account</h3>
 
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="error-message">
-                        {{ message }}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="error-message">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <!-- ================= REGISTER FORM ================= -->
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="register">
+                    <!-- Username -->
+                    <div class="floating-group">
+                        <input type="text" name="username" required>
+                        <label>Username</label>
                     </div>
-                {% endfor %}
-            {% endif %}
 
-            <form method="POST">
-                {% csrf_token %}
+                    <!-- Email / Mobile -->
+                    <div class="floating-group">
+                        <input type="text" name="contact" required>
+                        <label>Email or Mobile Number</label>
+                    </div>
 
-                <!-- Username -->
-                <div class="floating-group">
-                    <input type="text" name="username" required>
-                    <label>Username</label>
+                    <!-- Password -->
+                    <div class="floating-group password-group">
+                        <input type="password" name="password" id="registerPassword" required>
+                        <label>Password</label>
+                        <i class="bi bi-eye-slash toggle-password"
+                           onclick="toggleRegisterPassword()"></i>
+                    </div>
+
+                    <button type="submit" class="auth-btn w-100">
+                        Create Account
+                    </button>
+
+                    <p class="text-center mt-3">
+                        Already have an account?
+                        <a href="{% url 'login' %}">Sign In</a>
+                    </p>
+                </form>
+
+                <!-- ================= OTP SECTION ================= -->
+                {% if show_otp %}
+                <hr class="my-4">
+
+                <h5 class="text-center mb-3">Verify OTP</h5>
+
+                <form method="POST">
+                    <input type="hidden" name="form_type" value="otp">
+                    {% csrf_token %}
+
+                    <div class="d-flex justify-content-between gap-2 mb-3">
+                        <input type="text" maxlength="1" name="otp1" class="form-control text-center">
+                        <input type="text" maxlength="1" name="otp2" class="form-control text-center">
+                        <input type="text" maxlength="1" name="otp3" class="form-control text-center">
+                        <input type="text" maxlength="1" name="otp4" class="form-control text-center">
+                        <input type="text" maxlength="1" name="otp5" class="form-control text-center">
+                        <input type="text" maxlength="1" name="otp6" class="form-control text-center">
+                    </div>
+
+                    <button type="submit" class="auth-btn w-100">
+                        Verify OTP
+                    </button>
+                </form>
+
+                <!-- Resend -->
+                <div class="text-center mt-3">
+                    <small class="text-muted">
+                        Resend OTP in <span id="timer">30</span>s
+                    </small>
                 </div>
 
-                <!-- Email -->
-                <div class="floating-group">
-                    <input type="text" name="contact" required>
-                    <label>Email or Mobile Number</label>
-                </div>
-
-                <!-- Password -->
-                <div class="floating-group password-group">
-                    <input type="password" name="password" id="registerPassword" required>
-                    <label>Password</label>
-                    <i class="bi bi-eye-slash toggle-password"
-                       onclick="toggleRegisterPassword()"></i>
-                </div>
-
-                <button type="submit" class="auth-btn">
-                    Create Account
+                <button class="btn btn-link w-100 mt-1" disabled>
+                    Resend OTP
                 </button>
 
-                <p class="auth-link">
-                    Already have an account?
-                    <a href="{% url 'login' %}">Sign In</a>
-                </p>
+                {% endif %}
 
-            </form>
+            </div>
 
         </div>
 
     </div>
-
 </div>
 
 <script src="{% static 'js/auth.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
 function toggleRegisterPassword() {
     const input = document.getElementById("registerPassword");
