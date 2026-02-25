@@ -35,92 +35,106 @@ def save_location(request):
         return JsonResponse({"status": "success"})
 
 
-# ========================
-# REGISTER
-# ========================
-
-
 def register_view(request):
+
+    show_otp = False
 
     if request.method == "POST":
 
-        username = request.POST.get("username", "").strip()
-        password = request.POST.get("password", "").strip()
-        contact = request.POST.get("contact", "").strip()
+        form_type = request.POST.get("form_type")
 
-        # -------------------------
-        # Basic Validation
-        # -------------------------
-        if not username or not password or not contact:
-            messages.error(request, "All fields are required")
-            return redirect("register")
+        # ================= REGISTER =================
+        if form_type == "register":
 
-        # -------------------------
-        # Detect Email or Phone
-        # -------------------------
-        if "@" in contact and "." in contact:
-            email = contact
-            phone = None
-        elif contact.isdigit() and len(contact) == 10:
-            email = None
-            phone = contact
-        else:
-            messages.error(request, "Enter valid email or mobile number")
-            return redirect("register")
+            username = request.POST.get("username")
+            contact = request.POST.get("contact")
+            password = request.POST.get("password")
 
-        # -------------------------
-        # Check Existing User
-        # -------------------------
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "Username already exists")
-            return redirect("register")
+            # 🔹 Check existing active username
+            if User.objects.filter(username=username, is_active=True).exists():
+                messages.error(request, "Username already exists")
+                return render(request, "auth/register.html", {"show_otp": False})
 
-        if email and User.objects.filter(email=email).exists():
-            messages.error(request, "Email already registered")
-            return redirect("register")
+            # 🔹 Check existing active email
+            if User.objects.filter(email=contact, is_active=True).exists():
+                messages.error(request, "Email already registered")
+                return render(request, "auth/register.html", {"show_otp": False})
 
-        # -------------------------
-        # Create User (Inactive Until OTP Verified)
-        # -------------------------
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password,
-            is_active=False
-        )
+            # 🔹 If inactive user exists (from previous failed OTP), delete it
+            existing_user = User.objects.filter(username=username, is_active=False).first()
+            if existing_user:
+                existing_user.delete()
 
-        # -------------------------
-        # Generate OTP
-        # -------------------------
-        otp_code = str(random.randint(100000, 999999))
+            # 🔹 Create new inactive user
+            user = User.objects.create_user(
+                username=username,
+                email=contact,
+                password=password,
+                is_active=False
+            )
 
-        UserOTP.objects.create(user=user, otp=otp_code)
+            # 🔹 Generate OTP
+            otp_code = str(random.randint(100000, 999999))
 
-        # -------------------------
-        # Send Email OTP
-        # -------------------------
-        if email:
+            # Delete old OTPs for this user
+            UserOTP.objects.filter(user=user).delete()
+
+            # Save new OTP
+            UserOTP.objects.create(user=user, otp=otp_code)
+
+            # Store user id in session
+            request.session["otp_user"] = user.id
+
+            # 🔹 Send Email
             send_mail(
                 "MoreMarket OTP Verification",
                 f"Your OTP is {otp_code}",
                 settings.EMAIL_HOST_USER,
-                [email],
+                [user.email],
                 fail_silently=False,
             )
 
-        # -------------------------
-        # (Future) Send SMS OTP
-        # -------------------------
-        if phone:
-            print("Send SMS OTP:", otp_code)
-            # Integrate SMS API here later
+            show_otp = True
 
-        # Store user in session for verification
-        request.session["otp_user"] = user.id
+        # ================= VERIFY OTP =================
+        elif form_type == "otp":
 
-        return redirect("verify_otp")
+            user_id = request.session.get("otp_user")
 
-    return render(request, "auth/register.html")
+            if not user_id:
+                messages.error(request, "Session expired. Please register again.")
+                return redirect("register")
+
+            user = User.objects.get(id=user_id)
+            otp_record = UserOTP.objects.filter(user=user).last()
+
+            if not otp_record:
+                messages.error(request, "OTP not found. Please register again.")
+                return redirect("register")
+
+            entered_otp = "".join([
+                request.POST.get(f"otp{i}", "").strip()
+                for i in range(1, 7)
+            ])
+
+            if entered_otp == otp_record.otp:
+
+                # Activate user
+                user.is_active = True
+                user.save()
+
+                # Cleanup
+                otp_record.delete()
+                del request.session["otp_user"]
+
+                login(request, user)
+                return redirect("customer_home")
+
+            else:
+                messages.error(request, "Invalid OTP")
+                show_otp = True
+
+    return render(request, "auth/register.html", {"show_otp": show_otp})
 
 
 # ========================
@@ -149,75 +163,3 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect("customer_home")
-# ========================
-# VERIFY OTP
-# ========================
-
-def verify_otp_view(request):
-
-    user_id = request.session.get("otp_user")
-
-    if not user_id:
-        return redirect("register")
-
-    user = User.objects.get(id=user_id)
-    otp_record = UserOTP.objects.filter(user=user).last()
-
-    if not otp_record:
-        return redirect("register")
-
-    # Auto delete expired OTP + user
-    if otp_record.is_expired():
-        user.delete()
-        otp_record.delete()
-        messages.error(request, "OTP expired. Please register again.")
-        return redirect("register")
-
-    if request.method == "POST":
-
-        entered_otp = "".join([
-        request.POST.get(f"otp{i}", "").strip()
-        for i in range(1, 7)
-        ])
-
-        if not otp_record.can_retry():
-            user.delete()
-            otp_record.delete()
-            messages.error(request, "Too many attempts. Please register again.")
-            return redirect("register")
-
-        if otp_record.otp == entered_otp:
-            login(request, user)
-            otp_record.delete()
-            del request.session["otp_user"]
-            return redirect("customer_home")
-
-        else:
-            otp_record.attempts += 1
-            otp_record.save()
-            messages.error(request, f"Invalid OTP ({otp_record.attempts}/3)")
-
-    return render(request, "auth/verify_otp.html")
-def resend_otp_view(request):
-
-    user_id = request.session.get("otp_user")
-    if not user_id:
-        return redirect("register")
-
-    user = User.objects.get(id=user_id)
-
-    otp_code = str(random.randint(100000, 999999))
-
-    UserOTP.objects.create(user=user, otp=otp_code)
-
-    # Send Email
-    if user.email:
-        send_mail(
-            "MoreMarket OTP",
-            f"Your new OTP is {otp_code}",
-            settings.EMAIL_HOST_USER,
-            [user.email],
-            fail_silently=False,
-        )
-
-    return JsonResponse({"status": "sent"})
