@@ -1,7 +1,14 @@
 from django.contrib import admin
-from .models import Product, ProductVariant
+from .models import Product, ProductVariant, ProductImage
 
 
+# 🔹 Product Images Inline
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 1
+
+
+# 🔹 Product Variants Inline
 class ProductVariantInline(admin.TabularInline):
     model = ProductVariant
     extra = 1
@@ -9,12 +16,43 @@ class ProductVariantInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name", "category", "is_featured", "created_at")
-    list_filter = ("category", "is_featured")
-    search_fields = ("name",)
-    inlines = [ProductVariantInline]
+
+    list_display = (
+        "name",
+        "category",
+        "is_featured",
+        "is_active",
+        "created_at"
+    )
+
+    list_filter = (
+        "category",
+        "is_featured",
+        "is_active",
+        "created_at"
+    )
+
+    search_fields = ("name", "description")
+
+    prepopulated_fields = {"slug": ("name",)}
+
+    inlines = [ProductImageInline, ProductVariantInline]
+
+    ordering = ("-created_at",)
 
 
 @admin.register(ProductVariant)
 class ProductVariantAdmin(admin.ModelAdmin):
-    list_display = ("product", "size", "weight", "price")
+
+    list_display = (
+        "product",
+        "size",
+        "weight",
+        "price",
+        "stock",
+        "is_default"
+    )
+
+    list_filter = ("product",)
+
+    search_fields = ("product__name", "size")
