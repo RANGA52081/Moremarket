@@ -34,53 +34,61 @@
 
 </div>
 
-    <!-- CATEGORY SECTION -->
-    <h5 class="fw-bold mb-3">Shop by Category</h5>
+    {% load static %}
+<div class="container py-5">
 
-    <div class="row g-3 mb-4">
-        <div class="col-6 col-md-2">
-            <div class="category-card text-center p-3 rounded-4 shadow-sm">MS Scaffolding</div>
-        </div>
-        <div class="col-6 col-md-2">
-            <div class="category-card text-center p-3 rounded-4 shadow-sm">Aluminium</div>
-        </div>
-        <div class="col-6 col-md-2">
-            <div class="category-card text-center p-3 rounded-4 shadow-sm">Boards</div>
-        </div>
-        <div class="col-6 col-md-2">
-            <div class="category-card text-center p-3 rounded-4 shadow-sm">Jacks</div>
-        </div>
-        <div class="col-6 col-md-2">
-            <div class="category-card text-center p-3 rounded-4 shadow-sm">Accessories</div>
+    <!-- CATEGORY SECTION -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Shop by Category</h2>
+
+        <div class="d-flex justify-content-center gap-4 mt-4">
+
+            <a href="?category=MS"
+               class="category-btn {% if active_category == 'MS' %}active-category{% endif %}">
+               MS Scaffolding
+            </a>
+
+            <a href="?category=AL"
+               class="category-btn {% if active_category == 'AL' %}active-category{% endif %}">
+               Aluminium Scaffolding
+            </a>
+
         </div>
     </div>
 
     <!-- PRODUCT GRID -->
-    <h5 class="fw-bold mb-3">Featured Products</h5>
-
     <div class="row g-4">
 
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm rounded-4">
-                <img src="{% static 'images/product1.jpg' %}" class="card-img-top rounded-top-4" style="height:180px; object-fit:cover;">
-                <div class="card-body">
-                    <h6 class="fw-semibold">Cuplock Vertical</h6>
-                    <p class="text-primary fw-bold mb-2">₹ 1,200</p>
-                    <button class="btn btn-primary w-100">View Details</button>
+        {% for product in products %}
+
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="premium-card">
+
+                <div class="premium-image">
+                    <img src="{{ product.image.url }}">
                 </div>
+
+                <div class="premium-body">
+
+                    <h5>{{ product.name }}</h5>
+
+                    <div class="premium-price">
+                        ₹ {{ product.price }}
+                    </div>
+
+                    <div class="premium-actions">
+                        <button class="btn-buy">Buy Now</button>
+                        <button class="btn-cart">Add to Cart</button>
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
-        <div class="col-6 col-md-3">
-            <div class="card border-0 shadow-sm rounded-4">
-                <img src="{% static 'images/product2.jpg' %}" class="card-img-top rounded-top-4" style="height:180px; object-fit:cover;">
-                <div class="card-body">
-                    <h6 class="fw-semibold">Ledger</h6>
-                    <p class="text-primary fw-bold mb-2">₹ 950</p>
-                    <button class="btn btn-primary w-100">View Details</button>
-                </div>
-            </div>
-        </div>
+        {% empty %}
+        <p class="text-center">No products available.</p>
+        {% endfor %}
 
     </div>
 
