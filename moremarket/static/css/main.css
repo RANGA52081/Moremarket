@@ -273,6 +273,11 @@ footer i:hover {
 .navbar .btn-primary {
     border-radius: 8px;
     height: 40px;
+    background: #263238;
+    border: none;
+}
+.navbar .btn-primary:hover {
+    background: #455A64;
 }
 /* ===============================
    LANGUAGE DROPDOWN
@@ -289,7 +294,7 @@ footer i:hover {
 }
 
 .dropdown-item:hover {
-    background: #f4f6f9;
+    background: #F7F7F7;
 }
 
 /* ===============================
@@ -322,8 +327,8 @@ footer i:hover {
 }
 
 .otp-input:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 5px rgba(13,110,253,0.4);
+    border-color: #455A64;
+    box-shadow: 0 0 5px rgba(69,90,100,0.4);
 }
 /* CATEGORY BUTTON */
 .category-btn {
@@ -398,23 +403,25 @@ footer i:hover {
     background: #263238;
     color: #FFFFFF;
     font-weight: 600;
+    color: #FFFFFF;
 }
 
 .btn-cart {
     flex: 1;
     padding: 10px;
     border-radius: 8px;
-    border: 2px solid #0d6efd;
-    background: white;
-    color: #0d6efd;
+    border: 2px solid #455A64;
+    background: #FFFFFF;
+    color: #455A64;
     font-weight: 600;
+    transition: 0.3s;
 }
 
 .btn-buy:hover {
-    background: #333;
+     background: #455A64;
 }
 
 .btn-cart:hover {
-    background: #0d6efd;
-    color: white;
+    background: #455A64;
+    color: #FFFFFF;
 }
