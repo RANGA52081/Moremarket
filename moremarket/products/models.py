@@ -2,21 +2,18 @@ from django.db import models
 
 
 class Product(models.Model):
-
     CATEGORY_CHOICES = (
-        ("MS", "MS Scaffolding"),
-        ("AL", "Aluminium Scaffolding"),
+        ('MS', 'MS Scaffolding'),
+        ('AL', 'Aluminium Scaffolding'),
     )
 
     name = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
-    category = models.CharField(max_length=5, choices=CATEGORY_CHOICES)
-    image = models.ImageField(upload_to="products/")
+    description = models.TextField()
+    image = models.ImageField(upload_to='products/')
+    category = models.CharField(max_length=2, choices=CATEGORY_CHOICES)
     is_featured = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)  # ✅ ADD THIS
     created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name
 
 
 class ProductVariant(models.Model):
