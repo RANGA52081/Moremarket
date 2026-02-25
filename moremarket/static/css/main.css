@@ -1,9 +1,11 @@
 /* ===============================
    GLOBAL PREMIUM THEME
 ================================ */
-
 body {
-    background: #f4f6f9;
+    background: #F7F7F7;
+    font-family: 'Inter', sans-serif;
+}
+body {
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
     opacity: 0;
@@ -327,11 +329,12 @@ footer i:hover {
 .category-btn {
     padding: 12px 28px;
     border-radius: 50px;
-    background: #f1f3f6;
+    background: #FFFFFF;
     text-decoration: none;
     font-weight: 600;
-    color: #333;
+    color: #455A64;
     transition: 0.3s;
+    border: 1px solid #B0BEC5;
 }
 
 .category-btn:hover {
