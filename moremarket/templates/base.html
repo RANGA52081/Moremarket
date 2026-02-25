@@ -23,7 +23,12 @@
     <div class="container">
 
         <!-- Logo -->
-        <a class="navbar-brand fw-bold text-primary" href="#"><img src="{% static 'images/more-market(logo).png' %}" alt="">oreMarket</a>
+        <a class="navbar-brand brand-logo d-flex align-items-center" href="{% url 'customer_home' %}">
+    <img src="{% static 'images/more-market(logo).png' %}" 
+         alt="MoreMarket Logo"
+         class="brand-img">
+    <span class="brand-text">MoreMarket</span>
+</a>
 
         <!-- Mobile Toggle -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">

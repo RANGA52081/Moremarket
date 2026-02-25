@@ -36,7 +36,38 @@ body {
         transform: translateY(0);
     }
 }
+/* ===============================
+   BRAND LOGO STYLE
+================================ */
 
+.brand-logo {
+    text-decoration: none;
+}
+
+.brand-img {
+    height: 38px;
+    width: auto;
+    margin-right: 8px;
+}
+
+.brand-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #263238; /* Dark steel */
+    letter-spacing: 0.5px;
+    transition: 0.3s ease;
+}
+
+.brand-logo:hover .brand-text {
+    color: #455A64; /* Soft hover */
+}
+.brand-text {
+    font-weight: 800;
+}
+
+.brand-text span {
+    color: #455A64;
+}
 /* ===============================
    NAVBAR EFFECTS
 =/* =========================
