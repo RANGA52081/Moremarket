@@ -35,6 +35,11 @@ def save_location(request):
         return JsonResponse({"status": "success"})
 
 
+# ========================
+# REGISTER
+# ========================
+
+
 def register_view(request):
 
     show_otp = False
@@ -135,7 +140,6 @@ def register_view(request):
                 show_otp = True
 
     return render(request, "auth/register.html", {"show_otp": show_otp})
-
 
 # ========================
 # LOGIN
