@@ -26,14 +26,10 @@ urlpatterns = [
     path('adminpanel/', include('adminpanel.urls')),
     path('analytics/', include('analytics.urls')),
     path('delivery/', include('delivery.urls')),
-<<<<<<< HEAD
-    path('control/', include('adminpanel.urls')),
-=======
     path('login/', customer_views.login_view, name='login'),
     path('register/', customer_views.register_view, name='register'),
     path('logout/', customer_views.logout_view, name='logout'),
     
->>>>>>> 885a4ad1efac7fdc4e980fdefbf891307a433551
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
