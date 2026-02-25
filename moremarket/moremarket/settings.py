@@ -79,8 +79,12 @@ WSGI_APPLICATION = 'moremarket.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'moremarket_db',     # Database name you created
+        'USER': 'postgres',         # Default user
+        'PASSWORD': 'post@26',  # The password you set
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
