@@ -68,38 +68,50 @@
         {% for product in products %}
 
         <div class="col-12 col-md-6 col-lg-4">
-            <div class="premium-card">
+    <div class="premium-card">
 
-                <!-- Image with soft outline effect -->
-                <div class="premium-image">
+        <!-- IMAGE WRAPPER -->
+        <div class="premium-image-wrapper">
+
+            <div class="image-slider">
+                {% for image in product.images.all %}
+                    <img src="{{ image.image.url }}" alt="{{ product.name }}">
+                {% empty %}
                     <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                </div>
+                {% endfor %}
+            </div>
 
-                <div class="premium-body">
+            <!-- Overlay -->
+            <div class="image-overlay"></div>
 
-                    <h5 class="fw-semibold">{{ product.name }}</h5>
+        </div>
 
-                    <div class="premium-price">
-                        ₹ {{ product.price }}
-                    </div>
+        <div class="premium-body">
 
-                    <div class="premium-actions mt-3">
+            <h5 class="product-title">{{ product.name }}</h5>
 
-                        <a href="{% url 'products:product_detail' product.pk %}">
-                           View Details
-                        </a>
+            <div class="premium-price">
+                ₹ {{ product.price }}
+            </div>
 
-                        <a href="{% url 'orders:add_to_cart' product.id %}"
-                           class="btn-cart">
-                           Add to Cart
-                        </a>
+            <div class="premium-actions">
 
-                    </div>
+                <a href="{% url 'products:product_detail' product.pk %}" 
+                   class="btn-view">
+                   View Details
+                </a>
 
-                </div>
+                <a href="{% url 'orders:add_to_cart' product.id %}" 
+                   class="btn-cart">
+                   Add to Cart
+                </a>
 
             </div>
+
         </div>
+
+    </div>
+</div>
 
         {% empty %}
 
