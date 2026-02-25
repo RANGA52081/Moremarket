@@ -8,6 +8,4 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('save-location/', views.save_location, name='save_location'),
     path('cart/', views.cart_view, name='cart'),
-    path('verify-otp/', views.verify_otp_view, name='verify_otp'),
-    path('resend-otp/', views.resend_otp_view, name='resend_otp')
 ]
