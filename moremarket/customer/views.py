@@ -166,14 +166,3 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect("customer_home")
-def shop_view(request):
-    category = request.GET.get("category", "MS")
-
-    products = Product.objects.filter(category=category)
-
-    context = {
-        "products": products,
-        "active_category": category
-    }
-
-    return render(request, "shop.html", context)
