@@ -17,22 +17,6 @@ class Banner(models.Model):
     def __str__(self):
         return self.title
 
-
-class Address(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="addresses")
-    full_name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=15)
-    area = models.CharField(max_length=200)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    pincode = models.CharField(max_length=6)
-    is_default = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.city} - {self.pincode}"
-
-    
 class UserOTP(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     otp = models.CharField(max_length=6)

@@ -3,9 +3,6 @@ from .models import Banner, Address, UserOTP
 
 
 
-@admin.register(Address)
-class AddressAdmin(admin.ModelAdmin):
-    list_display = ("user", "full_name", "city", "pincode")
 
 
 @admin.register(Banner)

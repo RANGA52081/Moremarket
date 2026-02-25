@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Banner, Product
+from .models import Banner, UserOTP
 import random
 from django.core.mail import send_mail
 from django.conf import settings
