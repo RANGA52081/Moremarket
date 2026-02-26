@@ -7,53 +7,44 @@
 
     <div class="row g-5">
 
-        <!-- ================= PRODUCT IMAGE ================= -->
+        <!-- PRODUCT IMAGE -->
         <div class="col-lg-6">
             <div class="product-image-wrapper shadow-sm rounded overflow-hidden p-3 bg-white">
-                {% if product.images.all %}
+                {% if product.images.first %}
                     <img src="{{ product.images.first.image.url }}"
-                         class="img-fluid w-100"
-                         alt="{{ product.name }}">
-                {% else %}
-                    <img src="{{ product.image.url }}"
                          class="img-fluid w-100"
                          alt="{{ product.name }}">
                 {% endif %}
             </div>
         </div>
 
-        <!-- ================= PRODUCT INFO ================= -->
+        <!-- PRODUCT INFO -->
         <div class="col-lg-6">
 
-            <h2 class="fw-bold mb-3">
-                {{ product.name }}
-            </h2>
-
-            <!-- DEFAULT VARIANT -->
-            {% with product.get_default_variant as default_variant %}
+            <h2 class="fw-bold mb-3">{{ product.name }}</h2>
 
             <!-- PRICE -->
+            {% if default_variant %}
             <h4 class="fw-bold text-dark mb-3">
-                ₹ <span id="price">
-                {{ default_variant.price }}
-                </span>
+                ₹ <span id="price">{{ default_variant.price }}</span>
             </h4>
+            {% endif %}
 
             <p class="text-muted mb-4">
                 {{ product.description }}
             </p>
 
             <!-- VARIANT SELECT -->
-            {% if product.variants.all %}
+            {% if variants %}
             <div class="mb-4">
                 <label class="fw-semibold mb-2">Select Size:</label>
                 <select class="form-select w-50" id="variantSelect">
                     {% for v in variants %}
                     <option value="{{ v.id }}"
-                    data-price="{{ v.price }}"
-                    data-stock="{{ v.stock }}"
-                    {% if v.id == default_variant.id %}selected{% endif %}>
-                    {{ v.size }} ({{ v.weight }}kg)
+                            data-price="{{ v.price }}"
+                            data-stock="{{ v.stock }}"
+                            {% if default_variant and v.id == default_variant.id %}selected{% endif %}>
+                        {{ v.size }} ({{ v.weight }}kg)
                     </option>
                     {% endfor %}
                 </select>
@@ -61,22 +52,22 @@
             {% endif %}
 
             <!-- STOCK -->
+            {% if default_variant %}
             <p class="mb-3">
                 Stock:
                 <span id="stockDisplay">
-                {% if default_variant.stock > 0 %}
-                <span class="text-success fw-semibold">
-                {{ default_variant.stock }} Available
-                </span>
-                {% else %}
-                <span class="text-danger fw-semibold">
-                Out of Stock
-                </span>
-                {% endif %}
+                    {% if default_variant.stock > 0 %}
+                        <span class="text-success fw-semibold">
+                            {{ default_variant.stock }} Available
+                        </span>
+                    {% else %}
+                        <span class="text-danger fw-semibold">
+                            Out of Stock
+                        </span>
+                    {% endif %}
                 </span>
             </p>
-
-            {% endwith %}
+            {% endif %}
 
             <!-- Quantity -->
             <div class="d-flex align-items-center mb-4">
@@ -112,48 +103,46 @@
 
 </div>
 
-<!-- ================= SCRIPT ================= -->
+<!-- SCRIPT -->
 <script>
-    const variantSelect = document.getElementById("variantSelect");
-    const priceEl = document.getElementById("price");
-    const stockEl = document.getElementById("stockDisplay");
-    const addToCartBtn = document.getElementById("addToCartBtn");
-    const quantityInput = document.getElementById("quantity");
+const variantSelect = document.getElementById("variantSelect");
+const priceEl = document.getElementById("price");
+const stockEl = document.getElementById("stockDisplay");
+const quantityInput = document.getElementById("quantity");
+const addToCartBtn = document.getElementById("addToCartBtn");
 
-    if (variantSelect) {
-        variantSelect.addEventListener("change", function () {
+if (variantSelect) {
+    variantSelect.addEventListener("change", function () {
 
-            const selected = this.options[this.selectedIndex];
-            const newPrice = selected.getAttribute("data-price");
-            const newStock = parseInt(selected.getAttribute("data-stock"));
+        const selected = this.options[this.selectedIndex];
+        const newPrice = selected.getAttribute("data-price");
+        const newStock = parseInt(selected.getAttribute("data-stock"));
 
-            // Update price
-            priceEl.innerText = newPrice;
+        priceEl.innerText = newPrice;
 
-            // Update stock
-            if (newStock > 0) {
-                stockEl.innerHTML =
-                    `<span class="text-success fw-semibold">${newStock} Available</span>`;
-            } else {
-                stockEl.innerHTML =
-                    `<span class="text-danger fw-semibold">Out of Stock</span>`;
-            }
-        });
+        if (newStock > 0) {
+            stockEl.innerHTML =
+                `<span class="text-success fw-semibold">${newStock} Available</span>`;
+        } else {
+            stockEl.innerHTML =
+                `<span class="text-danger fw-semibold">Out of Stock</span>`;
+        }
+    });
+}
+
+addToCartBtn.addEventListener("click", function () {
+
+    const variantId = variantSelect ? variantSelect.value : "";
+    const qty = quantityInput.value;
+
+    if (!variantId) {
+        alert("Please select variant");
+        return;
     }
 
-    addToCartBtn.addEventListener("click", function () {
-
-        const variantId = variantSelect ? variantSelect.value : "";
-        const qty = quantityInput.value;
-
-        if (!variantId) {
-            alert("Please select variant");
-            return;
-        }
-
-        window.location.href =
-            `/orders/add-to-cart/${variantId}/?qty=${qty}`;
-    });
+    window.location.href =
+        `/orders/add-to-cart/${variantId}/?qty=${qty}`;
+});
 </script>
 
 {% endblock %}
