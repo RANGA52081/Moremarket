@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 import random
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import timedelta
 class Banner(models.Model):
@@ -26,6 +25,7 @@ class UserOTP(models.Model):
 
     def can_retry(self):
         return self.attempts < 3
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=15, blank=True)

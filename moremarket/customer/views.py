@@ -8,10 +8,15 @@ from products.models import Product
 import random
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import UserOTP
+from .models import UserOTP, Address
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib.auth.decorators import login_required
+from orders.models import Order
+from .models import UserProfile
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+
 # ========================
 # HOME PAGE
 # ========================
@@ -179,6 +184,50 @@ def logout_view(request):
     return redirect("customer_home")
 
 
+
 @login_required
 def profile_view(request):
-    return render(request, "customer/profile.html")
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    addresses = Address.objects.filter(user=request.user)
+
+    return render(request, "customer/profile.html", {
+        "orders": orders,
+        "addresses": addresses
+    })
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, "Password changed successfully")
+            return redirect("profile")
+    else:
+        form = PasswordChangeForm(request.user)
+
+    return render(request, 'customer/change_password.html', {'form': form})
+@login_required
+def add_address(request):
+    if request.method == "POST":
+        Address.objects.create(
+            user=request.user,
+            full_name=request.POST.get("full_name"),
+            phone=request.POST.get("phone"),
+            address_line=request.POST.get("address"),
+            city=request.POST.get("city"),
+            state=request.POST.get("state"),
+            pincode=request.POST.get("pincode"),
+        )
+        return redirect("profile")
+@login_required
+def update_profile(request):
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        profile.phone = request.POST.get("phone")
+        if request.FILES.get("profile_image"):
+            profile.profile_image = request.FILES.get("profile_image")
+        profile.save()
+        return redirect("profile")
