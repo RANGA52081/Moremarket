@@ -9,4 +9,8 @@ urlpatterns = [
     path('save-location/', views.save_location, name='save_location'),
     path('cart/', views.cart_view, name='cart'),
     path("profile/", views.profile_view, name="profile"),
+    path("update-profile/", views.update_profile, name="update_profile"),
+    path("add-address/", views.add_address, name="add_address"),
+    path("delete-address/<int:id>/", views.delete_address, name="delete_address"),
+    path("change-password/", views.change_password, name="change_password"),
     ]

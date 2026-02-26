@@ -226,8 +226,20 @@ def update_profile(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
 
     if request.method == "POST":
+        request.user.username = request.POST.get("username")
+        request.user.email = request.POST.get("email")
+        request.user.save()
+
         profile.phone = request.POST.get("phone")
+
         if request.FILES.get("profile_image"):
             profile.profile_image = request.FILES.get("profile_image")
+
         profile.save()
-        return redirect("profile")
+
+    return redirect("profile")
+@login_required
+def delete_address(request, id):
+    address = Address.objects.get(id=id, user=request.user)
+    address.delete()
+    return redirect("profile")
