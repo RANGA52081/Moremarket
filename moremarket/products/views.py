@@ -22,10 +22,8 @@ def product_detail(request, pk):
 
     variants = product.variants.all()
 
-    # Get default variant
     default_variant = variants.filter(is_default=True).first()
 
-    # If no default, fallback to first variant
     if not default_variant and variants.exists():
         default_variant = variants.first()
 
