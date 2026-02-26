@@ -5,8 +5,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import timedelta
-
-
 class Banner(models.Model):
     title = models.CharField(max_length=200)
     subtitle = models.CharField(max_length=300, blank=True)
@@ -28,3 +26,22 @@ class UserOTP(models.Model):
 
     def can_retry(self):
         return self.attempts < 3
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=15, blank=True)
+    profile_image = models.ImageField(upload_to="profiles/", blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=150)
+    phone = models.CharField(max_length=15)
+    address_line = models.TextField()
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    pincode = models.CharField(max_length=10)
+    is_default = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.city}"
