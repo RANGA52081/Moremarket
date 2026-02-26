@@ -7,16 +7,35 @@
 
     <div class="row g-5">
 
-        <!-- PRODUCT IMAGE -->
-        <div class="col-lg-6">
-            <div class="product-image-wrapper shadow-sm rounded overflow-hidden p-3 bg-white">
-                {% if product.images.first %}
-                    <img src="{{ product.images.first.image.url }}"
-                         class="img-fluid w-100"
-                         alt="{{ product.name }}">
-                {% endif %}
-            </div>
+       <div class="col-lg-6">
+
+    <div class="shadow-sm rounded p-3 bg-white">
+
+        <!-- MAIN IMAGE -->
+        <div class="mb-3 text-center">
+            {% if product.images.all %}
+                <img id="mainProductImage"
+                     src="{{ product.images.first.image.url }}"
+                     class="img-fluid rounded"
+                     style="max-height:450px; object-fit:contain;">
+            {% endif %}
         </div>
+
+        <!-- THUMBNAILS -->
+        <div class="d-flex gap-2 justify-content-center flex-wrap">
+
+            {% for img in product.images.all %}
+                <img src="{{ img.image.url }}"
+                     class="img-thumbnail product-thumb"
+                     style="width:80px; height:80px; object-fit:cover; cursor:pointer;"
+                     onclick="changeMainImage(this)">
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
 
         <!-- PRODUCT INFO -->
         <div class="col-lg-6">
