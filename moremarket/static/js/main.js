@@ -28,15 +28,16 @@ cards.forEach(card => {
 // LOCATION SYSTEM - FINAL CLEAN
 // ==============================
 
-// Toggle dropdown
 function toggleLocationDropdown() {
+
     const dropdown = document.getElementById("locationDropdown");
 
-    dropdown.classList.toggle("active");
+    const isActive = dropdown.classList.contains("active");
 
-    // Auto detect only if opening
-    if (dropdown.classList.contains("active")) {
-        detectLocation();
+    if (isActive) {
+        closeLocationDropdown();
+    } else {
+        openLocationDropdown();
     }
 }
 
@@ -272,7 +273,17 @@ function resendOTP() {
     timeLeft = 30;
 }
 function openLocationDropdown() {
-    document.getElementById("locationDropdown").classList.add("active");
+
+    const dropdown = document.getElementById("locationDropdown");
+
+    dropdown.classList.add("active");
+    document.body.style.overflow = "hidden";  // Prevent background scroll
+
+    // Auto detect only once when opening
+    if (!dropdown.dataset.loaded) {
+        detectLocation();
+        dropdown.dataset.loaded = "true";
+    }
 }
 
 function closeLocationDropdown() {

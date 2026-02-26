@@ -20,234 +20,90 @@
 
 <!-- 🔝 HEADER -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-    <div class="container">
+  <div class="container">
 
-        <!-- Logo -->
-        <a class="navbar-brand brand-logo d-flex align-items-center" href="{% url 'customer_home' %}">
-    <img src="{% static 'images/more-market(logo).png' %}" 
-         alt="MoreMarket Logo"
-         class="brand-img">
-    <span class="brand-text">MoreMarket</span>
-</a>
+    <!-- Top Row -->
+    <div class="d-flex w-100 justify-content-between align-items-center py-2">
 
-        <!-- Mobile Toggle -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-            <span class="navbar-toggler-icon"></span>
+      <!-- Logo -->
+      <a class="navbar-brand d-flex align-items-center m-0" href="{% url 'customer_home' %}">
+        <img src="{% static 'images/more-market(logo).png' %}" class="brand-img">
+        <span class="brand-text ms-2">MoreMarket</span>
+      </a>
+
+      <!-- Icons (Mobile Visible) -->
+      <div class="d-flex align-items-center gap-2 d-lg-none">
+
+        <button class="icon-glass" onclick="toggleLocationDropdown()">
+          <i class="bi bi-geo-alt"></i>
         </button>
 
-        <!-- Navbar Content -->
-        <div class="collapse navbar-collapse" id="navbarContent">
-
-            <!-- Search -->
-        <form class="search-wrapper mx-lg-4 my-2 my-lg-0 flex-grow-1">
-
-        <input class="search-input"
-            type="search"
-            placeholder="Search scaffolding products...">
-
-        <button class="search-btn">
-            <i class="bi bi-search"></i>
-        </button>
-
-        </form>
-
-            <!-- Right Icons -->
-<div class="d-flex align-items-center gap-4">
-
-    <!-- LOCATION -->
-<div class="position-relative location-wrapper">
-
-    <!-- Trigger -->
-    <div class="d-flex align-items-center gap-2 location-trigger"
-         onclick="toggleLocationDropdown()">
-
-        <i class="bi bi-geo-alt fs-5 text-muted"></i>
-
-        <div class="d-flex flex-column lh-sm">
-            <span class="small text-secondary">Deliver to</span>
-            <strong id="selected-location">
-                {{ request.session.selected_location|default:"India (Any Area)" }}
-            </strong>
-        </div>
-    </div>
-
-    <!-- LOCATION MODAL -->
-<div id="locationDropdown" class="location-overlay">
-
-    <div class="location-modal shadow-lg">
-
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h6 class="fw-bold m-0">Choose your location</h6>
-            <span class="close-btn" onclick="closeLocationDropdown()">✕</span>
-        </div>
-
-        <!-- SAVED ADDRESSES -->
-        {% if user.is_authenticated and user.addresses.all %}
-        <div class="saved-address-section mb-3">
-            <small class="text-muted">Your saved addresses</small>
-
-            {% for address in user.addresses.all %}
-            <div class="saved-address-card"
-                 onclick="selectSavedAddress('{{ address.city }} {{ address.pincode }}')">
-
-                <strong>{{ address.full_name }}</strong><br>
-                <small>
-                    {{ address.area }}, {{ address.city }},
-                    {{ address.state }} - {{ address.pincode }}
-                </small>
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        {% if not user.is_authenticated %}
-        <a href="{% url 'login' %}"
-           class="btn btn-warning w-100 mb-3 text-decoration-none">
-           Sign in to see your addresses
+        <a href="{% url 'cart' %}" class="icon-glass position-relative">
+          <i class="bi bi-cart3"></i>
         </a>
-        {% endif %}
 
-        <div class="text-center text-muted small mb-2">
-            or enter an Indian pincode
-        </div>
-
-        <div id="locationSpinner" class="text-center mb-2" style="display:none;">
-            <div class="spinner-border spinner-border-sm text-primary"></div>
-        </div>
-
-        <!-- PINCODE -->
-        <input type="text"
-               id="manualPincode"
-               class="form-control mb-2"
-               placeholder="Enter 6-digit Pincode"
-               maxlength="6"
-               onblur="fetchFromPincode()">
-
-        <!-- AREA -->
-        <input type="text"
-               id="manualArea"
-               class="form-control mb-2"
-               placeholder="Area / Street">
-
-        <!-- CITY -->
-        <input type="text"
-               id="manualCity"
-               class="form-control mb-2"
-               placeholder="City">
-
-        <!-- STATE -->
-        <input type="text"
-               id="manualState"
-               class="form-control mb-3"
-               placeholder="State">
-
-        <button onclick="applyManualAddress()"
-                class="btn btn-dark w-100">
-            Save Location
+        <button class="navbar-toggler icon-glass"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarContent">
+          <i class="bi bi-list"></i>
         </button>
 
-        <small id="locationError"
-               class="text-danger mt-2 d-block"
-               style="display:none;">
-            Please enter valid details.
-        </small>
-
-        <small class="text-muted mt-2 d-block">
-            Delivery options may vary by location.
-        </small>
-
+      </div>
     </div>
 
-</div>
-                <!-- CART -->
-<a href="{% url 'cart' %}" class="text-dark position-relative text-decoration-none">
-    <i class="bi bi-cart3 fs-5"></i>
-
-    {% if cart_count and cart_count > 0 %}
-    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-        {{ cart_count }}
-    </span>
-    {% endif %}
-</a>
-
-
-{% if user.is_authenticated %}
-
-<!-- USER DROPDOWN -->
-<div class="dropdown">
-
-    <div class="d-flex align-items-center gap-2 dropdown-toggle"
-         data-bs-toggle="dropdown"
-         style="cursor:pointer;">
-
-        <i class="bi bi-person-circle fs-5"></i>
-
-        <div class="d-flex flex-column lh-sm">
-            <small class="text-muted">Hello,</small>
-            <strong>{{ user.username }}</strong>
-        </div>
-
+    <!-- Search (Mobile Full Width) -->
+    <div class="d-lg-none mb-3">
+      <form class="search-wrapper w-100">
+        <input class="search-input" type="search" placeholder="Search scaffolding products...">
+        <button class="search-btn">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
     </div>
 
-    <ul class="dropdown-menu dropdown-menu-end shadow">
+    <!-- Desktop Collapse -->
+    <div class="collapse navbar-collapse" id="navbarContent">
 
-        <li>
-            <a class="dropdown-item" href="#">
-                My Profile
-            </a>
-        </li>
+      <!-- Desktop Search -->
+      <form class="search-wrapper mx-lg-4 flex-grow-1 d-none d-lg-flex">
+        <input class="search-input" type="search" placeholder="Search scaffolding products...">
+        <button class="search-btn">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
 
-        <li>
-            <a class="dropdown-item" href="#">
-                My Orders
-            </a>
-        </li>
+      <!-- Desktop Icons -->
+      <div class="d-none d-lg-flex align-items-center gap-3 ms-auto">
 
-        <li>
-            <a class="dropdown-item" href="#">
-                My Addresses
-            </a>
-        </li>
+        <!-- Location -->
+        <button class="icon-glass d-flex align-items-center gap-2"
+                onclick="toggleLocationDropdown()">
 
-        <li><hr class="dropdown-divider"></li>
+          <i class="bi bi-geo-alt"></i>
 
-        <li>
-            <a class="dropdown-item text-danger"
-               href="{% url 'logout' %}">
-                Logout
-            </a>
-        </li>
+          <div class="d-flex flex-column lh-sm text-start">
+            <small class="text-muted">Deliver to</small>
+            <strong id="selected-location">
+              {{ request.session.selected_location|default:"India (Any Area)" }}
+            </strong>
+          </div>
 
-    </ul>
+        </button>
 
-</div>
+        <!-- Cart -->
+        <a href="{% url 'cart' %}" class="icon-glass position-relative">
+          <i class="bi bi-cart3"></i>
+        </a>
 
-{% else %}
+        <!-- User -->
+        <a href="{% url 'login' %}" class="icon-glass">
+          <i class="bi bi-person-circle"></i>
+        </a>
 
-<!-- SIGN IN -->
-<a href="{% url 'login' %}"
-   class="text-decoration-none text-dark d-flex align-items-center gap-1">
-
-    <i class="bi bi-person fs-5"></i>
-    <span class="d-none d-md-inline">Sign in</span>
-
-</a>
-
-<!-- CREATE ACCOUNT -->
-<a href="{% url 'register' %}"
-   class="btn btn-primary d-flex align-items-center gap-2">
-
-    <i class="bi bi-person-plus"></i>
-    <span class="d-none d-md-inline">Create account</span>
-
-</a>
-
-{% endif %}
-
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 </nav>
 <!-- 🧱 PAGE CONTENT -->
 <main>
