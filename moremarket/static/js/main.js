@@ -40,10 +40,6 @@ function toggleLocationDropdown() {
     }
 }
 
-function closeLocationDropdown() {
-    document.getElementById("locationDropdown").classList.remove("active");
-}
-
 // Close on outside click
 document.addEventListener("click", function (e) {
     const wrapper = document.querySelector(".location-wrapper");
@@ -274,4 +270,11 @@ function showMessage(msg) {
 function resendOTP() {
     resendBtn.disabled = true;
     timeLeft = 30;
+}
+function openLocationDropdown() {
+    document.getElementById("locationDropdown").classList.add("active");
+}
+
+function closeLocationDropdown() {
+    document.getElementById("locationDropdown").classList.remove("active");
 }
