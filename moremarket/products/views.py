@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Product
-
+import json
 
 # 🔹 All Products Page
 def product_list(request):
@@ -23,20 +23,15 @@ def product_detail(request, pk):
     variants = product.variants.all()
 
     default_variant = variants.filter(is_default=True).first()
-
-    if not default_variant:
+    if not default_variant and variants.exists():
         default_variant = variants.first()
 
-    if not default_variant:
-        # No variants at all
-        return render(request, "products/product_detail.html", {
-            "product": product,
-            "variants": [],
-            "default_variant": None
-        })
+    # ✅ Collect image URLs safely
+    image_urls = [img.image.url for img in product.images.all()]
 
     return render(request, "products/product_detail.html", {
         "product": product,
         "variants": variants,
-        "default_variant": default_variant
+        "default_variant": default_variant,
+        "image_urls": json.dumps(image_urls)  # JSON format
     })

@@ -12,14 +12,14 @@
     <div class="shadow-sm rounded p-3 bg-white">
 
         <!-- MAIN IMAGE -->
-        <div class="mb-3 text-center">
-            {% if product.images.first %}
-                <img id="mainProductImage"
-                     src="{{ product.images.first.image.url }}"
-                     class="img-fluid rounded"
-                     style="max-height:450px; object-fit:contain;">
-            {% endif %}
-        </div>
+        <div class="mb-3 text-center image-container">
+    {% if product.images.all %}
+        <img id="mainProductImage"
+             src="{{ product.images.first.image.url }}"
+             class="img-fluid rounded main-image"
+             style="max-height:450px; object-fit:contain;">
+    {% endif %}
+</div>
 
         <!-- THUMBNAILS -->
         <div class="d-flex gap-2 justify-content-center flex-wrap">
@@ -183,36 +183,30 @@ if (container && image) {
         image.style.transform = "translateY(0)";
     });
 }
-function changeMainImage(imageUrl) {
-    const mainImage = document.getElementById("mainProductImage");
-    mainImage.src = imageUrl;
-}
-const images = [
-    {% for img in product.images.all %}
-        "{{ img.image.url }}",
-    {% endfor %}
-];
+
+const images = JSON.parse('{{ image_urls|escapejs }}');
 
 let currentIndex = 0;
 let hoverInterval = null;
 
 const mainImage = document.getElementById("mainProductImage");
 
-// Hover effect
-if (mainImage) {
+if (mainImage && images.length > 0) {
 
     mainImage.addEventListener("mouseenter", function () {
 
         hoverInterval = setInterval(() => {
 
-            currentIndex++;
-            if (currentIndex >= images.length) {
-                currentIndex = 0;
-            }
+            currentIndex = (currentIndex + 1) % images.length;
 
-            mainImage.src = images[currentIndex];
+            mainImage.style.opacity = 0;
 
-        }, 800); // change speed here (milliseconds)
+            setTimeout(() => {
+                mainImage.src = images[currentIndex];
+                mainImage.style.opacity = 1;
+            }, 250);
+
+        }, 1200);
 
     });
 
@@ -220,15 +214,28 @@ if (mainImage) {
 
         clearInterval(hoverInterval);
         currentIndex = 0;
-        mainImage.src = images[0]; // reset to first image
+
+        mainImage.style.opacity = 0;
+
+        setTimeout(() => {
+            mainImage.src = images[0];
+            mainImage.style.opacity = 1;
+        }, 250);
 
     });
 }
 
-// Thumbnail click
 function changeMainImage(imageUrl) {
-    mainImage.src = imageUrl;
+    if (!mainImage) return;
+
+    mainImage.style.opacity = 0;
+
+    setTimeout(() => {
+        mainImage.src = imageUrl;
+        mainImage.style.opacity = 1;
+    }, 250);
 }
+
 </script>
 
 {% endblock %}

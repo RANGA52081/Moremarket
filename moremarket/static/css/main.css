@@ -1253,3 +1253,10 @@ footer i:hover {
     transform: scale(1.1);
     border: 2px solid #0d3b66;
 }
+.image-container {
+    position: relative;
+}
+
+.main-image {
+    transition: opacity 0.5s ease-in-out;
+}
