@@ -23,7 +23,7 @@ from customer import views as customer_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('customer.urls')),
-    path('adminpanel/', include('adminpanel.urls')),
+    path("adminpanel/", include(("adminpanel.urls", "adminpanel"), namespace="adminpanel")),
     path('analytics/', include('analytics.urls')),
     path('delivery/', include('delivery.urls')),
     path('login/', customer_views.login_view, name='login'),

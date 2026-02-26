@@ -146,3 +146,11 @@ SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# ==============================
+# AUTH REDIRECT SETTINGS
+# ==============================
+
+LOGIN_URL = "adminpanel:login"
+LOGIN_REDIRECT_URL = "adminpanel:admin"
+LOGOUT_REDIRECT_URL = "adminpanel:login"
