@@ -287,5 +287,28 @@ function openLocationDropdown() {
 }
 
 function closeLocationDropdown() {
-    document.getElementById("locationDropdown").classList.remove("active");
+
+    const dropdown = document.getElementById("locationDropdown");
+
+    dropdown.classList.remove("active");
+    document.body.style.overflow = ""; // Restore scroll
 }
+document.addEventListener("click", function (e) {
+
+    const dropdown = document.getElementById("locationDropdown");
+    const trigger = document.querySelector(".location-trigger");
+
+    if (
+        dropdown.classList.contains("active") &&
+        !dropdown.contains(e.target) &&
+        !trigger.contains(e.target)
+    ) {
+        closeLocationDropdown();
+    }
+
+});
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+        closeLocationDropdown();
+    }
+});
