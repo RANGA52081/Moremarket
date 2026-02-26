@@ -10,10 +10,16 @@
         <!-- ================= PRODUCT IMAGE ================= -->
         <div class="col-lg-6">
 
-            <div class="product-image-wrapper shadow-sm rounded overflow-hidden">
-                <img src="{{ product.image.url }}"
-                     class="img-fluid w-100"
-                     alt="{{ product.name }}">
+            <div class="product-image-wrapper shadow-sm rounded overflow-hidden p-3 bg-white">
+                {% if product.images.all %}
+                    <img src="{{ product.images.first.image.url }}"
+                         class="img-fluid w-100"
+                         alt="{{ product.name }}">
+                {% else %}
+                    <img src="{{ product.image.url }}"
+                         class="img-fluid w-100"
+                         alt="{{ product.name }}">
+                {% endif %}
             </div>
 
         </div>
@@ -25,28 +31,66 @@
                 {{ product.name }}
             </h2>
 
-            <h4 class="text-dark fw-bold mb-3">
-                ₹ {{ product.price }}
-            </h4>
+            <!-- PRICE (Default Variant) -->
+            {% with product.get_default_variant as variant %}
+                <h4 class="fw-bold text-dark mb-3">
+                    ₹ <span id="price">{{ variant.price }}</span>
+                </h4>
+            {% endwith %}
 
             <p class="text-muted mb-4">
                 {{ product.description }}
             </p>
 
+            <!-- ================= VARIANT SELECT ================= -->
+            {% if product.variants.all %}
+            <div class="mb-4">
+                <label class="fw-semibold mb-2">Select Size:</label>
+                <select class="form-select w-50" id="variantSelect">
+                    {% for v in product.variants.all %}
+                        <option value="{{ v.id }}"
+                                data-price="{{ v.price }}"
+                                data-stock="{{ v.stock }}"
+                                {% if v.is_default %}selected{% endif %}>
+                            {{ v.size }} ({{ v.weight }}kg)
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endif %}
+
+            <!-- STOCK DISPLAY -->
+            {% with product.get_default_variant as variant %}
+                <p class="mb-3">
+                    Stock:
+                    {% if variant.stock > 0 %}
+                        <span class="text-success fw-semibold">
+                            {{ variant.stock }} Available
+                        </span>
+                    {% else %}
+                        <span class="text-danger fw-semibold">
+                            Out of Stock
+                        </span>
+                    {% endif %}
+                </p>
+            {% endwith %}
+
             <!-- Quantity -->
             <div class="d-flex align-items-center mb-4">
                 <label class="me-3 fw-semibold">Quantity:</label>
                 <input type="number"
+                       id="quantity"
                        value="1"
                        min="1"
                        class="form-control"
                        style="width:100px;">
             </div>
 
-            <!-- Buttons -->
+            <!-- ================= BUTTONS ================= -->
             <div class="d-flex gap-3">
 
-                <a href="{% url 'orders:add_to_cart' product.id %}"
+                <a href="#"
+                   id="addToCartBtn"
                    class="btn btn-dark px-4 py-2">
                    <i class="bi bi-cart3 me-2"></i>
                    Add to Cart
@@ -64,5 +108,33 @@
     </div>
 
 </div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+    const variantSelect = document.getElementById("variantSelect");
+    const priceEl = document.getElementById("price");
+    const addToCartBtn = document.getElementById("addToCartBtn");
+    const quantityInput = document.getElementById("quantity");
+
+    if (variantSelect) {
+        variantSelect.addEventListener("change", function () {
+            const selected = this.options[this.selectedIndex];
+            const newPrice = selected.getAttribute("data-price");
+            priceEl.innerText = newPrice;
+        });
+    }
+
+    addToCartBtn.addEventListener("click", function () {
+        const variantId = variantSelect ? variantSelect.value : "";
+        const qty = quantityInput.value;
+
+        if (!variantId) {
+            alert("Please select variant");
+            return;
+        }
+
+        window.location.href = `/orders/add-to-cart/${variantId}/?qty=${qty}`;
+    });
+</script>
 
 {% endblock %}
