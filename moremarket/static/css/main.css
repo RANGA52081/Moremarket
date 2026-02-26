@@ -990,20 +990,24 @@ footer i:hover {
 /* Account Dropdown */
 .account-wrapper {
   position: relative;
+  cursor: pointer;
 }
 
 .account-dropdown {
   position: absolute;
-  top: 45px;
+  top: 100%;
   right: 0;
-  width: 210px;
+  width: 220px;
   background: #ffffff;
   border-radius: 8px;
   padding: 8px 0;
   display: none;
-  z-index: 999;
+  z-index: 9999;
 }
-
+/* Remove gap issue */
+.account-trigger {
+    padding: 8px 0;
+}
 .account-dropdown .dropdown-item {
   display: block;
   padding: 10px 15px;
@@ -1017,6 +1021,6 @@ footer i:hover {
   background-color: #f5f5f5;
 }
 
-.account-wrapper:hover .account-dropdown {
+.account-wrapper:hover .account-dropdown, .account-dropdown:hover{
   display: block;
 }
