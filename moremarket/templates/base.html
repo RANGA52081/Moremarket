@@ -22,8 +22,7 @@
 
 <!-- ================= MAIN HEADER ================= -->
 <nav class="main-header sticky-top">
-
-  <div class="container">
+  <div class="container-fluid px-4">
 
     <!-- ================= ROW 1 ================= -->
     <div class="header-top d-flex align-items-center justify-content-between">
@@ -38,20 +37,46 @@
       </a>
 
       <!-- SEARCH (Desktop) -->
-      <form class="header-search d-none d-lg-flex" method="GET" action="{% url 'customer_home' %}">
-        <input type="search"
-               name="search"
-               placeholder="Search scaffolding products..."
-               class="header-search-input">
-        <button type="submit" class="header-search-btn">
-          <i class="bi bi-search me-1"></i> Search
-        </button>
-      </form>
+      <form class="header-search d-none d-lg-flex"
+      method="GET"
+      action="{% url 'customer_home' %}">
+
+    <input type="search"
+           name="search"
+           placeholder="Search scaffolding products..."
+           class="header-search-input">
+
+    <button type="submit" class="header-search-btn">
+        <i class="bi bi-search me-1"></i> Search
+    </button>
+
+</form>
 
      <!-- RIGHT SIDE -->
 <div class="header-right d-flex align-items-center gap-3">
 
-  <!-- ACCOUNT WITH HOVER -->
+  
+
+  <!-- CART -->
+  <a href="{% url 'cart' %}"
+     class="cart-area d-flex align-items-center gap-2 position-relative text-decoration-none text-dark">
+
+    <i class="bi bi-cart3 fs-5"></i>
+
+    <!-- Desktop Text -->
+    <div class="d-none d-md-block">
+      <div>Cart</div>
+      <strong>Rs. 0.00</strong>
+    </div>
+
+    {% if cart_count and cart_count > 0 %}
+    <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill">
+      {{ cart_count }}
+    </span>
+    {% endif %}
+
+  </a>
+<!-- ACCOUNT WITH HOVER -->
   <div class="account-wrapper">
 
     <!-- Trigger (NO href here) -->
@@ -103,27 +128,6 @@
     </div>
 
 </div>
-
-  <!-- CART -->
-  <a href="{% url 'cart' %}"
-     class="cart-area d-flex align-items-center gap-2 position-relative text-decoration-none text-dark">
-
-    <i class="bi bi-cart3 fs-5"></i>
-
-    <!-- Desktop Text -->
-    <div class="d-none d-md-block">
-      <div>Cart</div>
-      <strong>Rs. 0.00</strong>
-    </div>
-
-    {% if cart_count and cart_count > 0 %}
-    <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill">
-      {{ cart_count }}
-    </span>
-    {% endif %}
-
-  </a>
-
   <!-- MOBILE MENU BUTTON -->
   <button class="navbar-toggler d-lg-none"
           type="button"

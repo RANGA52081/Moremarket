@@ -3,39 +3,62 @@
 
 {% block content %}
 
-<div class="container mt-4">
+<div class="container-fluid px-0 mt-4">
 
-    <div id="heroCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
 
-    <div class="carousel-inner rounded-4 shadow-sm">
+    <div class="carousel-inner">
 
         {% for banner in banners %}
         <div class="carousel-item {% if forloop.first %}active{% endif %}">
-            <img src="{{ banner.image.url }}" 
-                 class="d-block w-100" 
-                 style="height:300px; object-fit:cover;">
+            
+            <div class="hero-slide"
+                 style="background-image: url('{{ banner.image.url }}');">
 
-            <div class="carousel-caption text-start">
-                <h3 class="fw-bold">{{ banner.title }}</h3>
-                <p>{{ banner.subtitle }}</p>
+                <div class="hero-overlay"></div>
+
+                <div class="container hero-content">
+                    <div class="row align-items-center h-100">
+                        <div class="col-lg-6">
+
+                            <h1 class="hero-title">
+                                {{ banner.title }}
+                            </h1>
+
+                            <p class="hero-subtitle">
+                                {{ banner.subtitle }}
+                            </p>
+
+                            <a href="#" class="btn hero-btn">
+                                Shop Now
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
         </div>
         {% endfor %}
 
     </div>
 
-    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button"
+            data-bs-target="#heroCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon"></span>
     </button>
 
-    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+    <button class="carousel-control-next" type="button"
+            data-bs-target="#heroCarousel" data-bs-slide="next">
         <span class="carousel-control-next-icon"></span>
     </button>
 
 </div>
 
     {% load static %}
-<div class="container py-5">
+<div class="container-fluid py-5 px-0">
 
     <!-- ================= CATEGORY SECTION ================= -->
     <div class="text-center mb-5">
