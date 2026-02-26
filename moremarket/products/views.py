@@ -24,8 +24,16 @@ def product_detail(request, pk):
 
     default_variant = variants.filter(is_default=True).first()
 
-    if not default_variant and variants.exists():
+    if not default_variant:
         default_variant = variants.first()
+
+    if not default_variant:
+        # No variants at all
+        return render(request, "products/product_detail.html", {
+            "product": product,
+            "variants": [],
+            "default_variant": None
+        })
 
     return render(request, "products/product_detail.html", {
         "product": product,
