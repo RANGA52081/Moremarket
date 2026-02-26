@@ -1024,3 +1024,118 @@ footer i:hover {
 .account-wrapper:hover .account-dropdown, .account-dropdown:hover{
   display: block;
 }
+/* ================= PROFILE PAGE ================= */
+
+.profile-container {
+    min-height: 70vh;
+}
+
+/* Sidebar */
+.profile-sidebar {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    transition: all 0.3s ease;
+}
+
+.profile-user .profile-avatar {
+    font-size: 70px;
+    color: #0d3b66;
+}
+
+.profile-menu li {
+    padding: 12px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+.avatar-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.profile-menu li:hover {
+    background: #f4f6f9;
+    transform: translateX(5px);
+}
+
+.profile-menu li.active {
+    background: linear-gradient(135deg, #0d3b66, #1b6ca8);
+    color: #fff;
+}
+.address-box {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+}
+/* Cards */
+.profile-card {
+    background: #ffffff;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.section-title {
+    font-weight: 600;
+    border-left: 4px solid #0d3b66;
+    padding-left: 10px;
+}
+
+.info-box {
+    background: #f9fbfd;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+/* Table */
+.profile-table thead {
+    background: #0d3b66;
+    color: #fff;
+}
+
+.profile-table tbody tr:hover {
+    background: #f4f6f9;
+}
+
+/* Buttons */
+.btn-primary {
+    background: #0d3b66;
+    border: none;
+    transition: 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: #092c4c;
+}
+
+/* Smooth Hover Effect */
+.profile-sidebar:hover,
+.profile-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+.profile-sidebar {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    transition: all 0.3s ease;
+}
+
+.profile-menu li {
+    padding: 12px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.profile-menu li:hover {
+    background: #eef4ff;
+    transform: translateX(5px);
+}
+
+.profile-menu li.active {
+    background: linear-gradient(135deg, #0d3b66, #1b6ca8);
+    color: #fff;
+}
