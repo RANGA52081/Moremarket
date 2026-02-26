@@ -10,7 +10,7 @@ urlpatterns = [
     path("logout/", views.admin_logout, name="logout"),
 
     # 📊 Dashboard
-    path("signup/", views.admin_signup, name="signup"),
+   # path("signup/", views.admin_signup, name="signup"),
     path("", views.admin_dashboard, name="dashboard"),
 
     # 🎨 Banner Studio
@@ -20,6 +20,5 @@ urlpatterns = [
     path("studio/banners/toggle/<int:pk>/", views.banner_toggle, name="studio_banner_toggle"),
     path("studio/banners/archive/<int:pk>/", views.banner_archive, name="studio_banner_archive"),
 
-    # 🔐 Security Center
-    path("security/otps/", views.otp_list, name="security_otp_list"),
+    # 🔐 Security Center path("security/otps/", views.otp_list, name="security_otp_list"),
 ]
