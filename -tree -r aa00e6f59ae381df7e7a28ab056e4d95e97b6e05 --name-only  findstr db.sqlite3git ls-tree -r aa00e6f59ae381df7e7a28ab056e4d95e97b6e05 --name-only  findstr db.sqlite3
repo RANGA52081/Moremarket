@@ -1,0 +1,186 @@
+[33mcommit 4c90c4ebb4ac910c62baf31d0e3d0e27da23d052[m
+Merge: a0183ab 787ce66
+Author: Vinoth Kumar <vasuvino36@gmail.com>
+Date:   Thu Feb 26 15:03:49 2026 +0530
+
+    Removed db.sqlite3 from tracking and resolved conflict
+
+[33mcommit aa00e6f59ae381df7e7a28ab056e4d95e97b6e05[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Thu Feb 26 14:50:27 2026 +0530
+
+    commit
+
+[33mcommit 61641af9ef18fb0e7a4e1c32826f10ea455d5fcd[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Thu Feb 26 14:43:46 2026 +0530
+
+    commit
+
+[33mcommit 48ca7628ff9de5e148a2e580d6b6847617d2cf8b[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Thu Feb 26 14:36:59 2026 +0530
+
+    commit
+
+[33mcommit a0183abcbfc49532af9a9ef21a23b782ab1b2be1[m
+Author: Vinoth Kumar <vasuvino36@gmail.com>
+Date:   Thu Feb 26 14:31:07 2026 +0530
+
+    commit
+
+[33mcommit 38a3686bdb197893530c4d9b8351f46ad00a99cd[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Thu Feb 26 14:30:03 2026 +0530
+
+    commit
+
+[33mcommit 5fd7510f7a2f644e1331270561f74b8805830817[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Thu Feb 26 14:26:25 2026 +0530
+
+    commit
+
+[33mcommit 865771dce19775f66cd5055c0943eec15c065a12[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Thu Feb 26 14:13:46 2026 +0530
+
+    commit
+
+[33mcommit ef1f4c787a1216072d0bfe0d728d335d381b3676[m
+Author: Vinoth Kumar <vasuvino36@gmail.com>
+Date:   Thu Feb 26 13:47:11 2026 +0530
+
+    commit
+
+[33mcommit 4010df158aa506280672a924e97372d8ffed4aa5[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Thu Feb 26 12:19:27 2026 +0530
+
+    commit
+
+[33mcommit 25249af8d1a2e272cfade2902548bc84a2468c49[m
+Author: Vinoth Kumar <vasuvino36@gmail.com>
+Date:   Thu Feb 26 12:03:15 2026 +0530
+
+    commit
+
+[33mcommit ae1ee456d13fc4396c18845c510fd005f911846b[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Thu Feb 26 11:52:28 2026 +0530
+
+    commit
+
+[33mcommit c54080e4f89047f0ceb6c41c6b58cd64abe58c73[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Thu Feb 26 08:57:54 2026 +0530
+
+    commit
+
+[33mcommit f3783b443bca926a97a5324b29441a36c534ca75[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Wed Feb 25 17:03:16 2026 +0530
+
+    commit
+
+[33mcommit f4022704964a5f94ea2fdc36ca1af96274cba405[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Wed Feb 25 16:54:15 2026 +0530
+
+    commit
+
+[33mcommit fa9f5129b52e528f0ec148fb844a56a54bf0f68a[m
+Author: Vinoth Kumar <vasuvino36@gmail.com>
+Date:   Wed Feb 25 14:13:34 2026 +0530
+
+    commit
+
+[33mcommit 371c16d714c79c4b5fc50990101f761346adee98[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Wed Feb 25 13:35:19 2026 +0530
+
+    commit
+
+[33mcommit ca6420f3c3f8c93a00b5ab3a31b76d25f98b7425[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Wed Feb 25 13:27:38 2026 +0530
+
+    commit
+
+[33mcommit 7a70ce42ceefe98334df46ece23785a4a9cb4789[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Wed Feb 25 12:24:33 2026 +0530
+
+    commit
+
+[33mcommit 8ccb9fdbafcc2d450fec1c9dfe93c1cee39ef953[m
+Author: Vinoth Kumar <vasuvino36@gmail.com>
+Date:   Wed Feb 25 12:12:12 2026 +0530
+
+    commit 1a2b3c4d5e6f7g8h9i0j
+
+[33mcommit 5b96728f8070e0125da4c8bf1eba9efe2a3a1e65[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Wed Feb 25 11:52:05 2026 +0530
+
+    commit
+
+[33mcommit f491bafff3ca3866d65e8c93c76c66fbbfc38afb[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Wed Feb 25 11:49:45 2026 +0530
+
+    commit
+
+[33mcommit 07193f657acdb5c9f3450baae0ad18d79203fda7[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Wed Feb 25 11:04:55 2026 +0530
+
+    commit
+
+[33mcommit 754591c4185c85a5edbee3b11f0adf8132eb295d[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Wed Feb 25 09:50:42 2026 +0530
+
+    commit
+
+[33mcommit 727e1c44b648b36111952a26f94a03de26479f36[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Wed Feb 25 09:47:00 2026 +0530
+
+    commit
+
+[33mcommit c5e01f2b5f69a0610458b504985dd9038798a314[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Wed Feb 25 09:19:54 2026 +0530
+
+    commit
+
+[33mcommit 96d3ff3bb21462edf96a5392e356f1c04186e119[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Tue Feb 24 15:25:38 2026 +0530
+
+    commit
+
+[33mcommit 319db827f9f119038e407fcaf57e72d49d145ea2[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Tue Feb 24 15:24:48 2026 +0530
+
+    commit
+
+[33mcommit 24bced6524248aeb07ad48c8b8169d01df8529af[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Tue Feb 24 11:22:43 2026 +0530
+
+    commit
+
+[33mcommit c75239b13ceaf0b3ab8a3d3060c403171a94e21d[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Mon Feb 23 15:26:54 2026 +0530
+
+    commit
+
+[33mcommit 0fd095787835449a6707a5c6553babf4271ca148[m
+Author: RANGA52081 <shajahaan403@gmail.com>
+Date:   Mon Feb 23 14:38:42 2026 +0530
+
+    commit
