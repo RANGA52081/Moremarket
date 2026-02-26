@@ -13,7 +13,7 @@
 
         <!-- MAIN IMAGE -->
         <div class="mb-3 text-center">
-            {% if product.images.all %}
+            {% if product.images.first %}
                 <img id="mainProductImage"
                      src="{{ product.images.first.image.url }}"
                      class="img-fluid rounded"
@@ -28,7 +28,7 @@
                 <img src="{{ img.image.url }}"
                      class="img-thumbnail product-thumb"
                      style="width:80px; height:80px; object-fit:cover; cursor:pointer;"
-                     onclick="changeMainImage(this)">
+                     onclick="changeMainImage('{{ img.image.url }}')">
             {% endfor %}
 
         </div>
@@ -162,6 +162,31 @@ addToCartBtn.addEventListener("click", function () {
     window.location.href =
         `/orders/add-to-cart/${variantId}/?qty=${qty}`;
 });
+const container = document.querySelector(".image-scroll-container");
+const image = document.getElementById("mainProductImage");
+
+if (container && image) {
+    container.addEventListener("mousemove", function(e) {
+
+        const containerHeight = container.offsetHeight;
+        const imageHeight = image.offsetHeight;
+
+        const mouseY = e.offsetY;
+        const percent = mouseY / containerHeight;
+
+        const move = (imageHeight - containerHeight) * percent;
+
+        image.style.transform = `translateY(-${move}px)`;
+    });
+
+    container.addEventListener("mouseleave", function() {
+        image.style.transform = "translateY(0)";
+    });
+}
+function changeMainImage(imageUrl) {
+    const mainImage = document.getElementById("mainProductImage");
+    mainImage.src = imageUrl;
+}
 </script>
 
 {% endblock %}

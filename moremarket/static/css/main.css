@@ -1230,3 +1230,26 @@ footer i:hover {
     object-fit: cover;
     max-height: 450px;
 }
+.image-scroll-container {
+    height: 450px;
+    overflow: hidden;
+    position: relative;
+    cursor: zoom-in;
+}
+
+.image-scroll-container img {
+    width: 100%;
+    transition: transform 2s ease;
+}
+
+.image-scroll-container:hover img {
+    transform: translateY(-40%);
+}
+.product-thumb {
+    transition: 0.3s ease;
+}
+
+.product-thumb:hover {
+    transform: scale(1.1);
+    border: 2px solid #0d3b66;
+}
