@@ -187,6 +187,48 @@ function changeMainImage(imageUrl) {
     const mainImage = document.getElementById("mainProductImage");
     mainImage.src = imageUrl;
 }
+const images = [
+    {% for img in product.images.all %}
+        "{{ img.image.url }}",
+    {% endfor %}
+];
+
+let currentIndex = 0;
+let hoverInterval = null;
+
+const mainImage = document.getElementById("mainProductImage");
+
+// Hover effect
+if (mainImage) {
+
+    mainImage.addEventListener("mouseenter", function () {
+
+        hoverInterval = setInterval(() => {
+
+            currentIndex++;
+            if (currentIndex >= images.length) {
+                currentIndex = 0;
+            }
+
+            mainImage.src = images[currentIndex];
+
+        }, 800); // change speed here (milliseconds)
+
+    });
+
+    mainImage.addEventListener("mouseleave", function () {
+
+        clearInterval(hoverInterval);
+        currentIndex = 0;
+        mainImage.src = images[0]; // reset to first image
+
+    });
+}
+
+// Thumbnail click
+function changeMainImage(imageUrl) {
+    mainImage.src = imageUrl;
+}
 </script>
 
 {% endblock %}
