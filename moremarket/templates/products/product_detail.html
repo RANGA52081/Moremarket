@@ -35,7 +35,7 @@
             <!-- PRICE -->
             <h4 class="fw-bold text-dark mb-3">
                 ₹ <span id="price">
-                    {{ default_variant.price }}
+                {{ default_variant.price }}
                 </span>
             </h4>
 
@@ -48,32 +48,32 @@
             <div class="mb-4">
                 <label class="fw-semibold mb-2">Select Size:</label>
                 <select class="form-select w-50" id="variantSelect">
-                        {% for v in variants %}
-                        <option value="{{ v.id }}"
-                        data-price="{{ v.price }}"
-                        data-stock="{{ v.stock }}"
-                        {% if v.id == default_variant.id %}selected{% endif %}>
-                        {{ v.size }} ({{ v.weight }}kg)
-                        </option>
-                        {% endfor %}
+                    {% for v in variants %}
+                    <option value="{{ v.id }}"
+                    data-price="{{ v.price }}"
+                    data-stock="{{ v.stock }}"
+                    {% if v.id == default_variant.id %}selected{% endif %}>
+                    {{ v.size }} ({{ v.weight }}kg)
+                    </option>
+                    {% endfor %}
                 </select>
             </div>
             {% endif %}
 
             <!-- STOCK -->
             <p class="mb-3">
-                    Stock:
-                    <span id="stockDisplay">
-                     {% if default_variant.stock > 0 %}
-                    <span class="text-success fw-semibold">
-                    {{ default_variant.stock }} Available
-                    </span>
-                    {% else %}
-                    <span class="text-danger fw-semibold">
-                    Out of Stock
-                    </span>
-                    {% endif %}
-                    </span>
+                Stock:
+                <span id="stockDisplay">
+                {% if default_variant.stock > 0 %}
+                <span class="text-success fw-semibold">
+                {{ default_variant.stock }} Available
+                </span>
+                {% else %}
+                <span class="text-danger fw-semibold">
+                Out of Stock
+                </span>
+                {% endif %}
+                </span>
             </p>
 
             {% endwith %}
