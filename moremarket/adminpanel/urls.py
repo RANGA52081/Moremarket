@@ -1,13 +1,17 @@
 from django.urls import path
 from . import views
 
+app_name = "adminpanel"   # 🔥 VERY IMPORTANT
+
 urlpatterns = [
 
-    # 📊 Control Center Dashboard
-    path("", views.admin_dashboard, name="admin_dashboard"),
+    # 🔐 Authentication
     path("login/", views.admin_login, name="login"),
     path("logout/", views.admin_logout, name="logout"),
 
+    # 📊 Dashboard
+    path("signup/", views.admin_signup, name="signup"),
+    path("", views.admin_dashboard, name="dashboard"),
 
     # 🎨 Banner Studio
     path("studio/banners/", views.banner_list, name="studio_banner_list"),

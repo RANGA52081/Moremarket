@@ -116,7 +116,7 @@ def admin_dashboard(request):
         "top_product": top_product,
     }
 
-    return render(request, "adminpanel/admin.html", context)
+    return render(request, "adminpanel/dashboard.html", context)
 
 
 # =====================================================
@@ -214,3 +214,77 @@ def otp_list(request):
     return render(request, "adminpanel/otp_list.html", {
         "page_obj": page_obj
     })
+
+from .models import AdminUser
+
+
+# ==============================
+# ADMIN SIGNUP
+# ==============================
+
+def admin_signup(request):
+
+    if request.method == "POST":
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        if AdminUser.objects.filter(username=username).exists():
+            messages.error(request, "Username already exists.")
+        else:
+            admin = AdminUser(username=username, email=email)
+            admin.set_password(password)
+            admin.save()
+
+            messages.success(request, "Admin account created. Please login.")
+            return redirect("adminpanel:login")
+
+    return render(request, "adminpanel/auth/signup.html")
+
+
+# ==============================
+# ADMIN LOGIN
+# ==============================
+
+def admin_login(request):
+
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        try:
+            admin = AdminUser.objects.get(username=username)
+
+            if admin.check_password(password):
+                request.session["admin_id"] = admin.id
+                return redirect("adminpanel:dashboard")
+            else:
+                messages.error(request, "Invalid credentials.")
+
+        except AdminUser.DoesNotExist:
+            messages.error(request, "Admin not found.")
+
+    return render(request, "adminpanel/auth/login.html")
+
+
+# ==============================
+# ADMIN LOGOUT
+# ==============================
+
+def admin_logout(request):
+    request.session.flush()
+    return redirect("adminpanel:login")
+
+
+# ==============================
+# DASHBOARD (Protected)
+# ==============================
+
+def admin_dashboard(request):
+
+    if not request.session.get("admin_id"):
+        return redirect("adminpanel:login")
+
+    admin = AdminUser.objects.get(id=request.session["admin_id"])
+
+    return render(request, "adminpanel/dashboard.html", {"admin": admin})

@@ -67,6 +67,14 @@
             text-decoration: none;
             color: #2563EB;
         }
+
+        .error {
+            background: #f8d7da;
+            color: #842029;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -74,21 +82,28 @@
 <div class="login-box">
     <h2>Admin Login</h2>
 
+    {% for message in messages %}
+        <div class="error">{{ message }}</div>
+    {% endfor %}
+
     <form method="POST">
         {% csrf_token %}
+
         <div class="input-group">
-            <input type="text" name="username" placeholder="Username">
+            <input type="text" name="username" placeholder="Username" required>
         </div>
 
         <div class="input-group">
-            <input type="password" name="password" placeholder="Password">
+            <input type="password" name="password" placeholder="Password" required>
         </div>
 
         <button type="submit" class="btn">Login</button>
     </form>
 
     <div class="link">
-        <p>Don't have account? <a href="{% url 'signup' %}">Signup</a></p>
+        <p>Don't have account?
+            <a href="{% url 'adminpanel:signup' %}">Signup</a>
+        </p>
     </div>
 </div>
 
