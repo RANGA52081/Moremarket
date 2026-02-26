@@ -11,6 +11,7 @@ from django.conf import settings
 from .models import UserOTP
 from django.utils import timezone
 from datetime import timedelta
+from django.contrib.auth.decorators import login_required
 # ========================
 # HOME PAGE
 # ========================
@@ -176,3 +177,8 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect("customer_home")
+
+
+@login_required
+def profile_view(request):
+    return render(request, "customer/profile.html")
