@@ -54,7 +54,7 @@ class ProductVariant(models.Model):
         related_name="variants"
     )
 
-    size = models.CharField(max_length=20)   # 3m, 2.5m
+    size = models.CharField(max_length=20)
     weight = models.DecimalField(max_digits=6, decimal_places=2)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField(default=0)
@@ -62,7 +62,7 @@ class ProductVariant(models.Model):
     is_default = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['size']
+        ordering = ['-is_default', 'size']   # ✅ HERE
 
     def __str__(self):
         return f"{self.product.name} - {self.size}"
