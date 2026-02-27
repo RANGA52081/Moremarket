@@ -40,7 +40,7 @@ def product_detail(request, pk):
 
 @login_required
 def toggle_wishlist(request, pk):
-    product = Product.objects.get(pk=pk)
+    product = get_object_or_404(Product, pk=pk)
 
     wishlist_item, created = Wishlist.objects.get_or_create(
         user=request.user,
@@ -50,4 +50,4 @@ def toggle_wishlist(request, pk):
     if not created:
         wishlist_item.delete()
 
-    return redirect(request.META.get('HTTP_REFERER', 'customer_home'))
+    return redirect(request.META.get('HTTP_REFERER', '/'))
