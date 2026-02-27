@@ -348,3 +348,23 @@ document.querySelectorAll(".pro-card").forEach(card => {
     });
 
 });
+document.querySelectorAll(".color-btn").forEach(btn => {
+
+    btn.addEventListener("click", function() {
+
+        // remove active from all
+        document.querySelectorAll(".color-btn")
+            .forEach(b => b.classList.remove("active-color"));
+
+        this.classList.add("active-color");
+
+        // update price
+        const price = this.dataset.price;
+        const stock = this.dataset.stock;
+
+        document.querySelector(".product-price").textContent = "₹ " + price;
+        document.querySelector(".stock-value").textContent = stock;
+
+    });
+
+});

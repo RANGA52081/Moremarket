@@ -1816,3 +1816,26 @@ footer i:hover {
     50%  { transform: scale(1.4); }
     100% { transform: scale(1.2); }
 }
+.color-options {
+    margin-top: 8px;
+}
+
+.color-btn {
+    padding: 6px 14px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.color-btn:hover {
+    border-color: #111;
+}
+
+.color-btn.active-color {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+}
