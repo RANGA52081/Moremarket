@@ -206,3 +206,20 @@ def banner_archive(request, pk):
     banner.save()
 
     return redirect("adminpanel:studio_banner_list")
+
+from django.shortcuts import render
+
+def admin_dashboard(request):
+    return render(request, 'adminpanel/dashboard.html')
+
+def admin_products(request):
+    return render(request, 'adminpanel/products.html')
+
+def admin_orders(request):
+    return render(request, 'adminpanel/orders.html')
+
+def admin_customers(request):
+    return render(request, 'adminpanel/customers.html')
+
+def admin_analytics(request):
+    return render(request, 'analytics/analytics.html')
