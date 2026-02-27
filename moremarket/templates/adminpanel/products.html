@@ -1,0 +1,32 @@
+{% extends "adminpanel/base.html" %}
+{% block content %}
+
+<h2>Products</h2>
+
+<a href="{% url 'adminpanel:product_create' %}" class="btn btn-primary">
+    Add Product
+</a>
+
+<table class="table mt-3">
+    <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Active</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for product in page_obj %}
+    <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.get_category_display }}</td>
+        <td>{{ product.is_active }}</td>
+        <td>
+            <a href="{% url 'adminpanel:product_edit' product.id %}">Edit</a>
+            |
+            <a href="{% url 'adminpanel:product_delete' product.id %}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
