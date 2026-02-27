@@ -60,7 +60,7 @@ class ProductVariant(models.Model):
     # 🔥 NEW FIELDS
     original_price = models.DecimalField(max_digits=10, decimal_places=2)
     discount_percent = models.PositiveIntegerField(default=0)
-
+    color = models.CharField(max_length=30, blank=True, null=True)
     stock = models.PositiveIntegerField(default=0)
     is_default = models.BooleanField(default=False)
 

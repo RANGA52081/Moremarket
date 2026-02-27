@@ -61,6 +61,29 @@
             {% if variants %}
             <div class="mb-4">
                 <label class="fw-semibold mb-2">Select Size:</label>
+                {% if product.variants.filter(color__isnull=False).exists %}
+<div class="mb-3">
+
+    <label class="form-label fw-bold">Select Color:</label>
+
+    <div class="color-options d-flex gap-2">
+
+        {% for variant in product.variants.all %}
+            {% if variant.color %}
+                <button type="button"
+                        class="color-btn"
+                        data-color="{{ variant.color }}"
+                        data-price="{{ variant.price }}"
+                        data-stock="{{ variant.stock }}">
+                    {{ variant.color }}
+                </button>
+            {% endif %}
+        {% endfor %}
+
+    </div>
+
+</div>
+{% endif %}
                 <select class="form-select w-50" id="variantSelect">
                     {% for v in variants %}
                     <option value="{{ v.id }}"
@@ -216,6 +239,29 @@ if (totalSlides > 1) {
         goToSlide(0);
     });
 }
+document.addEventListener("DOMContentLoaded", function () {
+
+    const sliderTrack = document.getElementById("sliderTrack");
+    const thumbs = document.querySelectorAll(".product-thumb");
+
+    thumbs.forEach((thumb, index) => {
+
+        thumb.addEventListener("click", function () {
+
+            // Move slider
+            sliderTrack.style.transform = `translateX(-${index * 100}%)`;
+
+            // Remove active class from all
+            thumbs.forEach(t => t.classList.remove("active-thumb"));
+
+            // Add active class to clicked
+            this.classList.add("active-thumb");
+
+        });
+
+    });
+
+});
 </script>
 
 {% endblock %}
