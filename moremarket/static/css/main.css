@@ -477,29 +477,33 @@ footer i:hover {
 
 /* PREMIUM CARD */
 .premium-card {
-    background: #FFFFFF;
-    border-radius: 20px;
+    background: #fff;
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 12px 30px rgba(69,90,100,0.12);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
     transition: 0.3s ease;
 }
 
 .premium-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 45px rgba(38,50,56,0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-.premium-image {
-    height: 220px;
-    overflow: hidden;
-}
-
-.premium-image img {
+/* IMAGE AREA */
+.product-image {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    aspect-ratio: 1 / 1;   /* makes it square like ACC */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
 }
 
+.product-image img {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+}
 .premium-body {
     padding: 20px;
 }
@@ -565,23 +569,25 @@ footer i:hover {
 
 /* IMAGE WRAPPER */
 .premium-image-wrapper {
-    position: relative;
-    height: 260px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
+    background: #f8f9fa;
+    position: relative;
 }
 
 /* IMAGE SLIDER */
 .image-slider {
     display: flex;
     height: 100%;
-    transition: transform 0.8s ease;
+    transition: transform 0.6s ease;
 }
 
 .image-slider img {
-    width: 100%;
+    min-width: 100%;
     height: 100%;
-    object-fit: cover;
-    flex-shrink: 0;
+    object-fit: contain;
+    padding: 15px;
 }
 
 /* Hover Slide Effect */
@@ -602,38 +608,40 @@ footer i:hover {
 
 /* BODY */
 .premium-body {
-    padding: 22px;
+    padding: 18px;
 }
 
 .product-title {
     font-weight: 600;
-    font-size: 18px;
-    color: #263238;
+    margin-bottom: 8px;
 }
 
 .premium-price {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     color: #263238;
     margin: 12px 0 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
 }
 
 /* BUTTONS */
 .premium-actions {
     display: flex;
-    gap: 12px;
+    gap: 10px;
 }
 
 .btn-view {
     flex: 1;
     text-align: center;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #B0BEC5;
-    color: #455A64;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    color: #333;
     text-decoration: none;
     font-weight: 500;
     transition: 0.3s;
+    font-size: 14px;
 }
 
 .btn-view:hover {
@@ -643,13 +651,14 @@ footer i:hover {
 .btn-cart {
     flex: 1;
     text-align: center;
-    padding: 10px;
-    border-radius: 8px;
-    background: #263238;
-    color: #FFFFFF;
+    padding: 8px;
+    border-radius: 6px;
+    background: #212529;
+    color: #fff;
     text-decoration: none;
     font-weight: 600;
     transition: 0.3s;
+    font-size: 14px;
 }
 
 .btn-cart:hover {
@@ -1304,4 +1313,404 @@ footer i:hover {
     display: flex;
     justify-content: center;
     gap: 10px;
+}
+/* Section */
+.homepage-section {
+    background: #f6f7f9;
+}
+
+/* Section Title */
+.section-title {
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: 0.5px;
+}
+
+/* Category Buttons */
+.category-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+.category-btn {
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+
+.category-btn:hover {
+    background: #111;
+    color: #fff;
+}
+
+.category-btn.active {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+}
+
+/* Elegant Card */
+.elegant-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+    transition: 0.35s ease;
+    height: 100%;
+}
+
+.elegant-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+/* Image */
+.elegant-image {
+    width: 100%;
+    background: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.elegant-image img {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+}
+
+.elegant-card:hover .elegant-image img {
+    transform: scale(1.05);
+}
+
+/* Body */
+.elegant-body {
+    padding: 18px;
+}
+
+.elegant-title {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 8px;
+    min-height: 40px;
+}
+
+.elegant-price {
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 14px;
+}
+
+/* Buttons */
+.elegant-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-outline-elegant {
+    flex: 1;
+    text-align: center;
+    padding: 7px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: #333;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.btn-outline-elegant:hover {
+    background: #f1f1f1;
+}
+
+.btn-solid-elegant {
+    flex: 1;
+    text-align: center;
+    padding: 7px;
+    border-radius: 8px;
+    background: #111;
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.btn-solid-elegant:hover {
+    background: #000;
+}
+/* CARD */
+.hover-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    transition: 0.35s ease;
+    position: relative;
+}
+
+.hover-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 35px rgba(0,0,0,0.1);
+}
+
+/* IMAGE WRAPPER */
+.hover-image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #f8f9fa;
+    overflow: hidden;
+}
+
+/* IMAGES */
+.main-img,
+.hover-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.main-img {
+    opacity: 1;
+    z-index: 1;
+}
+
+.hover-img {
+    opacity: 0;
+    z-index: 2;
+}
+
+/* Image swap effect */
+.hover-card:hover .main-img {
+    opacity: 0;
+    transform: scale(1.05);
+}
+
+.hover-card:hover .hover-img {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* OVERLAY */
+.hover-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    transition: 0.4s ease;
+}
+
+.hover-card:hover .hover-overlay {
+    opacity: 1;
+}
+
+/* BUTTON */
+.overlay-btn {
+    background: #111;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+
+.overlay-btn:hover {
+    background: #000;
+}
+
+/* BODY */
+.hover-body {
+    padding: 16px;
+}
+
+.hover-title {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.hover-price {
+    font-weight: 700;
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+
+.hover-size {
+    font-size: 13px;
+    color: #666;
+}
+.image-link {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+}
+.pro-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    transition: 0.35s ease;
+}
+
+.pro-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 35px rgba(0,0,0,0.1);
+}
+
+/* Discount Badge */
+.discount-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #e63946;
+    color: white;
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 30px;
+    z-index: 10;
+}
+
+/* Wishlist */
+.wishlist-icon {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 10;
+}
+
+.wishlist-icon:hover {
+    background: #e63946;
+    color: white;
+}
+
+/* Image */
+.pro-image-wrapper {
+    position: relative;
+    aspect-ratio: 1/1;
+    background: #f8f9fa;
+    overflow: hidden;
+}
+
+.main-img,
+.hover-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: 0.5s ease;
+}
+
+.hover-img {
+    opacity: 0;
+}
+
+.pro-card:hover .hover-img {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.pro-card:hover .main-img {
+    opacity: 0;
+}
+
+/* Overlay Buttons */
+.image-actions {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    opacity: 0;
+    transition: 0.4s ease;
+}
+
+.pro-card:hover .image-actions {
+    opacity: 1;
+}
+
+/* Cart Button Smooth Animation */
+.cart-btn {
+    background: #111;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 30px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.3s;
+}
+
+.cart-btn span {
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+
+.pro-card:hover .cart-btn span {
+    max-width: 80px;
+}
+
+/* Quick View */
+.quick-view-btn {
+    background: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 13px;
+}
+
+/* Body */
+.pro-body {
+    padding: 16px;
+}
+
+.price-row {
+    display: flex;
+    gap: 8px;
+}
+
+.new-price {
+    font-weight: bold;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 14px;
+}
+
+.variant-preview {
+    font-size: 13px;
+    color: #666;
 }

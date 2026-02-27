@@ -58,96 +58,119 @@
 </div>
 
     {% load static %}
-<div class="container-fluid py-5 px-0">
+<div class="container-fluid py-5 homepage-section">
 
     <!-- ================= CATEGORY SECTION ================= -->
     <div class="text-center mb-5">
-        <h2 class="fw-bold display-6">Shop by Category</h2>
+        <h2 class="section-title">Shop by Category</h2>
 
-        <div class="d-flex justify-content-center flex-wrap gap-3 mt-4">
+        <div class="category-wrapper">
 
             <a href="{% url 'customer_home' %}?category=MS"
-               class="category-btn {% if active_category == 'MS' %}active-category{% endif %}">
+               class="category-btn {% if active_category == 'MS' %}active{% endif %}">
                MS Scaffolding
             </a>
 
             <a href="{% url 'customer_home' %}?category=AL"
-               class="category-btn {% if active_category == 'AL' %}active-category{% endif %}">
+               class="category-btn {% if active_category == 'AL' %}active{% endif %}">
                Aluminium Scaffolding
             </a>
 
             <a href="{% url 'customer_home' %}"
-               class="category-btn {% if not active_category %}active-category{% endif %}">
+               class="category-btn {% if not active_category %}active{% endif %}">
                All Products
             </a>
 
         </div>
     </div>
 
-
     <!-- ================= PRODUCT GRID ================= -->
-    <div class="row g-4">
+    <div class="row g-4 px-3">
 
         {% for product in products %}
 
-        <div class="col-12 col-md-6 col-lg-4">
-    <div class="premium-card">
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+    <div class="pro-card">
 
-        <!-- IMAGE WRAPPER -->
-        <div class="premium-image-wrapper">
+        <!-- Discount Badge -->
+        <span class="discount-badge">-15%</span>
 
-            <div class="image-slider">
-                {% for image in product.images.all %}
-                    <img src="{{ image.image.url }}" alt="{{ product.name }}">
-                {% empty %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                {% endfor %}
-            </div>
-
-            <!-- Overlay -->
-            <div class="image-overlay"></div>
-
+        <!-- Wishlist -->
+        <div class="wishlist-icon">
+            <i class="bi bi-heart"></i>
         </div>
 
-        <div class="premium-body">
+        <!-- Image Wrapper -->
+        <div class="pro-image-wrapper">
 
-            <h5 class="product-title">{{ product.name }}</h5>
+            <a href="{% url 'products:product_detail' product.pk %}">
+                {% if product.images.count > 1 %}
+                    <img src="{{ product.images.all.0.image.url }}" class="main-img">
+                    <img src="{{ product.images.all.1.image.url }}" class="hover-img">
+                {% else %}
+                    <img src="{{ product.images.first.image.url }}" class="main-img">
+                {% endif %}
+            </a>
 
-            <div class="premium-price">
-                ₹ {{ product.price }}
+            <!-- Overlay Buttons -->
+            <div class="image-actions">
+                <button class="quick-view-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#quickViewModal{{ product.id }}">
+                    Quick View
+                </button>
+
+                <a href="{% url 'orders:add_to_cart' product.id %}"
+                   class="cart-btn">
+                    <i class="bi bi-cart"></i>
+                    <span>Add</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="pro-body">
+            <h6>{{ product.name }}</h6>
+
+            <div class="price-row">
+                <span class="new-price">₹ {{ product.variants.first.price }}</span>
+                <span class="old-price">₹ 85</span>
             </div>
 
-            <div class="premium-actions">
-
-                <a href="{% url 'products:product_detail' product.pk %}" 
-                   class="btn-view">
-                   View Details
-                </a>
-
-                <a href="{% url 'orders:add_to_cart' product.id %}" 
-                   class="btn-cart">
-                   Add to Cart
-                </a>
-
+            <div class="variant-preview">
+                Size: {{ product.variants.first.size }}
             </div>
-
         </div>
 
     </div>
 </div>
+<div class="modal fade" id="quickViewModal{{ product.id }}" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content p-4">
 
+        <h5>{{ product.name }}</h5>
+        <img src="{{ product.images.first.image.url }}"
+             class="img-fluid mb-3">
+
+        <p>Price: ₹ {{ product.variants.first.price }}</p>
+
+        <a href="{% url 'products:product_detail' product.pk %}"
+           class="btn btn-dark">
+           View Full Details
+        </a>
+
+    </div>
+  </div>
+</div>
         {% empty %}
 
-        <div class="col-12">
-            <div class="text-center py-5">
-                <h5 class="text-muted">No products available in this category.</h5>
-            </div>
+        <div class="col-12 text-center py-5">
+            <h5 class="text-muted">No products available.</h5>
         </div>
 
         {% endfor %}
 
     </div>
-
 </div>
 
 {% endblock %}
