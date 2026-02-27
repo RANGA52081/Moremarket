@@ -1,14 +1,15 @@
 from django.contrib import admin
-from .models import Banner, UserOTP
+from .models import Banner, UserOTP, BannerImage
 
 
-
+class BannerImageInline(admin.TabularInline):
+    model = BannerImage
+    extra = 1
 
 
 @admin.register(Banner)
 class BannerAdmin(admin.ModelAdmin):
-    list_display = ("title", "is_active")
-
+    inlines = [BannerImageInline]
 
 @admin.register(UserOTP)
 class UserOTPAdmin(admin.ModelAdmin):

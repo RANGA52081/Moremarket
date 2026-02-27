@@ -4,6 +4,7 @@ import random
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
+
 class Banner(models.Model):
     title = models.CharField(max_length=200)
     subtitle = models.CharField(max_length=300, blank=True)
@@ -14,6 +15,21 @@ class Banner(models.Model):
     def __str__(self):
         return self.title
 
+
+class BannerImage(models.Model):
+
+    banner = models.ForeignKey(
+        Banner,   # ✅ JUST Banner
+        on_delete=models.CASCADE,
+        related_name="images"
+    )
+
+    image = models.ImageField(upload_to='banners/')
+    order = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.banner.title} - Image"
+    
 class UserOTP(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     otp = models.CharField(max_length=6)
