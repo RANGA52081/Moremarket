@@ -1714,3 +1714,22 @@ footer i:hover {
     font-size: 13px;
     color: #666;
 }
+.wishlist-icon {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.wishlist-icon:hover {
+    background: #e63946;
+    color: white;
+    transform: scale(1.1);
+}

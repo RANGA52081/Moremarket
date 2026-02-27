@@ -49,22 +49,54 @@ class ProductImage(models.Model):
 class ProductVariant(models.Model):
 
     product = models.ForeignKey(
-        Product,
+        "Product",
         on_delete=models.CASCADE,
         related_name="variants"
     )
 
     size = models.CharField(max_length=20)
     weight = models.DecimalField(max_digits=6, decimal_places=2)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.PositiveIntegerField(default=0)
 
+    # 🔥 NEW FIELDS
+    original_price = models.DecimalField(max_digits=10, decimal_places=2)
+    discount_percent = models.PositiveIntegerField(default=0)
+
+    stock = models.PositiveIntegerField(default=0)
     is_default = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['-is_default', 'size']   # ✅ HERE
+        ordering = ['-is_default', 'size']
+
+    # 🔥 AUTO CALCULATED PRICE
+    @property
+    def price(self):
+        if self.discount_percent > 0:
+            discount_amount = (
+                self.original_price * self.discount_percent / 100
+            )
+            return round(self.original_price - discount_amount, 2)
+        return self.original_price
 
     def __str__(self):
         return f"{self.product.name} - {self.size}"
     
+class Wishlist(models.Model):
 
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="wishlist"
+    )
+
+    product = models.ForeignKey(
+        "Product",
+        on_delete=models.CASCADE
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "product")
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.name}"

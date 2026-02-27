@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from .models import Product
 import json
+from .models import Wishlist, Product
+from django.contrib.auth.decorators import login_required
 
 # 🔹 All Products Page
 def product_list(request):
@@ -35,3 +37,17 @@ def product_detail(request, pk):
         "default_variant": default_variant,
         "image_urls": json.dumps(image_urls)  # JSON format
     })
+
+@login_required
+def toggle_wishlist(request, pk):
+    product = Product.objects.get(pk=pk)
+
+    wishlist_item, created = Wishlist.objects.get_or_create(
+        user=request.user,
+        product=product
+    )
+
+    if not created:
+        wishlist_item.delete()
+
+    return redirect(request.META.get('HTTP_REFERER', 'customer_home'))
