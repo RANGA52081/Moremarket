@@ -7,15 +7,12 @@
 
     <div class="row g-5">
 
-       <div class="col-lg-6">
+       <!-- LEFT PRODUCT IMAGE COLUMN -->
+<div class="col-lg-6">
 
-    <div class="shadow-sm rounded p-3 bg-white">
+    <div class="shadow-sm rounded bg-white p-3">
 
-        <!-- MAIN IMAGE -->
-        <div class="col-lg-6">
-
-    <div class="image-card">
-
+        <!-- MAIN SLIDER -->
         <div class="slider-wrapper" id="sliderWrapper">
             <div class="slider-track" id="sliderTrack">
 
@@ -29,18 +26,13 @@
             </div>
         </div>
 
-    </div>
-
-</div>
-
         <!-- THUMBNAILS -->
-        <div class="d-flex gap-2 justify-content-center flex-wrap">
+        <div class="thumb-wrapper mt-3">
 
             {% for img in product.images.all %}
                 <img src="{{ img.image.url }}"
-                     class="img-thumbnail product-thumb"
-                     style="width:80px; height:80px; object-fit:cover; cursor:pointer;"
-                     onclick="changeMainImage('{{ img.image.url }}')">
+                     class="product-thumb"
+                     data-index="{{ forloop.counter0 }}">
             {% endfor %}
 
         </div>
@@ -195,91 +187,33 @@ if (container && image) {
         image.style.transform = "translateY(0)";
     });
 }
-
-const images = JSON.parse('{{ image_urls|escapejs }}');
+const sliderTrack = document.getElementById("sliderTrack");
+const sliderWrapper = document.getElementById("sliderWrapper");
 
 let currentIndex = 0;
-let hoverInterval = null;
+const totalSlides = sliderTrack.children.length;
 
-const mainImage = document.getElementById("mainProductImage");
-
-if (mainImage && images.length > 0) {
-
-    mainImage.addEventListener("mouseenter", function () {
-
-        hoverInterval = setInterval(() => {
-
-            currentIndex = (currentIndex + 1) % images.length;
-
-            mainImage.style.opacity = 0;
-
-            setTimeout(() => {
-                mainImage.src = images[currentIndex];
-                mainImage.style.opacity = 1;
-            }, 250);
-
-        }, 1200);
-
-    });
-
-    mainImage.addEventListener("mouseleave", function () {
-
-        clearInterval(hoverInterval);
-        currentIndex = 0;
-
-        mainImage.style.opacity = 0;
-
-        setTimeout(() => {
-            mainImage.src = images[0];
-            mainImage.style.opacity = 1;
-        }, 250);
-
-    });
+function goToSlide(index) {
+    currentIndex = index;
+    sliderTrack.style.transform =
+        `translateX(-${currentIndex * 100}%)`;
 }
 
-function changeMainImage(imageUrl) {
-    if (!mainImage) return;
-
-    mainImage.style.opacity = 0;
-
-    setTimeout(() => {
-        mainImage.src = imageUrl;
-        mainImage.style.opacity = 1;
-    }, 250);
-}
-const sliderWrapper = document.getElementById("sliderWrapper");
-const sliderTrack = document.getElementById("sliderTrack");
-
-
+// Auto slide on hover
 let slideInterval = null;
 
-if (sliderTrack && sliderTrack.children.length > 1) {
-
-    const totalImages = sliderTrack.children.length;
+if (totalSlides > 1) {
 
     sliderWrapper.addEventListener("mouseenter", function () {
-
         slideInterval = setInterval(() => {
-
-            currentIndex++;
-            if (currentIndex >= totalImages) {
-                currentIndex = 0;
-            }
-
-            sliderTrack.style.transform =
-                `translateX(-${currentIndex * 100}%)`;
-
+            currentIndex = (currentIndex + 1) % totalSlides;
+            goToSlide(currentIndex);
         }, 1200);
-
     });
 
     sliderWrapper.addEventListener("mouseleave", function () {
-
         clearInterval(slideInterval);
-        currentIndex = 0;
-
-        sliderTrack.style.transform = "translateX(0%)";
-
+        goToSlide(0);
     });
 }
 </script>
