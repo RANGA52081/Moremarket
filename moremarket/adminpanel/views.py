@@ -50,10 +50,8 @@ def admin_logout(request):
     logout(request)
     return redirect("adminpanel:login")
 
-
-# ==============================
-# ADMIN DASHBOARD
-# ==============================
+from products.models import Product, ProductVariant
+from django.db.models import Sum
 
 @login_required(login_url="adminpanel:login")
 @user_passes_test(admin_required, login_url="adminpanel:login")
@@ -61,6 +59,7 @@ def admin_dashboard(request):
 
     today = now().date()
 
+    # 💰 Revenue
     total_revenue = Order.objects.aggregate(
         total=Sum("total_amount")
     )["total"] or 0
@@ -69,18 +68,25 @@ def admin_dashboard(request):
         created_at__date=today
     ).aggregate(total=Sum("total_amount"))["total"] or 0
 
+    # 📦 Orders
     total_orders = Order.objects.count()
     today_orders = Order.objects.filter(
         created_at__date=today
     ).count()
 
+    # 🛍 Products & Users
     total_products = Product.objects.count()
     total_users = User.objects.count()
 
-    low_stock_products = Product.objects.filter(stock__lt=5)
+    # 🚨 LOW STOCK (Correct Way)
+
+
+    low_stock_products = Product.objects.filter(
+        variants__stock__lt=5
+    ).distinct()
 
     top_product = Product.objects.annotate(
-        total_sold=Count("orderitem")
+        total_sold=Sum("variants__orderitem__quantity")
     ).order_by("-total_sold").first()
 
     context = {
@@ -95,6 +101,7 @@ def admin_dashboard(request):
     }
 
     return render(request, "adminpanel/dashboard.html", context)
+
 from customer.models import Banner
 from .forms import BannerForm
 from django.core.paginator import Paginator
