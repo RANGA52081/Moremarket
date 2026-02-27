@@ -12,13 +12,25 @@
     <div class="shadow-sm rounded p-3 bg-white">
 
         <!-- MAIN IMAGE -->
-        <div class="mb-3 text-center image-container">
-    {% if product.images.all %}
-        <img id="mainProductImage"
-             src="{{ product.images.first.image.url }}"
-             class="img-fluid rounded main-image"
-             style="max-height:450px; object-fit:contain;">
-    {% endif %}
+        <div class="col-lg-6">
+
+    <div class="image-card">
+
+        <div class="slider-wrapper" id="sliderWrapper">
+            <div class="slider-track" id="sliderTrack">
+
+                {% for img in product.images.all %}
+                    <div class="slide">
+                        <img src="{{ img.image.url }}"
+                             class="slider-image">
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+
 </div>
 
         <!-- THUMBNAILS -->
@@ -235,7 +247,41 @@ function changeMainImage(imageUrl) {
         mainImage.style.opacity = 1;
     }, 250);
 }
+const sliderWrapper = document.getElementById("sliderWrapper");
+const sliderTrack = document.getElementById("sliderTrack");
 
+
+let slideInterval = null;
+
+if (sliderTrack && sliderTrack.children.length > 1) {
+
+    const totalImages = sliderTrack.children.length;
+
+    sliderWrapper.addEventListener("mouseenter", function () {
+
+        slideInterval = setInterval(() => {
+
+            currentIndex++;
+            if (currentIndex >= totalImages) {
+                currentIndex = 0;
+            }
+
+            sliderTrack.style.transform =
+                `translateX(-${currentIndex * 100}%)`;
+
+        }, 1200);
+
+    });
+
+    sliderWrapper.addEventListener("mouseleave", function () {
+
+        clearInterval(slideInterval);
+        currentIndex = 0;
+
+        sliderTrack.style.transform = "translateX(0%)";
+
+    });
+}
 </script>
 
 {% endblock %}
