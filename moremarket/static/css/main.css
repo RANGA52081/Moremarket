@@ -1608,7 +1608,23 @@ footer i:hover {
     background: #e63946;
     color: white;
 }
+.view-details-btn {
+    background: #ffffff;
+    color: #111;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
 
+.view-details-btn:hover {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+}
 /* Image */
 .pro-image-wrapper {
     position: relative;

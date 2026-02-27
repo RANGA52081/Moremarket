@@ -312,3 +312,39 @@ document.addEventListener("keydown", function (e) {
         closeLocationDropdown();
     }
 });
+document.querySelectorAll(".pro-card").forEach(card => {
+
+    const slider = card.querySelector(".image-slider");
+    if (!slider) return;
+
+    let index = 0;
+    let interval;
+
+    card.addEventListener("mouseenter", () => {
+
+        const total = slider.children.length;
+        if (total <= 1) return;
+
+        interval = setInterval(() => {
+
+            index++;
+
+            if (index >= total) {
+                index = 0;
+            }
+
+            slider.style.transform = `translateX(-${index * 100}%)`;
+
+        }, 1200);
+
+    });
+
+    card.addEventListener("mouseleave", () => {
+
+        clearInterval(interval);
+        index = 0;
+        slider.style.transform = "translateX(0%)";
+
+    });
+
+});

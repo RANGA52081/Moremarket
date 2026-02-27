@@ -117,36 +117,34 @@
     </a>
 </div>
 
-        <!-- 🖼 Image Wrapper -->
-        <div class="pro-image-wrapper">
+ <!-- 🖼 Image Wrapper -->
+<div class="pro-image-wrapper">
 
-            <a href="{% url 'products:product_detail' product.pk %}">
-                {% if product.images.count > 1 %}
-                    <img src="{{ product.images.all.0.image.url }}" class="main-img">
-                    <img src="{{ product.images.all.1.image.url }}" class="hover-img">
-                {% else %}
-                    {% if product.images.first %}
-                        <img src="{{ product.images.first.image.url }}" class="main-img">
-                    {% endif %}
-                {% endif %}
-            </a>
+    <a href="{% url 'products:product_detail' product.pk %}">
+        <div class="image-slider">
 
-            <!-- Overlay Buttons -->
-            <div class="image-actions">
-                <button class="quick-view-btn"
-                        data-bs-toggle="modal"
-                        data-bs-target="#quickViewModal{{ product.id }}">
-                    Quick View
-                </button>
+            {% for image in product.images.all %}
+                <img src="{{ image.image.url }}" class="slider-img">
+            {% endfor %}
 
-                <a href="{% url 'orders:add_to_cart' variant.id %}"
-                   class="cart-btn">
-                    <i class="bi bi-cart"></i>
-                    <span>Add</span>
-                </a>
-            </div>
         </div>
+    </a>
 
+    <!-- Overlay Buttons -->
+    <div class="image-actions">
+        <a href="{% url 'products:product_detail' product.pk %}"
+           class="view-details-btn">
+            View Details
+        </a>
+
+        <a href="{% url 'orders:add_to_cart' variant.id %}"
+           class="cart-btn">
+            <i class="bi bi-cart"></i>
+            <span>Add</span>
+        </a>
+    </div>
+
+</div>
         <!-- 🧾 Product Body -->
         <div class="pro-body">
 
