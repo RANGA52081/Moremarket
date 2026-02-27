@@ -229,17 +229,31 @@ def admin_products(request):
         "page_obj": page_obj,
         "search": search
     })
+from products.models import Product, ProductVariant
+
 @login_required(login_url="adminpanel:login")
 @user_passes_test(admin_required, login_url="adminpanel:login")
 def product_create(request):
 
     form = ProductForm(request.POST or None)
 
-    if form.is_valid():
-        form.save()
+    if request.method == "POST" and form.is_valid():
+
+        product = form.save()
+
+        # Create default variant
+        ProductVariant.objects.create(
+            product=product,
+            size=request.POST.get("size"),
+            weight=request.POST.get("weight"),
+            price=request.POST.get("price"),
+            stock=request.POST.get("stock"),
+            is_default=True
+        )
+
         return redirect("adminpanel:products")
 
-    return render(request, "adminpanel/product_form.html", {"form": form}) 
+    return render(request, "adminpanel/product_form.html", {"form": form})
 
 @login_required(login_url="adminpanel:login")
 @user_passes_test(admin_required, login_url="adminpanel:login")

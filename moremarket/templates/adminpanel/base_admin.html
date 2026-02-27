@@ -40,11 +40,32 @@
 
 <div class="sidebar">
     <h4 class="text-center mb-4">MoreMarket</h4>
-    <a href="{% url 'admin_dashboard' %}">Dashboard</a>
-    <a href="{% url 'admin_products' %}">Products</a>
-    <a href="{% url 'admin_orders' %}">Orders</a>
-    <a href="{% url 'admin_banners' %}">Banner Studio</a>
-    <a href="{% url 'admin_analytics' %}">Analytics</a>
+    <li>
+        <a href="{% url 'adminpanel:dashboard' %}">Dashboard</a>
+    </li>
+
+    <li>
+        <a href="{% url 'adminpanel:products' %}">Products</a>
+    </li>
+
+    <li>
+        <a href="{% url 'adminpanel:orders' %}">Orders</a>
+    </li>
+
+    <li>
+        <a href="{% url 'adminpanel:customers' %}">Customers</a>
+    </li>
+
+    <li>
+        <a href="{% url 'adminpanel:analytics' %}">Analytics</a>
+    </li>
+    <li>
+        <a href="{% url 'adminpanel:studio_banner_list' %}">Banner Studio</a>
+    </li>
+    <li>
+        <a href="{% url 'adminpanel:logout' %}">Logout</a>
+    </li>
+    
 </div>
 
 <div class="content">
