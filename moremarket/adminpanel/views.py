@@ -139,30 +139,36 @@ def admin_products(request):
 # ➕ CREATE PRODUCT
 # ==============================
 
+from django.forms import inlineformset_factory
+from products.models import ProductImage
+
 @login_required(login_url="adminpanel:login")
 @user_passes_test(admin_required, login_url="adminpanel:login")
 def product_create(request):
 
+    ImageFormSet = inlineformset_factory(
+        Product,
+        ProductImage,
+        fields=("image",),
+        extra=1,
+        can_delete=True
+    )
+
     form = ProductForm(request.POST or None)
+    formset = ImageFormSet(request.POST or None,
+                           request.FILES or None)
 
-    if request.method == "POST" and form.is_valid():
+    if request.method == "POST":
+        if form.is_valid() and formset.is_valid():
+            product = form.save()
+            formset.instance = product
+            formset.save()
+            return redirect("adminpanel:products")
 
-        product = form.save()
-
-        ProductVariant.objects.create(
-            product=product,
-            size=request.POST.get("size"),
-            weight=request.POST.get("weight"),
-            price=request.POST.get("price"),
-            stock=request.POST.get("stock"),
-            is_default=True
-        )
-
-        return redirect("adminpanel:products")
-
-    return render(request, "adminpanel/product_form.html", {"form": form})
-
-
+    return render(request, "adminpanel/product_form.html", {
+        "form": form,
+        "formset": formset
+    })
 # ==============================
 # ✏ EDIT PRODUCT
 # ==============================
