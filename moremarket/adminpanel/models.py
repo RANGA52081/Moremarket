@@ -43,3 +43,6 @@ def admin_dashboard(request):
     }
 
     return render(request, "adminpanel/admin.html", context)
+from products.models import ProductVariant
+
+low_stock_variants = ProductVariant.objects.filter(stock__lt=5)
