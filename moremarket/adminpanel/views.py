@@ -283,3 +283,43 @@ def banner_archive(request, pk):
     banner.save()
 
     return redirect("adminpanel:studio_banner_list")
+
+# ==============================
+# 👥 CUSTOMERS
+# ==============================
+
+@login_required(login_url="adminpanel:login")
+@user_passes_test(admin_required, login_url="adminpanel:login")
+def admin_customers(request):
+
+    users = User.objects.all().order_by("-date_joined")
+
+    return render(request, "adminpanel/customers.html", {
+        "users": users
+    })
+
+# ==============================
+# 📈 ANALYTICS
+# ==============================
+
+@login_required(login_url="adminpanel:login")
+@user_passes_test(admin_required, login_url="adminpanel:login")
+def admin_analytics(request):
+
+    total_revenue = Order.objects.aggregate(
+        total=Sum("total_amount")
+    )["total"] or 0
+
+    total_orders = Order.objects.count()
+
+    today = now().date()
+
+    today_revenue = Order.objects.filter(
+        created_at__date=today
+    ).aggregate(total=Sum("total_amount"))["total"] or 0
+
+    return render(request, "adminpanel/analytics.html", {
+        "total_revenue": total_revenue,
+        "total_orders": total_orders,
+        "today_revenue": today_revenue
+    })

@@ -14,6 +14,8 @@ urlpatterns = [
 
     # 📦 Orders
     path("orders/", views.admin_orders, name="orders"),
+    path("customers/", views.admin_customers, name="customers"),
+    path("analytics/", views.admin_analytics, name="analytics"),
 
     # 🛍 Products
     path("products/", views.admin_products, name="products"),

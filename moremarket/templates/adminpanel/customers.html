@@ -1,0 +1,44 @@
+{% extends "adminpanel/base_admin.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Customers</h2>
+
+<div class="card p-4">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Date Joined</th>
+                <th>Staff</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for user in users %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.date_joined|date:"d M Y" }}</td>
+                <td>
+                    {% if user.is_staff %}
+                        <span class="badge bg-success">Admin</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Customer</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No customers found</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
