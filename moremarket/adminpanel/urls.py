@@ -11,7 +11,11 @@ urlpatterns = [
 
     # 📊 Dashboard
    # path("signup/", views.admin_signup, name="signup"),
-    path("", views.admin_dashboard, name="dashboard"),
+   path("", views.admin_dashboard, name="dashboard"),
+    path("products/", views.admin_products, name="products"),
+    path("orders/", views.admin_orders, name="orders"),
+    path("customers/", views.admin_customers, name="customers"),
+    path("analytics/", views.admin_analytics, name="analytics"),
 
     # 🎨 Banner Studio
     path("studio/banners/", views.banner_list, name="studio_banner_list"),
@@ -20,5 +24,5 @@ urlpatterns = [
     path("studio/banners/toggle/<int:pk>/", views.banner_toggle, name="studio_banner_toggle"),
     path("studio/banners/archive/<int:pk>/", views.banner_archive, name="studio_banner_archive"),
 
-    # 🔐 Security Center path("security/otps/", views.otp_list, name="security_otp_list"),
+    
 ]
