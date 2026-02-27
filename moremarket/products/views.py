@@ -51,3 +51,12 @@ def toggle_wishlist(request, pk):
         wishlist_item.delete()
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required
+def wishlist_view(request):
+    wishlist_items = Wishlist.objects.filter(user=request.user).select_related("product")
+
+    return render(request, "products/wishlist.html", {
+        "wishlist_items": wishlist_items
+    })

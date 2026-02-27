@@ -1733,3 +1733,70 @@ footer i:hover {
     color: white;
     transform: scale(1.1);
 }
+.wishlist-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 10px;
+    position: relative;
+    border: 1px solid #eee;
+    transition: 0.3s ease;
+}
+
+.wishlist-card:hover {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transform: translateY(-4px);
+}
+
+.wishlist-image {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.wishlist-image img {
+    max-height: 140px;
+    object-fit: contain;
+}
+
+.wishlist-body h6 {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.price {
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    color: #777;
+}
+
+.remove-btn:hover {
+    color: red;
+}
+.wishlist-toggle i {
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.wishlist-toggle.active i {
+    color: red;
+    transform: scale(1.2);
+}
+
+.wishlist-toggle i.animate {
+    animation: popHeart 0.4s ease;
+}
+
+@keyframes popHeart {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.4); }
+    100% { transform: scale(1.2); }
+}
