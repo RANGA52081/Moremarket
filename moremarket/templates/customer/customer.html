@@ -58,96 +58,177 @@
 </div>
 
     {% load static %}
-<div class="container-fluid py-5 px-0">
+<div class="container-fluid py-5 homepage-section">
 
     <!-- ================= CATEGORY SECTION ================= -->
     <div class="text-center mb-5">
-        <h2 class="fw-bold display-6">Shop by Category</h2>
+        <h2 class="section-title">Shop by Category</h2>
 
-        <div class="d-flex justify-content-center flex-wrap gap-3 mt-4">
+        <div class="category-wrapper">
 
             <a href="{% url 'customer_home' %}?category=MS"
-               class="category-btn {% if active_category == 'MS' %}active-category{% endif %}">
+               class="category-btn {% if active_category == 'MS' %}active{% endif %}">
                MS Scaffolding
             </a>
 
             <a href="{% url 'customer_home' %}?category=AL"
-               class="category-btn {% if active_category == 'AL' %}active-category{% endif %}">
+               class="category-btn {% if active_category == 'AL' %}active{% endif %}">
                Aluminium Scaffolding
             </a>
 
             <a href="{% url 'customer_home' %}"
-               class="category-btn {% if not active_category %}active-category{% endif %}">
+               class="category-btn {% if not active_category %}active{% endif %}">
                All Products
             </a>
 
         </div>
     </div>
 
-
     <!-- ================= PRODUCT GRID ================= -->
-    <div class="row g-4">
+    <div class="row g-4 px-3">
 
         {% for product in products %}
+<div class="col-6 col-md-4 col-lg-3 col-xl-2">
+    <div class="pro-card">
 
-        <div class="col-12 col-md-6 col-lg-4">
-    <div class="premium-card">
+        {% with variant=product.variants.first %}
 
-        <!-- IMAGE WRAPPER -->
-        <div class="premium-image-wrapper">
+        <!-- 🔥 Discount Badge -->
+        {% if variant.discount_percent > 0 %}
+            <span class="discount-badge">
+                -{{ variant.discount_percent }}%
+            </span>
+        {% endif %}
 
-            <div class="image-slider">
-                {% for image in product.images.all %}
-                    <img src="{{ image.image.url }}" alt="{{ product.name }}">
-                {% empty %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                {% endfor %}
+        <div class="wishlist-icon">
+    <a href="javascript:void(0);"
+       class="wishlist-toggle"
+       data-id="{{ product.id }}">
+
+        <i class="bi 
+           {% if product.id in wishlist_products %}
+               bi-heart-fill text-danger
+           {% else %}
+               bi-heart
+           {% endif %}
+        ">
+        </i>
+
+    </a>
+</div>
+
+        <!-- 🖼 Image Wrapper -->
+        <div class="pro-image-wrapper">
+
+            <a href="{% url 'products:product_detail' product.pk %}">
+                {% if product.images.count > 1 %}
+                    <img src="{{ product.images.all.0.image.url }}" class="main-img">
+                    <img src="{{ product.images.all.1.image.url }}" class="hover-img">
+                {% else %}
+                    {% if product.images.first %}
+                        <img src="{{ product.images.first.image.url }}" class="main-img">
+                    {% endif %}
+                {% endif %}
+            </a>
+
+            <!-- Overlay Buttons -->
+            <div class="image-actions">
+                <button class="quick-view-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#quickViewModal{{ product.id }}">
+                    Quick View
+                </button>
+
+                <a href="{% url 'orders:add_to_cart' variant.id %}"
+                   class="cart-btn">
+                    <i class="bi bi-cart"></i>
+                    <span>Add</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 🧾 Product Body -->
+        <div class="pro-body">
+
+            <h6 class="product-title">
+                {{ product.name }}
+            </h6>
+
+            <div class="price-row">
+
+                <span class="new-price">
+                    ₹ {{ variant.price }}
+                </span>
+
+                {% if variant.discount_percent > 0 %}
+                    <span class="old-price">
+                        ₹ {{ variant.original_price }}
+                    </span>
+                {% endif %}
+
             </div>
 
-            <!-- Overlay -->
-            <div class="image-overlay"></div>
+            <div class="variant-preview">
+                Size: {{ variant.size }}
+            </div>
 
         </div>
 
-        <div class="premium-body">
-
-            <h5 class="product-title">{{ product.name }}</h5>
-
-            <div class="premium-price">
-                ₹ {{ product.price }}
-            </div>
-
-            <div class="premium-actions">
-
-                <a href="{% url 'products:product_detail' product.pk %}" 
-                   class="btn-view">
-                   View Details
-                </a>
-
-                <a href="{% url 'orders:add_to_cart' product.id %}" 
-                   class="btn-cart">
-                   Add to Cart
-                </a>
-
-            </div>
-
-        </div>
+        {% endwith %}
 
     </div>
 </div>
+<div class="modal fade" id="quickViewModal{{ product.id }}" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content p-4">
 
+        {% with variant=product.variants.first %}
+
+        <h5 class="mb-3">{{ product.name }}</h5>
+
+        <!-- Slider -->
+        <div class="quickview-slider">
+
+            {% for img in product.images.all %}
+                <img src="{{ img.image.url }}"
+                     class="quickview-img {% if forloop.first %}active-img{% endif %}">
+            {% endfor %}
+
+        </div>
+
+        <div class="mt-3">
+
+            <span class="new-price">
+                ₹ {{ variant.price }}
+            </span>
+
+            {% if variant.discount_percent > 0 %}
+                <span class="old-price ms-2">
+                    ₹ {{ variant.original_price }}
+                </span>
+            {% endif %}
+
+        </div>
+
+        <a href="{% url 'products:product_detail' product.pk %}"
+           class="btn btn-dark mt-3">
+           View Full Details
+        </a>
+
+        {% endwith %}
+
+    </div>
+  </div>
+</div>
         {% empty %}
 
-        <div class="col-12">
-            <div class="text-center py-5">
-                <h5 class="text-muted">No products available in this category.</h5>
-            </div>
+        <div class="col-12 text-center py-5">
+            <h5 class="text-muted">No products available.</h5>
         </div>
 
         {% endfor %}
 
     </div>
-
 </div>
 
 {% endblock %}
