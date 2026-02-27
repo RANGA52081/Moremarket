@@ -31,6 +31,7 @@ urlpatterns = [
     path('logout/', customer_views.logout_view, name='logout'),
     path("products/", include("products.urls")),
     path("orders/", include("orders.urls")),
+    path("products/", include("products.urls")),  # 🔥 THIS MUST EXIST
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
