@@ -10,12 +10,12 @@ urlpatterns = [
     path("logout/", views.admin_logout, name="logout"),
 
     # 📊 Dashboard
-   # path("signup/", views.admin_signup, name="signup"),
-   path("", views.admin_dashboard, name="dashboard"),
+    # path("signup/", views.admin_signup, name="signup"),
+    path("", views.admin_dashboard, name="dashboard"),
     path("products/", views.admin_products, name="products"),
-    path("orders/", views.admin_orders, name="orders"),
-    path("customers/", views.admin_customers, name="customers"),
-    path("analytics/", views.admin_analytics, name="analytics"),
+    path("products/create/", views.product_create, name="product_create"),
+    path("products/edit/<int:pk>/", views.product_edit, name="product_edit"),
+    path("products/delete/<int:pk>/", views.product_delete, name="product_delete"),
 
     # 🎨 Banner Studio
     path("studio/banners/", views.banner_list, name="studio_banner_list"),

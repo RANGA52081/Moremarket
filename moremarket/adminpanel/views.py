@@ -10,7 +10,7 @@ from django.contrib import messages
 from customer.models import Banner, UserOTP
 from products.models import Product
 from orders.models import Order
-from .forms import BannerForm
+from .forms import BannerForm, ProductForm
 
 
 # 🔐 Only staff users allowed
@@ -207,19 +207,58 @@ def banner_archive(request, pk):
 
     return redirect("adminpanel:studio_banner_list")
 
-from django.shortcuts import render
-
-def admin_dashboard(request):
-    return render(request, 'adminpanel/dashboard.html')
-
+@login_required(login_url="adminpanel:login")
+@user_passes_test(admin_required, login_url="adminpanel:login")
 def admin_products(request):
-    return render(request, 'adminpanel/products.html')
 
-def admin_orders(request):
-    return render(request, 'adminpanel/orders.html')
+    search = request.GET.get("search", "")
 
-def admin_customers(request):
-    return render(request, 'adminpanel/customers.html')
+    products = Product.objects.all().order_by("-created_at")
 
-def admin_analytics(request):
-    return render(request, 'analytics/analytics.html')
+    if search:
+        products = products.filter(
+            Q(name__icontains=search) |
+            Q(description__icontains=search)
+        )
+
+    paginator = Paginator(products, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "adminpanel/products.html", {
+        "page_obj": page_obj,
+        "search": search
+    })
+@login_required(login_url="adminpanel:login")
+@user_passes_test(admin_required, login_url="adminpanel:login")
+def product_create(request):
+
+    form = ProductForm(request.POST or None)
+
+    if form.is_valid():
+        form.save()
+        return redirect("adminpanel:products")
+
+    return render(request, "adminpanel/product_form.html", {"form": form}) 
+
+@login_required(login_url="adminpanel:login")
+@user_passes_test(admin_required, login_url="adminpanel:login")
+def product_edit(request, pk):
+
+    product = get_object_or_404(Product, pk=pk)
+    form = ProductForm(request.POST or None, instance=product)
+
+    if form.is_valid():
+        form.save()
+        return redirect("adminpanel:products")
+
+    return render(request, "adminpanel/product_form.html", {"form": form})
+
+@login_required(login_url="adminpanel:login")
+@user_passes_test(admin_required, login_url="adminpanel:login")
+def product_delete(request, pk):
+
+    product = get_object_or_404(Product, pk=pk)
+    product.delete()
+
+    return redirect("adminpanel:products")
