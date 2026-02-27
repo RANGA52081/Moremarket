@@ -3,7 +3,7 @@ from .models import Product
 import json
 from .models import Wishlist, Product
 from django.contrib.auth.decorators import login_required
-
+from django.http import JsonResponse
 # 🔹 All Products Page
 def product_list(request):
     category = request.GET.get("category")
@@ -49,6 +49,17 @@ def toggle_wishlist(request, pk):
 
     if not created:
         wishlist_item.delete()
+        status = "removed"
+    else:
+        status = "added"
+
+    count = Wishlist.objects.filter(user=request.user).count()
+
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
+        return JsonResponse({
+            "status": status,
+            "count": count
+        })
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
 

@@ -100,12 +100,22 @@
             </span>
         {% endif %}
 
-        <!-- ❤️ Wishlist -->
         <div class="wishlist-icon">
-            <a href="{% url 'products:toggle_wishlist' product.pk %}">
-                <i class="bi bi-heart"></i>
-            </a>
-        </div>
+    <a href="javascript:void(0);"
+       class="wishlist-toggle"
+       data-id="{{ product.id }}">
+
+        <i class="bi 
+           {% if product.id in wishlist_products %}
+               bi-heart-fill text-danger
+           {% else %}
+               bi-heart
+           {% endif %}
+        ">
+        </i>
+
+    </a>
+</div>
 
         <!-- 🖼 Image Wrapper -->
         <div class="pro-image-wrapper">

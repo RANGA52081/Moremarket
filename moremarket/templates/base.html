@@ -56,10 +56,11 @@
 <div class="header-right d-flex align-items-center gap-3">
 
   
-<a href="javascript:void(0);"
-   class="wishlist-toggle"
-   data-id="{{ product.id }}">
-    <i class="bi bi-heart"></i>
+<a href="{% url 'products:wishlist' %}" class="position-relative">
+    <i class="bi bi-heart fs-5"></i>
+    <span class="wishlist-count badge bg-danger">
+        {{ request.user.wishlist_set.count|default:"0" }}
+    </span>
 </a>
   <!-- CART -->
   <a href="{% url 'cart' %}"
@@ -389,6 +390,72 @@
 
 <!-- Custom JS -->
 <script src="{% static 'js/main.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
+    document.querySelectorAll(".wishlist-toggle").forEach(btn => {
+
+        btn.addEventListener("click", function () {
+
+            const productId = this.dataset.id;
+            const icon = this.querySelector("i");
+            const countBadge = document.querySelector(".wishlist-count");
+
+            fetch(`/products/wishlist/toggle/${productId}/`, {
+                method: "GET",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+            .then(response => {
+                if (response.status === 403) {
+                    window.location.href = "/login/";
+                    return;
+                }
+                return response.json();
+            })
+            .then(data => {
+
+                if (!data) return;
+
+                if (data.status === "added") {
+
+                    this.classList.add("active");
+
+                    icon.classList.remove("bi-heart");
+                    icon.classList.add("bi-heart-fill");
+
+                } else {
+
+                    this.classList.remove("active");
+
+                    icon.classList.remove("bi-heart-fill");
+                    icon.classList.add("bi-heart");
+
+                }
+
+                // Animation
+                icon.classList.add("animate");
+
+                setTimeout(() => {
+                    icon.classList.remove("animate");
+                }, 400);
+
+                // Update wishlist count (if exists)
+                if (countBadge && data.count !== undefined) {
+                    countBadge.textContent = data.count;
+                }
+
+            })
+            .catch(error => {
+                console.error("Wishlist error:", error);
+            });
+
+        });
+
+    });
+
+});
+</script>
 </body>
 </html>
