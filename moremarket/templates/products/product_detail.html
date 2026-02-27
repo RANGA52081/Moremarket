@@ -12,14 +12,26 @@
     <div class="shadow-sm rounded p-3 bg-white">
 
         <!-- MAIN IMAGE -->
-        <div class="mb-3 text-center">
-            {% if product.images.all %}
-                <img id="mainProductImage"
-                     src="{{ product.images.first.image.url }}"
-                     class="img-fluid rounded"
-                     style="max-height:450px; object-fit:contain;">
-            {% endif %}
+        <div class="col-lg-6">
+
+    <div class="image-card">
+
+        <div class="slider-wrapper" id="sliderWrapper">
+            <div class="slider-track" id="sliderTrack">
+
+                {% for img in product.images.all %}
+                    <div class="slide">
+                        <img src="{{ img.image.url }}"
+                             class="slider-image">
+                    </div>
+                {% endfor %}
+
+            </div>
         </div>
+
+    </div>
+
+</div>
 
         <!-- THUMBNAILS -->
         <div class="d-flex gap-2 justify-content-center flex-wrap">
@@ -28,7 +40,7 @@
                 <img src="{{ img.image.url }}"
                      class="img-thumbnail product-thumb"
                      style="width:80px; height:80px; object-fit:cover; cursor:pointer;"
-                     onclick="changeMainImage(this)">
+                     onclick="changeMainImage('{{ img.image.url }}')">
             {% endfor %}
 
         </div>
@@ -162,6 +174,114 @@ addToCartBtn.addEventListener("click", function () {
     window.location.href =
         `/orders/add-to-cart/${variantId}/?qty=${qty}`;
 });
+const container = document.querySelector(".image-scroll-container");
+const image = document.getElementById("mainProductImage");
+
+if (container && image) {
+    container.addEventListener("mousemove", function(e) {
+
+        const containerHeight = container.offsetHeight;
+        const imageHeight = image.offsetHeight;
+
+        const mouseY = e.offsetY;
+        const percent = mouseY / containerHeight;
+
+        const move = (imageHeight - containerHeight) * percent;
+
+        image.style.transform = `translateY(-${move}px)`;
+    });
+
+    container.addEventListener("mouseleave", function() {
+        image.style.transform = "translateY(0)";
+    });
+}
+
+const images = JSON.parse('{{ image_urls|escapejs }}');
+
+let currentIndex = 0;
+let hoverInterval = null;
+
+const mainImage = document.getElementById("mainProductImage");
+
+if (mainImage && images.length > 0) {
+
+    mainImage.addEventListener("mouseenter", function () {
+
+        hoverInterval = setInterval(() => {
+
+            currentIndex = (currentIndex + 1) % images.length;
+
+            mainImage.style.opacity = 0;
+
+            setTimeout(() => {
+                mainImage.src = images[currentIndex];
+                mainImage.style.opacity = 1;
+            }, 250);
+
+        }, 1200);
+
+    });
+
+    mainImage.addEventListener("mouseleave", function () {
+
+        clearInterval(hoverInterval);
+        currentIndex = 0;
+
+        mainImage.style.opacity = 0;
+
+        setTimeout(() => {
+            mainImage.src = images[0];
+            mainImage.style.opacity = 1;
+        }, 250);
+
+    });
+}
+
+function changeMainImage(imageUrl) {
+    if (!mainImage) return;
+
+    mainImage.style.opacity = 0;
+
+    setTimeout(() => {
+        mainImage.src = imageUrl;
+        mainImage.style.opacity = 1;
+    }, 250);
+}
+const sliderWrapper = document.getElementById("sliderWrapper");
+const sliderTrack = document.getElementById("sliderTrack");
+
+
+let slideInterval = null;
+
+if (sliderTrack && sliderTrack.children.length > 1) {
+
+    const totalImages = sliderTrack.children.length;
+
+    sliderWrapper.addEventListener("mouseenter", function () {
+
+        slideInterval = setInterval(() => {
+
+            currentIndex++;
+            if (currentIndex >= totalImages) {
+                currentIndex = 0;
+            }
+
+            sliderTrack.style.transform =
+                `translateX(-${currentIndex * 100}%)`;
+
+        }, 1200);
+
+    });
+
+    sliderWrapper.addEventListener("mouseleave", function () {
+
+        clearInterval(slideInterval);
+        currentIndex = 0;
+
+        sliderTrack.style.transform = "translateX(0%)";
+
+    });
+}
 </script>
 
 {% endblock %}
