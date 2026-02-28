@@ -139,8 +139,7 @@
 
         {% with product.variants.first as default_variant %}
     {% if default_variant %}
-        <a href="{% url 'orders:add_to_cart' default_variant.id %}"
-           class="cart-btn">
+        <a href="javascript:void(0);" class="cart-btn add-to-cart-btn" data-id="{{ default_variant.id }}">
             <i class="bi bi-cart"></i>
             <span>Add</span>
         </a>
