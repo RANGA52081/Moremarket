@@ -1,0 +1,52 @@
+{% extends "adminpanel/base_admin.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Analytics</h2>
+
+<div class="row">
+
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h5>Total Revenue</h5>
+            <h3 class="text-success">₹{{ total_revenue }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h5>Total Orders</h5>
+            <h3>{{ total_orders }}</h3>
+        </div>
+    </div>
+
+</div>
+
+<br>
+
+<div class="card p-4">
+    <h5>Simple Revenue Chart (Demo)</h5>
+    <canvas id="revenueChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('revenueChart');
+
+    // pull the template value into a plain JS variable
+    const todayRevenue = {{ today_revenue|default:0 }};
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Today', 'Yesterday', 'Last 7 Days'],
+            datasets: [{
+                label: 'Revenue',
+                data: [todayRevenue, 5000, 20000],
+                borderWidth: 1
+            }]
+        }
+    });
+</script>
+{% endblock %}

@@ -7,6 +7,7 @@
 
     <style>
         body { background: #f4f6f9; }
+
         .sidebar {
             position: fixed;
             width: 240px;
@@ -14,25 +15,50 @@
             background: #111827;
             color: white;
             padding-top: 20px;
+            overflow-y: auto;
         }
+
+        .sidebar h4 {
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
         .sidebar a {
             color: #cbd5e1;
             padding: 12px 20px;
             display: block;
             text-decoration: none;
             transition: 0.3s;
+            font-size: 15px;
         }
+
         .sidebar a:hover {
             background: #1f2937;
             color: white;
         }
+
+        .sidebar a.active {
+            background: #2563eb;
+            color: white;
+        }
+
         .content {
             margin-left: 260px;
             padding: 30px;
         }
+
+        .topbar {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
         .card {
             border-radius: 15px;
             border: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
     </style>
 </head>
@@ -40,36 +66,50 @@
 
 <div class="sidebar">
     <h4 class="text-center mb-4">MoreMarket</h4>
-    <li>
-        <a href="{% url 'adminpanel:dashboard' %}">Dashboard</a>
-    </li>
 
-    <li>
-        <a href="{% url 'adminpanel:products' %}">Products</a>
-    </li>
+    <a href="{% url 'adminpanel:dashboard' %}"
+       class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+        📊 Dashboard
+    </a>
 
-    <li>
-        <a href="{% url 'adminpanel:orders' %}">Orders</a>
-    </li>
+    <a href="{% url 'adminpanel:products' %}"
+       class="{% if request.resolver_match.url_name == 'products' %}active{% endif %}">
+        🛍 Products
+    </a>
 
-    <li>
-        <a href="{% url 'adminpanel:customers' %}">Customers</a>
-    </li>
+    <a href="{% url 'adminpanel:orders' %}"
+       class="{% if request.resolver_match.url_name == 'orders' %}active{% endif %}">
+        📦 Orders
+    </a>
 
-    <li>
-        <a href="{% url 'adminpanel:analytics' %}">Analytics</a>
-    </li>
-    <li>
-        <a href="{% url 'adminpanel:studio_banner_list' %}">Banner Studio</a>
-    </li>
-    <li>
-        <a href="{% url 'adminpanel:logout' %}">Logout</a>
-    </li>
-    
+    <a href="{% url 'adminpanel:customers' %}"
+       class="{% if request.resolver_match.url_name == 'customers' %}active{% endif %}">
+        👥 Customers
+    </a>
+
+    <a href="{% url 'adminpanel:analytics' %}"
+       class="{% if request.resolver_match.url_name == 'analytics' %}active{% endif %}">
+        📈 Analytics
+    </a>
+
+    <a href="{% url 'adminpanel:studio_banner_list' %}">
+        🎨 Banner Studio
+    </a>
+
+    <a href="{% url 'adminpanel:logout' %}" class="mt-4 text-danger">
+        🚪 Logout
+    </a>
 </div>
 
 <div class="content">
+
+    <div class="topbar d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Control Center</h5>
+        <span>Welcome, {{ request.user.username }}</span>
+    </div>
+
     {% block content %}{% endblock %}
+
 </div>
 
 </body>

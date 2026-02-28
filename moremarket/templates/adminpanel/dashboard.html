@@ -1,126 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Dashboard</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: #F4F6F9;
-        }
+{% extends "adminpanel/base_admin.html" %}
 
-        .sidebar {
-            width: 230px;
-            height: 100vh;
-            background: #0B1F3A;
-            position: fixed;
-            padding-top: 20px;
-            color: white;
-        }
+{% block content %}
 
-        .sidebar h2 {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+<div class="row g-4">
 
-        .sidebar a {
-            display: block;
-            padding: 15px 20px;
-            color: white;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .sidebar a:hover {
-            background: #142B4F;
-        }
-
-        .navbar {
-            margin-left: 230px;
-            height: 60px;
-            background: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 25px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-        }
-
-        .navbar h3 {
-            color: #0B1F3A;
-        }
-
-        .logout {
-            background: #2563EB;
-            padding: 8px 15px;
-            border-radius: 6px;
-            color: white;
-            text-decoration: none;
-        }
-
-        .main {
-            margin-left: 230px;
-            padding: 30px;
-        }
-
-        .cards {
-            display: flex;
-            gap: 20px;
-        }
-
-        .card {
-            flex: 1;
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-
-        .card h2 {
-            color: #0B1F3A;
-            margin: 10px 0;
-        }
-
-        .card p {
-            color: #666;
-        }
-    </style>
-</head>
-<body>
-
-<div class="sidebar">
-    <h2>MoreMarket</h2>
-    <a href="#">Dashboard</a>
-    <a href="#">Products</a>
-    <a href="#">Orders</a>
-    <a href="#">Customers</a>
-    <a href="#">Analytics</a>
-</div>
-
-<div class="navbar">
-    <h3>Welcome {{ request.user.username }}</h3>
-    <a href="{% url 'logout' %}" class="logout">Logout</a>
-</div>
-
-<div class="main">
-    <div class="cards">
-        <div class="card">
-            <h2>1,240</h2>
+    <div class="col-md-4">
+        <div class="card p-4 text-center">
+            <h3>{{ total_users }}</h3>
             <p>Total Customers</p>
         </div>
+    </div>
 
-        <div class="card">
-            <h2>320</h2>
+    <div class="col-md-4">
+        <div class="card p-4 text-center">
+            <h3>{{ total_orders }}</h3>
             <p>Total Orders</p>
         </div>
+    </div>
 
-        <div class="card">
-            <h2>₹1,85,000</h2>
+    <div class="col-md-4">
+        <div class="card p-4 text-center">
+            <h3>₹{{ total_revenue }}</h3>
             <p>Total Revenue</p>
         </div>
     </div>
+
 </div>
 
-</body>
-</html>
+<br>
+
+<div class="card p-4">
+    <h5>Today's Summary</h5>
+    <p>Today's Orders: <strong>{{ today_orders }}</strong></p>
+    <p>Today's Revenue: <strong>₹{{ today_revenue }}</strong></p>
+</div>
+
+{% endblock %}
