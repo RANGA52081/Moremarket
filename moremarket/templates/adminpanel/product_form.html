@@ -1,50 +1,91 @@
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
+{% extends "adminpanel/base_admin.html" %}
+{% load widget_tweaks %}
 
-    <div class="mb-3">
-        <label class="form-label">Name</label>
-        {{ form.name }}
+{% block content %}
+
+<div class="container-fluid">
+
+    <h3 class="mb-4">
+        {% if form.instance.pk %}
+            Edit Product
+        {% else %}
+            Add Product
+        {% endif %}
+    </h3>
+
+    <div class="card shadow-sm p-4">
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Basic Fields -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Product Name</label>
+                    {{ form.name|add_class:"form-control" }}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Category</label>
+                    {{ form.category|add_class:"form-select" }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                {{ form.description|add_class:"form-control" }}
+            </div>
+
+            <div class="form-check mb-4">
+                {{ form.is_active }}
+                <label class="form-check-label">Active</label>
+            </div>
+
+            <hr>
+            <h5 class="mb-3">Product Images</h5>
+
+            {{ formset.management_form }}
+
+            <div class="row">
+                {% for image_form in formset %}
+                    <div class="col-md-3 mb-3">
+
+                        {% if image_form.instance.pk %}
+                            <img src="{{ image_form.instance.image.url }}"
+                                 class="img-thumbnail mb-2"
+                                 style="height:120px; object-fit:cover;">
+                        {% endif %}
+
+                        {{ image_form.image }}
+
+                        {% if image_form.can_delete %}
+                            <div class="form-check mt-2">
+                                {{ image_form.DELETE }}
+                                <label class="form-check-label text-danger">
+                                    Delete
+                                </label>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-success">
+                    Save Product
+                </button>
+
+                <a href="{% url 'adminpanel:products' %}"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+
     </div>
 
-    <div class="mb-3">
-        <label class="form-label">Category</label>
-        {{ form.category }}
-    </div>
+</div>
 
-    <div class="mb-3">
-        <label class="form-label">Description</label>
-        {{ form.description }}
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Active</label>
-        {{ form.is_active }}
-    </div>
-
-    <hr>
-    <h5>Product Images</h5>
-
-    {{ formset.management_form }}
-
-    {% for image_form in formset %}
-        <div class="mb-3">
-            {{ image_form.image }}
-
-            {% if image_form.instance.pk %}
-                <br>
-                <img src="{{ image_form.instance.image.url }}"
-                     width="80"
-                     style="margin-top:10px;">
-            {% endif %}
-        </div>
-    {% endfor %}
-
-    <button type="submit" class="btn btn-success">
-        Save Product
-    </button>
-
-    <a href="{% url 'adminpanel:products' %}" 
-       class="btn btn-secondary">
-        Cancel
-    </a>
-</form>
+{% endblock %}
