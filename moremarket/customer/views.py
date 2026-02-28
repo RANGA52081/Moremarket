@@ -16,11 +16,12 @@ from orders.models import Order
 from .models import UserProfile
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-
+from products.models import Wishlist
 # ========================
 # HOME PAGE
 # ========================
 def customer_home(request):
+
     banners = Banner.objects.filter(is_active=True)
 
     category = request.GET.get("category")
@@ -30,10 +31,19 @@ def customer_home(request):
     else:
         products = Product.objects.filter(is_active=True)
 
+    # 🔥 ADD THIS BLOCK
+    if request.user.is_authenticated:
+        wishlist_products = Wishlist.objects.filter(
+            user=request.user
+        ).values_list("product_id", flat=True)
+    else:
+        wishlist_products = []
+
     return render(request, 'customer/customer.html', {
         'banners': banners,
         'products': products,
-        'active_category': category
+        'active_category': category,
+        'wishlist_products': list(wishlist_products),   # 🔥 send to template
     })
 # ========================
 # CART PAGE
