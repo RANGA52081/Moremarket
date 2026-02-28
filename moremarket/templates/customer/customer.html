@@ -137,11 +137,15 @@
             View Details
         </a>
 
-        <a href="{% url 'orders:add_to_cart' variant.id %}"
+        {% with product.variants.first as default_variant %}
+    {% if default_variant %}
+        <a href="{% url 'orders:add_to_cart' default_variant.id %}"
            class="cart-btn">
             <i class="bi bi-cart"></i>
             <span>Add</span>
         </a>
+    {% endif %}
+{% endwith %}
     </div>
 
 </div>

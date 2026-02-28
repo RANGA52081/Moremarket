@@ -59,42 +59,52 @@
 
             <!-- VARIANT SELECT -->
             {% if variants %}
-            <div class="mb-4">
-                <label class="fw-semibold mb-2">Select Size:</label>
-                {% if product.variants.filter(color__isnull=False).exists %}
-<div class="mb-3">
+<div class="mb-4">
 
-    <label class="form-label fw-bold">Select Color:</label>
+    <!-- Size Label -->
+    <label class="fw-semibold mb-2">Select Size:</label>
 
-    <div class="color-options d-flex gap-2">
+    <!-- Color Section -->
+    {% if has_colors %}
+    <div class="mb-3">
 
-        {% for variant in product.variants.all %}
-            {% if variant.color %}
+        <label class="form-label fw-bold">Select Color:</label>
+
+        <div class="color-options d-flex gap-2 flex-wrap">
+
+            {% for variant in variants %}
+                {% if variant.color %}
                 <button type="button"
                         class="color-btn"
-                        data-color="{{ variant.color }}"
+                        data-variant-id="{{ variant.id }}"
                         data-price="{{ variant.price }}"
-                        data-stock="{{ variant.stock }}">
+                        data-stock="{{ variant.stock }}"
+                        data-color="{{ variant.color }}">
                     {{ variant.color }}
                 </button>
-            {% endif %}
-        {% endfor %}
+                {% endif %}
+            {% endfor %}
+
+        </div>
 
     </div>
+    {% endif %}
+
+    <!-- Size Dropdown -->
+    <select class="form-select w-50" id="variantSelect">
+
+        {% for v in variants %}
+        <option value="{{ v.id }}"
+                data-price="{{ v.price }}"
+                data-stock="{{ v.stock }}"
+                {% if default_variant and v.id == default_variant.id %}selected{% endif %}>
+            {{ v.size }} ({{ v.weight }}kg)
+        </option>
+        {% endfor %}
+
+    </select>
 
 </div>
-{% endif %}
-                <select class="form-select w-50" id="variantSelect">
-                    {% for v in variants %}
-                    <option value="{{ v.id }}"
-                            data-price="{{ v.price }}"
-                            data-stock="{{ v.stock }}"
-                            {% if default_variant and v.id == default_variant.id %}selected{% endif %}>
-                        {{ v.size }} ({{ v.weight }}kg)
-                    </option>
-                    {% endfor %}
-                </select>
-            </div>
             {% endif %}
 
             <!-- STOCK -->

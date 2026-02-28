@@ -23,7 +23,7 @@ def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk, is_active=True)
 
     variants = product.variants.all()
-
+    has_colors = variants.filter(color__isnull=False).exists()
     default_variant = variants.filter(is_default=True).first()
     if not default_variant and variants.exists():
         default_variant = variants.first()
@@ -34,6 +34,7 @@ def product_detail(request, pk):
     return render(request, "products/product_detail.html", {
         "product": product,
         "variants": variants,
+        "has_colors": has_colors,
         "default_variant": default_variant,
         "image_urls": json.dumps(image_urls)  # JSON format
     })
