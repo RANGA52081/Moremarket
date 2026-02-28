@@ -24,5 +24,9 @@ def add_to_cart(request, variant_id):
 
 @login_required
 def cart_view(request):
-    cart = Cart.objects.filter(user=request.user).first()
-    return render(request, "orders/cart.html", {"cart": cart})
+
+    cart, created = Cart.objects.get_or_create(user=request.user)
+
+    return render(request, "orders/cart.html", {
+        "cart": cart
+    })
