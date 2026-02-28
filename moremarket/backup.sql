@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict AgMr8JLhPoUOjpecKOEAT6vIK7IxPEusOeic071axNNayBNx7PMPexCa1wDebXx
+
 
 -- Dumped from database version 18.2
 -- Dumped by pg_dump version 18.2
@@ -2032,5 +2032,5 @@ ALTER TABLE ONLY public.products_wishlist
 -- PostgreSQL database dump complete
 --
 
-\unrestrict AgMr8JLhPoUOjpecKOEAT6vIK7IxPEusOeic071axNNayBNx7PMPexCa1wDebXx
+
 
