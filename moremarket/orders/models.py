@@ -23,8 +23,13 @@ class Address(models.Model):
 
 
 # 🔹 Cart Model
+# 🔹 Cart Model
 class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="cart"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def total_price(self):
@@ -33,15 +38,25 @@ class Cart(models.Model):
     def total_weight(self):
         return sum(item.total_weight() for item in self.items.all())
 
+    def total_quantity(self):
+        return sum(item.quantity for item in self.items.all())
+
     def __str__(self):
         return f"Cart - {self.user.username}"
 
 
 # 🔹 Cart Item
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
+    cart = models.ForeignKey(
+        Cart,
+        on_delete=models.CASCADE,
+        related_name="items"
+    )
     variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        unique_together = ("cart", "variant")  # Prevent duplicate same variant
 
     def total_price(self):
         return self.quantity * self.variant.price
@@ -50,7 +65,7 @@ class CartItem(models.Model):
         return self.quantity * self.variant.weight
 
     def __str__(self):
-        return f"{self.variant.product.name} ({self.variant.size}m)"
+        return f"{self.variant.product.name} ({self.variant.size})"
 
 
 # 🔹 Order Model

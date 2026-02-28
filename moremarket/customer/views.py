@@ -49,7 +49,7 @@ def customer_home(request):
 # CART PAGE
 # ========================
 def cart_view(request):
-    return render(request, "customer/cart.html")
+    return render(request, "orders/cart.html")
 
 # ========================
 # SAVE LOCATION
