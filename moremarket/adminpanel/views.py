@@ -169,6 +169,8 @@ def product_create(request):
         "form": form,
         "formset": formset
     })
+
+
 # ==============================
 # ✏ EDIT PRODUCT
 # ==============================
@@ -178,13 +180,30 @@ def product_create(request):
 def product_edit(request, pk):
 
     product = get_object_or_404(Product, pk=pk)
+
+    ImageFormSet = inlineformset_factory(
+        Product,
+        ProductImage,
+        fields=("image",),
+        extra=1,
+        can_delete=True
+    )
+
     form = ProductForm(request.POST or None, instance=product)
+    formset = ImageFormSet(request.POST or None,
+                           request.FILES or None,
+                           instance=product)
 
-    if form.is_valid():
-        form.save()
-        return redirect("adminpanel:products")
+    if request.method == "POST":
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            return redirect("adminpanel:products")
 
-    return render(request, "adminpanel/product_form.html", {"form": form})
+    return render(request, "adminpanel/product_form.html", {
+        "form": form,
+        "formset": formset
+    })
 
 
 # ==============================
