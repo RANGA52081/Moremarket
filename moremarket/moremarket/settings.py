@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'delivery',
     'products',
     'orders',
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [
