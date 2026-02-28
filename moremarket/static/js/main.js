@@ -368,3 +368,54 @@ document.querySelectorAll(".color-btn").forEach(btn => {
     });
 
 });
+document.addEventListener("DOMContentLoaded", function(){
+
+    document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
+
+        btn.addEventListener("click", function(){
+
+            const variantId = this.dataset.id;
+            const btnElement = this;
+
+            fetch(`/orders/add-to-cart/${variantId}/`, {
+                method: "GET",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                // Update header count
+                const badge = document.querySelector(".cart-area .badge");
+                if(badge){
+                    badge.innerText = data.cart_count;
+                }
+
+                // Update header total
+                const total = document.querySelector(".cart-area strong");
+                if(total){
+                    total.innerText = "Rs. " + data.cart_total;
+                }
+
+                // Green success animation
+                btnElement.innerHTML = "✔ Added";
+                btnElement.style.background = "#28a745";
+                btnElement.style.color = "#fff";
+
+                setTimeout(() => {
+                    btnElement.innerHTML = `
+                        <i class="bi bi-cart"></i>
+                        <span>Add</span>
+                    `;
+                    btnElement.style.background = "";
+                    btnElement.style.color = "";
+                }, 1500);
+
+            });
+
+        });
+
+    });
+
+});
