@@ -64,23 +64,22 @@
 </a>
   <!-- CART -->
   <a href="{% url 'cart' %}"
-     class="cart-area d-flex align-items-center gap-2 position-relative text-decoration-none text-dark">
+   class="cart-area d-flex align-items-center gap-2 position-relative text-decoration-none text-dark">
 
     <i class="bi bi-cart3 fs-5"></i>
 
-    <!-- Desktop Text -->
     <div class="d-none d-md-block">
-      <div>Cart</div>
-      <strong>Rs. 0.00</strong>
+        <div>Cart</div>
+        <strong>Rs. {{ cart_total|default:"0.00" }}</strong>
     </div>
 
-    {% if cart_count and cart_count > 0 %}
+    {% if cart_count > 0 %}
     <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill">
-      {{ cart_count }}
+        {{ cart_count }}
     </span>
     {% endif %}
 
-  </a>
+</a>
 <!-- ACCOUNT WITH HOVER -->
   <div class="account-wrapper">
 
