@@ -67,7 +67,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'orders.context_processors.cart_data',
             ],
         },
     },
@@ -82,11 +81,14 @@ WSGI_APPLICATION = 'moremarket.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'moremarket_db',
-        'USER': 'postgres',
-        'PASSWORD': 'post@26',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': 'postgres',
+        'USER': 'postgres.oaexplizhbgzlwopshhj',
+        'PASSWORD': 'dXcIt2Gus5lu8KDg',
+        'HOST': 'aws-1-ap-southeast-1.pooler.supabase.com',
+        'PORT': '6543',
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
     
