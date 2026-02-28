@@ -1,14 +1,62 @@
+# ==============================
+# Python
+# ==============================
 __pycache__/
-*.pyc
-venv/
-db.sqlite3
-.vscode/
+*.py[cod]
+*$py.class
 
-__pycache__/
-*.pyc
-*.pyo
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+
+# ==============================
+# Django
+# ==============================
+*.log
 db.sqlite3
-.env
-.env/
-db.sqlite3
+*.sqlite3
+
+# Media files (user uploaded)
 media/
+
+# Static collected files
+staticfiles/
+
+# ==============================
+# Environment Variables
+# ==============================
+.env
+.env.*
+
+# ==============================
+# VS Code / Editor
+# ==============================
+.vscode/
+.idea/
+*.swp
+
+# ==============================
+# OS Files
+# ==============================
+.DS_Store
+Thumbs.db
+
+# ==============================
+# PostgreSQL Dumps (optional)
+# ==============================
+*.sql
+
+# ==============================
+# Coverage / Testing
+# ==============================
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+
+# ==============================
+# Node (if you use frontend tools)
+# ==============================
+node_modules/
