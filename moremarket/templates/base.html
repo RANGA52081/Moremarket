@@ -59,8 +59,8 @@
 <a href="{% url 'products:wishlist' %}" class="position-relative">
     <i class="bi bi-heart fs-5"></i>
     <span class="wishlist-count badge bg-danger">
-        {{ request.user.wishlist_set.count|default:"0" }}
-    </span>
+    {{ request.user.wishlist.count|default:"0" }}
+</span>
 </a>
   <!-- CART -->
   <a href="{% url 'cart' %}"
@@ -393,13 +393,21 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    document.querySelectorAll(".wishlist-toggle").forEach(btn => {
+    const wishlistButtons = document.querySelectorAll(".wishlist-toggle");
 
-        btn.addEventListener("click", function () {
+    wishlistButtons.forEach(btn => {
+
+        btn.addEventListener("click", function (e) {
+
+            e.preventDefault();
 
             const productId = this.dataset.id;
             const icon = this.querySelector("i");
             const countBadge = document.querySelector(".wishlist-count");
+
+            // 🔒 Prevent double click spam
+            if (this.classList.contains("loading")) return;
+            this.classList.add("loading");
 
             fetch(`/products/wishlist/toggle/${productId}/`, {
                 method: "GET",
@@ -408,47 +416,64 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             })
             .then(response => {
+
                 if (response.status === 403) {
                     window.location.href = "/login/";
-                    return;
+                    return null;
                 }
+
                 return response.json();
             })
             .then(data => {
 
                 if (!data) return;
 
+                // 🔄 Toggle Heart Icon
                 if (data.status === "added") {
 
-                    this.classList.add("active");
-
                     icon.classList.remove("bi-heart");
-                    icon.classList.add("bi-heart-fill");
+                    icon.classList.add("bi-heart-fill", "text-danger");
 
                 } else {
 
-                    this.classList.remove("active");
-
-                    icon.classList.remove("bi-heart-fill");
+                    icon.classList.remove("bi-heart-fill", "text-danger");
                     icon.classList.add("bi-heart");
 
                 }
 
-                // Animation
+                // 💓 Heart Animation
                 icon.classList.add("animate");
 
                 setTimeout(() => {
                     icon.classList.remove("animate");
                 }, 400);
 
-                // Update wishlist count (if exists)
+                // 🔢 Update Header Count
                 if (countBadge && data.count !== undefined) {
+
                     countBadge.textContent = data.count;
+
+                    // 🎯 Bounce effect
+                    countBadge.classList.add("badge-bounce");
+
+                    setTimeout(() => {
+                        countBadge.classList.remove("badge-bounce");
+                    }, 400);
+
+                    // Hide badge if zero
+                    if (data.count === 0) {
+                        countBadge.style.display = "none";
+                    } else {
+                        countBadge.style.display = "inline-block";
+                    }
                 }
 
             })
             .catch(error => {
                 console.error("Wishlist error:", error);
+            })
+            .finally(() => {
+                this.classList.remove("loading");
             });
 
         });
