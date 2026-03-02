@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from products.models import ProductVariant
-from .models import Cart, CartItem
+from .models import Cart, CartItem, Enquiry
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 
@@ -47,6 +47,14 @@ def cart_view(request):
     })
 
 
+def enquiry_start(request):
+    return render(request, "orders/enquiry.html")
+
+def enquiry_payment(request, pk):
+    enquiry = get_object_or_404(Enquiry, pk=pk)
+    return render(request, "orders/enquiry_payment.html", {
+        "enquiry": enquiry
+    })
 # ===============================
 # UPDATE QUANTITY (AJAX)
 # ===============================
