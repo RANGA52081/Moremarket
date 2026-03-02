@@ -103,7 +103,8 @@
         {% endfor %}
 
     </select>
-
+    <!-- Selected sizes will appear here -->
+    <div id="selectedVariants" class="mt-3"></div>
 </div>
             {% endif %}
 
@@ -124,17 +125,6 @@
                 </span>
             </p>
             {% endif %}
-
-            <!-- Quantity -->
-            <div class="d-flex align-items-center mb-4">
-                <label class="me-3 fw-semibold">Quantity:</label>
-                <input type="number"
-                       id="quantity"
-                       value="1"
-                       min="1"
-                       class="form-control"
-                       style="width:100px;">
-            </div>
 
             <!-- BUTTONS -->
             <div class="d-flex gap-3">
@@ -161,48 +151,106 @@
 
 <!-- SCRIPT -->
 <script>
-const variantSelect = document.getElementById("variantSelect");
 const priceEl = document.getElementById("price");
 const stockEl = document.getElementById("stockDisplay");
-const quantityInput = document.getElementById("quantity");
 const addToCartBtn = document.getElementById("addToCartBtn");
+document.addEventListener("DOMContentLoaded", function () {
 
-if (variantSelect) {
+    const variantSelect = document.getElementById("variantSelect");
+    const container = document.getElementById("selectedVariants");
+
+    let selected = {}; // store selected variants
+
     variantSelect.addEventListener("change", function () {
 
-        const selected = this.options[this.selectedIndex];
-        const newPrice = selected.getAttribute("data-price");
-        const newStock = parseInt(selected.getAttribute("data-stock"));
+        const selectedOption = this.options[this.selectedIndex];
 
-        priceEl.innerText = newPrice;
+        const variantId = selectedOption.value;
+        const sizeText = selectedOption.text;
 
-        if (newStock > 0) {
-            stockEl.innerHTML =
-                `<span class="text-success fw-semibold">${newStock} Available</span>`;
-        } else {
-            stockEl.innerHTML =
-                `<span class="text-danger fw-semibold">Out of Stock</span>`;
-        }
+        // If already selected → ignore
+        if (selected[variantId]) return;
+
+        selected[variantId] = 1;
+
+        const row = document.createElement("div");
+        row.classList.add("variant-tag", "d-flex", "align-items-center", "justify-content-between", "border", "rounded", "p-2", "mb-2");
+        row.setAttribute("data-id", variantId);
+
+        row.innerHTML = `
+            <div>
+                <strong>${sizeText}</strong>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+
+                <input type="number"
+                       min="1"
+                       value="1"
+                       class="form-control qty-input"
+                       style="width:80px;">
+
+                <button class="btn btn-sm btn-danger remove-variant">
+                    <i class="bi bi-x"></i>
+                </button>
+
+            </div>
+        `;
+
+        container.appendChild(row);
+
+        // Remove logic
+        row.querySelector(".remove-variant").addEventListener("click", function () {
+            delete selected[variantId];
+            row.remove();
+        });
+
     });
-}
+
+});
 
 addToCartBtn.addEventListener("click", function () {
 
-    const variantId = variantSelect ? variantSelect.value : "";
-    const qty = quantityInput.value;
+    const rows = document.querySelectorAll(".variant-tag");
 
-    if (!variantId) {
-        alert("Please select variant");
+    if (rows.length === 0) {
+        alert("Please select at least one size");
         return;
     }
 
-    window.location.href =
-        `/orders/add-to-cart/${variantId}/?qty=${qty}`;
+    let data = [];
+
+    rows.forEach(row => {
+
+        const id = row.dataset.id;
+        const qty = row.querySelector(".qty-input").value;
+
+        data.push({
+            id: id,
+            quantity: qty
+        });
+
+    });
+
+    fetch("{% url 'orders:add_multiple_to_cart' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({ variants: data })
+    })
+    .then(res => res.json())
+    .then(response => {
+        window.location.href = "/cart/";
+    });
+
 });
-const container = document.querySelector(".image-scroll-container");
 const image = document.getElementById("mainProductImage");
 
-if (container && image) {
+const imageContainer = document.querySelector(".image-scroll-container");
+
+if (imageContainer && image) {
     container.addEventListener("mousemove", function(e) {
 
         const containerHeight = container.offsetHeight;

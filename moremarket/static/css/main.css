@@ -1860,3 +1860,11 @@ footer i:hover {
     color: #fff;
     border-color: #111;
 }
+.variant-tag {
+    background: #f8f9fa;
+    transition: 0.2s;
+}
+
+.variant-tag:hover {
+    background: #e9ecef;
+}
