@@ -204,7 +204,7 @@ def product_edit(request, pk):
     if request.method == "POST":
         if form.is_valid() and formset.is_valid():
             form.save()
-            formset.save()   # 🔥 This is enough now
+            formset.save()   # ✅ This is enough now
             return redirect("adminpanel:products")
 
     return render(request, "adminpanel/product_form.html", {

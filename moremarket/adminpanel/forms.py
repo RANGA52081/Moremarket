@@ -60,13 +60,14 @@ class ProductImageForm(forms.ModelForm):
 
     class Meta:
         model = ProductImage
-        fields = []
+        fields = ["image"]   # 👈 important
 
     def save(self, commit=True):
         instance = super().save(commit=False)
         image_file = self.cleaned_data.get("image_file")
 
         if image_file:
+            print("Uploading to Supabase...")  # 🔥 debug
             image_url = upload_image_to_supabase(image_file)
             instance.image = image_url
 
