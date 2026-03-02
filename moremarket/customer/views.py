@@ -17,6 +17,7 @@ from .models import UserProfile
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from products.models import Wishlist
+from orders.models import Cart
 # ========================
 # HOME PAGE
 # ========================
@@ -48,9 +49,15 @@ def customer_home(request):
 # ========================
 # CART PAGE
 # ========================
-def cart_view(request):
-    return render(request, "orders/cart.html")
 
+@login_required
+def cart_view(request):
+
+    cart, created = Cart.objects.get_or_create(user=request.user)
+
+    return render(request, "orders/cart.html", {
+        "cart": cart
+    })
 # ========================
 # SAVE LOCATION
 # ========================

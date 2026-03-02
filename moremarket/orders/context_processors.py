@@ -4,7 +4,7 @@ def cart_data(request):
 
     if request.user.is_authenticated:
         cart, created = Cart.objects.get_or_create(user=request.user)
-        cart_count = cart.items.count()
+        cart_count = sum(item.quantity for item in cart.items.all())
         total_price = cart.total_price()
     else:
         cart = None

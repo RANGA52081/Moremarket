@@ -18,7 +18,6 @@ def product_list(request):
     })
 
 
-# 🔹 Product Detail Page
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk, is_active=True)
 
@@ -28,15 +27,20 @@ def product_detail(request, pk):
     if not default_variant and variants.exists():
         default_variant = variants.first()
 
-    # ✅ Collect image URLs safely
-    image_urls = [img.image.url for img in product.images.all()]
+    # Safe image handling
+    image_urls = []
+    for img in product.images.all():
+        try:
+            image_urls.append(img.image.url)
+        except:
+            image_urls.append(img.image)
 
     return render(request, "products/product_detail.html", {
         "product": product,
         "variants": variants,
         "has_colors": has_colors,
         "default_variant": default_variant,
-        "image_urls": json.dumps(image_urls)  # JSON format
+        "image_urls": json.dumps(image_urls)
     })
 
 @login_required
