@@ -88,6 +88,7 @@ DATABASES = {
         'PORT': '6543',
         'OPTIONS': {
             'sslmode': 'require',
+            'options': '-c search_path=public',
         },
     }
 }
