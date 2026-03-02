@@ -11,7 +11,13 @@ from customer.models import Banner
 from products.models import Product, ProductVariant
 from orders.models import Order
 from .forms import BannerForm, ProductForm
-from utils.supabase_storage import upload_image_to_supabase
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.forms import inlineformset_factory
+
+from products.models import Product, ProductVariant, ProductImage
+from .forms import BannerForm, ProductForm, ProductImageForm
 
 # ==============================
 # 🔐 STAFF CHECK
@@ -139,9 +145,6 @@ def admin_products(request):
 # ➕ CREATE PRODUCT
 # ==============================
 
-from django.forms import inlineformset_factory
-from products.models import ProductImage
-
 @login_required(login_url="adminpanel:login")
 @user_passes_test(admin_required, login_url="adminpanel:login")
 def product_create(request):
@@ -149,14 +152,16 @@ def product_create(request):
     ImageFormSet = inlineformset_factory(
         Product,
         ProductImage,
-        fields=("image",),
+        form=ProductImageForm,
         extra=1,
         can_delete=True
     )
 
     form = ProductForm(request.POST or None)
-    formset = ImageFormSet(request.POST or None,
-                           request.FILES or None)
+    formset = ImageFormSet(
+        request.POST or None,
+        request.FILES or None
+    )
 
     if request.method == "POST":
         if form.is_valid() and formset.is_valid():
@@ -175,8 +180,6 @@ def product_create(request):
 # ✏ EDIT PRODUCT
 # ==============================
 
-from utils.supabase_storage import upload_image_to_supabase
-
 @login_required(login_url="adminpanel:login")
 @user_passes_test(admin_required, login_url="adminpanel:login")
 def product_edit(request, pk):
@@ -186,36 +189,28 @@ def product_edit(request, pk):
     ImageFormSet = inlineformset_factory(
         Product,
         ProductImage,
-        fields=("image",),
+        form=ProductImageForm,
         extra=1,
         can_delete=True
     )
 
     form = ProductForm(request.POST or None, instance=product)
-    formset = ImageFormSet(request.POST or None,
-                           request.FILES or None,
-                           instance=product)
+    formset = ImageFormSet(
+        request.POST or None,
+        request.FILES or None,
+        instance=product
+    )
 
     if request.method == "POST":
         if form.is_valid() and formset.is_valid():
-
             form.save()
-
-            instances = formset.save(commit=False)
-
-            for instance in instances:
-                if instance.image:
-                    uploaded_url = upload_image_to_supabase(instance.image)
-                    instance.image = uploaded_url
-                instance.save()
-
+            formset.save()   # 🔥 This is enough now
             return redirect("adminpanel:products")
 
     return render(request, "adminpanel/product_form.html", {
         "form": form,
         "formset": formset
     })
-
 
 # ==============================
 # ❌ DELETE PRODUCT

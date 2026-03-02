@@ -50,13 +50,13 @@
                 {% for image_form in formset %}
                     <div class="col-md-3 mb-3">
 
-                        {% if image_form.instance.pk %}
-                            <img src="{{ image_form.instance.image.url }}"
-                                 class="img-thumbnail mb-2"
-                                 style="height:120px; object-fit:cover;">
+                        {% if image_form.instance.image %}
+                            <img src="{{ image_form.instance.image }}"
+                                class="img-thumbnail mb-2"
+                                style="height:120px; object-fit:cover;">
                         {% endif %}
 
-                        {{ image_form.image }}
+                        {{ image_form.image_file }}
 
                         {% if image_form.can_delete %}
                             <div class="form-check mt-2">
