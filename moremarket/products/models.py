@@ -39,7 +39,7 @@ class ProductImage(models.Model):
         on_delete=models.CASCADE,
         related_name="images"
     )
-    image = models.URLField(max_length=1000)
+    image = models.URLField(blank=True, null=True)
     def __str__(self):
         return f"Image of {self.product.name}"
 
