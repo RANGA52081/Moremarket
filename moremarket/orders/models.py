@@ -101,3 +101,40 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.variant.product.name} - {self.quantity}"
+class Enquiry(models.Model):
+
+    STATUS_CHOICES = (
+        ("Address Pending", "Address Pending"),
+        ("Waiting Approval", "Waiting Approval"),
+        ("Payment Pending", "Payment Pending"),
+        ("Partially Paid", "Partially Paid"),
+        ("Fully Paid", "Fully Paid"),
+        ("Completed", "Completed"),
+    )
+
+    PAYMENT_MODE = (
+        ("FULL", "Full Payment"),
+        ("PARTIAL", "50% Advance"),
+    )
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
+
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    payment_mode = models.CharField(max_length=20, choices=PAYMENT_MODE, null=True, blank=True)
+
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    advance_enabled = models.BooleanField(default=False)
+    final_enabled = models.BooleanField(default=False)
+
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default="Address Pending")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def remaining_amount(self):
+        return self.total_amount - self.amount_paid
+
+    def __str__(self):
+        return f"Enquiry #{self.id} - {self.user.username}"
