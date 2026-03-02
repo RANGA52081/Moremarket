@@ -260,8 +260,8 @@
                     <strong>₹ {{ cart.total_price }}</strong>
                 </div>
 
-                <a href="{% url 'add_to_enquiry' variant.id %}" class="btn btn-warning">
-                 <i class="bi bi-chat-dots"></i> Enquiry
+                <a href="{% url 'orders:cart_to_enquiry' %}" class="btn btn-warning">
+                <i class="bi bi-chat-dots"></i> Enquiry
                 </a>
             </div>
         </div>

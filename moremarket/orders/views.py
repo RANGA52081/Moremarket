@@ -101,3 +101,12 @@ def remove_item(request, item_id):
         "cart_total": cart.total_price(),
         "cart_count": cart.total_quantity()
     })
+@login_required
+def cart_to_enquiry(request):
+    cart = Cart.objects.filter(user=request.user).first()
+
+    if not cart or not cart.items.exists():
+        return redirect("cart")
+
+    # Later we will convert cart to enquiry
+    return redirect("orders:enquiry_start")
