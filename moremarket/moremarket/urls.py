@@ -29,7 +29,7 @@ urlpatterns = [
     path('login/', customer_views.login_view, name='login'),
     path('register/', customer_views.register_view, name='register'),
     path('logout/', customer_views.logout_view, name='logout'),
-    path("products/", include("products.urls")),
+    
     path("orders/", include("orders.urls")),
     path("products/", include("products.urls")),  # 🔥 THIS MUST EXIST
 ]

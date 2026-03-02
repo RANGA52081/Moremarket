@@ -125,6 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en'
 
 USE_TZ = True
+import os
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -149,3 +150,7 @@ LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = "adminpanel:login"
 LOGIN_REDIRECT_URL = "adminpanel:admin"
 LOGOUT_REDIRECT_URL = "adminpanel:login"
+
+SUPABASE_URL = "https://oaexplizhbgzlwopshhj.supabase.co"
+SUPABASE_KEY = "sb_publishable_n6SsmDwhUCA_mGgxCihyEw_7iPEm8xd"
+SUPABASE_BUCKET = "products"

@@ -11,7 +11,7 @@ from customer.models import Banner
 from products.models import Product, ProductVariant
 from orders.models import Order
 from .forms import BannerForm, ProductForm
-
+from utils.supabase_storage import upload_image_to_supabase
 
 # ==============================
 # 🔐 STAFF CHECK
@@ -175,6 +175,8 @@ def product_create(request):
 # ✏ EDIT PRODUCT
 # ==============================
 
+from utils.supabase_storage import upload_image_to_supabase
+
 @login_required(login_url="adminpanel:login")
 @user_passes_test(admin_required, login_url="adminpanel:login")
 def product_edit(request, pk):
@@ -189,19 +191,25 @@ def product_edit(request, pk):
         can_delete=True
     )
 
+    form = ProductForm(request.POST or None, instance=product)
+    formset = ImageFormSet(request.POST or None,
+                           request.FILES or None,
+                           instance=product)
+
     if request.method == "POST":
-        form = ProductForm(request.POST, instance=product)
-        formset = ImageFormSet(request.POST, request.FILES, instance=product)
-
         if form.is_valid() and formset.is_valid():
-            product = form.save()
-            formset.instance = product
-            formset.save()
-            return redirect("adminpanel:products")
 
-    else:
-        form = ProductForm(instance=product)
-        formset = ImageFormSet(instance=product)
+            form.save()
+
+            instances = formset.save(commit=False)
+
+            for instance in instances:
+                if instance.image:
+                    uploaded_url = upload_image_to_supabase(instance.image)
+                    instance.image = uploaded_url
+                instance.save()
+
+            return redirect("adminpanel:products")
 
     return render(request, "adminpanel/product_form.html", {
         "form": form,
