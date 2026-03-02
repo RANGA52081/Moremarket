@@ -183,7 +183,7 @@
         <!-- PRODUCT IMAGE -->
         <div class="col-md-2 text-center">
             <a href="{% url 'products:product_detail' item.variant.product.id %}">
-                <img src="{{ item.variant.product.images.first.image.url }}"
+                <img src="{{ item.variant.product.images.first.image }}"
                      class="cart-img img-fluid">
             </a>
         </div>
