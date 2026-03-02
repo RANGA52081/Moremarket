@@ -189,16 +189,19 @@ def product_edit(request, pk):
         can_delete=True
     )
 
-    form = ProductForm(request.POST or None, instance=product)
-    formset = ImageFormSet(request.POST or None,
-                           request.FILES or None,
-                           instance=product)
-
     if request.method == "POST":
+        form = ProductForm(request.POST, instance=product)
+        formset = ImageFormSet(request.POST, request.FILES, instance=product)
+
         if form.is_valid() and formset.is_valid():
-            form.save()
+            product = form.save()
+            formset.instance = product
             formset.save()
             return redirect("adminpanel:products")
+
+    else:
+        form = ProductForm(instance=product)
+        formset = ImageFormSet(instance=product)
 
     return render(request, "adminpanel/product_form.html", {
         "form": form,
