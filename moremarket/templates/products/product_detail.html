@@ -30,7 +30,7 @@
         <div class="thumb-wrapper mt-3">
 
             {% for img in product.images.all %}
-                <img src="{{ img.image.url }}"
+                <img src="{{ img.image }}"
                      class="product-thumb"
                      data-index="{{ forloop.counter0 }}">
             {% endfor %}
