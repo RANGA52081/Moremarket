@@ -4,7 +4,7 @@ from products.models import ProductVariant
 from .models import Cart, CartItem, Enquiry
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-
+import json
 
 # ===============================
 # ADD TO CART
@@ -122,10 +122,7 @@ def add_multiple_to_cart(request):
 
         for item in variants:
             variant_id = item.get("id")
-            quantity = int(item.get("quantity", 0))
-
-            if quantity <= 0:
-                continue
+            quantity = int(item.get("quantity", 1))
 
             variant = get_object_or_404(ProductVariant, id=variant_id)
 
@@ -143,4 +140,4 @@ def add_multiple_to_cart(request):
 
         return JsonResponse({"status": "success"})
 
-    return JsonResponse({"error": "Invalid request"}, status=400)
+    return JsonResponse({"error": "invalid request"})
