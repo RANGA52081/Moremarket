@@ -64,7 +64,7 @@
                 <div class="profile-card shadow-sm p-4">
                     <h4 class="section-title">Edit Profile</h4>
 
-                    <form method="POST" enctype="multipart/form-data" action="{% url 'update_profile' %}">
+                    <form method="POST" enctype="multipart/form-data" action="{% url 'customer:update_profile' %}">
                         {% csrf_token %}
 
                         <div class="row">
@@ -155,7 +155,7 @@
 
                     <hr>
 
-                    <form method="POST" action="{% url 'add_address' %}">
+                    <form method="POST" action="{% url 'customer:add_address' %}">
                         {% csrf_token %}
                         <input type="text" name="full_name" placeholder="Full Name" class="form-control mb-2">
                         <input type="text" name="phone" placeholder="Phone" class="form-control mb-2">
@@ -173,7 +173,7 @@
                 <div class="profile-card shadow-sm p-4">
                     <h4 class="section-title">Change Password</h4>
 
-                    <form method="POST" action="{% url 'change_password' %}">
+                    <form method="POST" action="{% url 'customer:change_password' %}">
                         {% csrf_token %}
                         {{ password_form.as_p }}
                         <button class="btn btn-primary">Update Password</button>

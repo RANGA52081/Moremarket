@@ -227,6 +227,7 @@ def change_password(request):
     return render(request, 'customer/change_password.html', {'form': form})
 @login_required
 def add_address(request):
+
     if request.method == "POST":
         Address.objects.create(
             user=request.user,
@@ -237,7 +238,26 @@ def add_address(request):
             state=request.POST.get("state"),
             pincode=request.POST.get("pincode"),
         )
-        return redirect("profile")
+
+        return redirect("customer:profile")   # namespace fix
+@login_required
+def add_address(request):
+
+    if request.method == "POST":
+        Address.objects.create(
+            user=request.user,
+            full_name=request.POST.get("full_name"),
+            phone=request.POST.get("phone"),
+            address_line=request.POST.get("address"),
+            city=request.POST.get("city"),
+            state=request.POST.get("state"),
+            pincode=request.POST.get("pincode"),
+        )
+
+        return redirect("customer:profile")
+
+    # GET request → open profile page
+    return redirect("customer:profile")
 @login_required
 def update_profile(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)

@@ -66,17 +66,17 @@
 
         <div class="category-wrapper">
 
-            <a href="{% url 'customer_home' %}?category=MS"
+            <a href="{% url 'customer:customer_home' %}?category=MS"
                class="category-btn {% if active_category == 'MS' %}active{% endif %}">
                MS Scaffolding
             </a>
 
-            <a href="{% url 'customer_home' %}?category=AL"
+            <a href="{% url 'customer:customer_home' %}?category=AL"
                class="category-btn {% if active_category == 'AL' %}active{% endif %}">
                Aluminium Scaffolding
             </a>
 
-            <a href="{% url 'customer_home' %}"
+            <a href="{% url 'customer:customer_home' %}"
                class="category-btn {% if not active_category %}active{% endif %}">
                All Products
             </a>
