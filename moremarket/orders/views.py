@@ -1,3 +1,5 @@
+from pyexpat.errors import messages
+from customer.models import Address
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from products.models import ProductVariant
@@ -46,9 +48,6 @@ def cart_view(request):
         "cart": cart
     })
 
-
-def enquiry_start(request):
-    return render(request, "orders/enquiry.html")
 
 def enquiry_payment(request, pk):
     enquiry = get_object_or_404(Enquiry, pk=pk)
@@ -141,3 +140,25 @@ def add_multiple_to_cart(request):
         return JsonResponse({"status": "success"})
 
     return JsonResponse({"error": "invalid request"})
+@login_required
+def enquiry_start(request):
+
+    address = Address.objects.filter(user=request.user).first()
+
+    if not address:
+        return redirect("customer:add_address")   # ✅ changed here
+
+    return redirect("orders:cart_to_enquiry")
+    return redirect("orders:cart_to_enquiry")
+@login_required
+def cart_to_enquiry(request):
+
+    cart = Cart.objects.filter(user=request.user).first()
+
+    if not cart or not cart.items.exists():
+        messages.error(request, "Please select a product before enquiry.")
+        return redirect("customer_home")
+
+    return render(request, "orders/enquiry.html", {
+        "cart": cart
+    })

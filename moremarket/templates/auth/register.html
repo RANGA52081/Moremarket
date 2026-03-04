@@ -244,38 +244,38 @@ input[name^="otp"] {
                 {% endif %}
 
                 <!-- ================= REGISTER FORM ================= -->
-                <form method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="form_type" value="register">
-                    <!-- Username -->
-                    <div class="floating-group">
-                        <input type="text" name="username" required>
-                        <label>Username</label>
-                    </div>
+                {% if not show_otp %}
+<form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="form_type" value="register">
 
-                    <!-- Email / Mobile -->
-                    <div class="floating-group">
-                        <input type="text" name="contact" required>
-                        <label>Email or Mobile Number</label>
-                    </div>
+    <div class="floating-group">
+        <input type="text" name="username" required>
+        <label>Username</label>
+    </div>
 
-                    <!-- Password -->
-                    <div class="floating-group password-group">
-                        <input type="password" name="password" id="registerPassword" required>
-                        <label>Password</label>
-                        <i class="bi bi-eye-slash toggle-password"
-                           onclick="toggleRegisterPassword()"></i>
-                    </div>
+    <div class="floating-group">
+        <input type="text" name="contact" required>
+        <label>Email or Mobile Number</label>
+    </div>
 
-                    <button type="submit" class="auth-btn w-100">
-                        Create Account
-                    </button>
+    <div class="floating-group password-group">
+        <input type="password" name="password" id="registerPassword" required>
+        <label>Password</label>
+        <i class="bi bi-eye-slash toggle-password"
+           onclick="toggleRegisterPassword()"></i>
+    </div>
 
-                    <p class="text-center mt-3">
-                        Already have an account?
-                        <a href="{% url 'login' %}">Sign In</a>
-                    </p>
-                </form>
+    <button type="submit" class="auth-btn w-100">
+        Create Account
+    </button>
+
+    <p class="text-center mt-3">
+        Already have an account?
+        <a href="{% url 'login' %}">Sign In</a>
+    </p>
+</form>
+{% endif %}
 
                 <!-- ================= OTP SECTION ================= -->
                 {% if show_otp %}
