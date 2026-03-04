@@ -129,12 +129,12 @@
             <!-- BUTTONS -->
             <div class="d-flex gap-3">
 
-                <a href="#"
-                   id="addToCartBtn"
-                   class="btn btn-dark px-4 py-2">
-                   <i class="bi bi-cart3 me-2"></i>
-                   Add to Cart
-                </a>
+                <button type="button"
+                id="addToCartBtn"
+                class="btn btn-dark px-4 py-2">
+                <i class="bi bi-cart3 me-2"></i>
+                Add to Cart
+                </button>
 
                 <a href="{% url 'customer_home' %}"
                    class="btn btn-outline-secondary px-4 py-2">
@@ -157,93 +157,118 @@ const addToCartBtn = document.getElementById("addToCartBtn");
 document.addEventListener("DOMContentLoaded", function () {
 
     const variantSelect = document.getElementById("variantSelect");
-    const container = document.getElementById("selectedVariants");
+    const selectedContainer = document.getElementById("selectedVariants");
+    const addToCartBtn = document.getElementById("addToCartBtn");
 
-    let selected = {}; // store selected variants
+    let selected = {};
 
-    variantSelect.addEventListener("change", function () {
+    /* =========================
+       VARIANT SELECTION
+    ========================== */
+    if (variantSelect) {
+        variantSelect.addEventListener("change", function () {
 
-        const selectedOption = this.options[this.selectedIndex];
+            const selectedOption = this.options[this.selectedIndex];
+            const variantId = selectedOption.value;
+            const sizeText = selectedOption.text;
 
-        const variantId = selectedOption.value;
-        const sizeText = selectedOption.text;
+            if (!variantId) return;
 
-        // If already selected → ignore
-        if (selected[variantId]) return;
+            // Prevent duplicate selection
+            if (selected[variantId]) return;
 
-        selected[variantId] = 1;
+            selected[variantId] = true;
 
-        const row = document.createElement("div");
-        row.classList.add("variant-tag", "d-flex", "align-items-center", "justify-content-between", "border", "rounded", "p-2", "mb-2");
-        row.setAttribute("data-id", variantId);
+            const row = document.createElement("div");
+            row.className = "variant-tag d-flex align-items-center justify-content-between border rounded p-2 mb-2";
+            row.dataset.id = variantId;
 
-        row.innerHTML = `
-            <div>
-                <strong>${sizeText}</strong>
-            </div>
+            row.innerHTML = `
+                <div><strong>${sizeText}</strong></div>
+                <div class="d-flex align-items-center gap-2">
+                    <input type="number" 
+                           min="1" 
+                           value="1"
+                           class="form-control qty-input" 
+                           style="width:80px;">
+                    <button type="button" 
+                            class="btn btn-sm btn-danger remove-variant">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+            `;
 
-            <div class="d-flex align-items-center gap-2">
+            selectedContainer.appendChild(row);
 
-                <input type="number"
-                       min="1"
-                       value="1"
-                       class="form-control qty-input"
-                       style="width:80px;">
+            // Remove variant
+            row.querySelector(".remove-variant").addEventListener("click", function () {
+                delete selected[variantId];
+                row.remove();
+            });
 
-                <button class="btn btn-sm btn-danger remove-variant">
-                    <i class="bi bi-x"></i>
-                </button>
-
-            </div>
-        `;
-
-        container.appendChild(row);
-
-        // Remove logic
-        row.querySelector(".remove-variant").addEventListener("click", function () {
-            delete selected[variantId];
-            row.remove();
+            // Optional: reset dropdown
+            variantSelect.selectedIndex = 0;
         });
-
-    });
-
-});
-
-addToCartBtn.addEventListener("click", function () {
-
-    const rows = document.querySelectorAll(".variant-tag");
-
-    if (rows.length === 0) {
-        alert("Please select at least one size");
-        return;
     }
 
-    let data = [];
+    /* =========================
+       ADD TO CART
+    ========================== */
+    if (addToCartBtn) {
+        addToCartBtn.addEventListener("click", function (e) {
 
-    rows.forEach(row => {
+            e.preventDefault();  // Important
 
-        const id = row.dataset.id;
-        const qty = row.querySelector(".qty-input").value;
+            const rows = document.querySelectorAll(".variant-tag");
 
-        data.push({
-            id: id,
-            quantity: qty
+            if (rows.length === 0) {
+                alert("Please select at least one size");
+                return;
+            }
+
+            let data = [];
+
+            rows.forEach(row => {
+                const qty = parseInt(row.querySelector(".qty-input").value);
+
+                if (qty > 0) {
+                    data.push({
+                        id: row.dataset.id,
+                        quantity: qty
+                    });
+                }
+            });
+
+            if (data.length === 0) {
+                alert("Quantity must be at least 1");
+                return;
+            }
+
+            fetch("{% url 'orders:add_multiple_to_cart' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: JSON.stringify({ variants: data })
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return res.json();
+            })
+            .then(response => {
+                console.log("Success:", response);
+                window.location.href = "/cart/";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Something went wrong while adding to cart.");
+            });
+
         });
-
-    });
-
-    fetch("{% url 'orders:add_multiple_to_cart' %}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": "{{ csrf_token }}"
-        },
-        body: JSON.stringify({ variants: data })
-    })
-    .then(res => res.json())
-    .then(response => {
-        window.location.href = "/cart/";
-    });
+    }
 
 });
 const image = document.getElementById("mainProductImage");
@@ -251,9 +276,9 @@ const image = document.getElementById("mainProductImage");
 const imageContainer = document.querySelector(".image-scroll-container");
 
 if (imageContainer && image) {
-    container.addEventListener("mousemove", function(e) {
+    imageContainer.addEventListener("mousemove", function(e) {
 
-        const containerHeight = container.offsetHeight;
+        const containerHeight = imageContainer.offsetHeight;
         const imageHeight = image.offsetHeight;
 
         const mouseY = e.offsetY;
@@ -264,7 +289,7 @@ if (imageContainer && image) {
         image.style.transform = `translateY(-${move}px)`;
     });
 
-    container.addEventListener("mouseleave", function() {
+    imageContainer.addEventListener("mouseleave", function() {
         image.style.transform = "translateY(0)";
     });
 }

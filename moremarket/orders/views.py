@@ -112,8 +112,9 @@ def cart_to_enquiry(request):
     return redirect("orders:enquiry_start")
 @login_required
 def add_multiple_to_cart(request):
+
     if request.method == "POST":
-        import json
+
         data = json.loads(request.body)
         variants = data.get("variants", [])
 
@@ -121,23 +122,25 @@ def add_multiple_to_cart(request):
 
         for item in variants:
             variant_id = item.get("id")
-            quantity = int(item.get("quantity"))
+            quantity = int(item.get("quantity", 0))
 
             if quantity <= 0:
                 continue
 
-            variant = ProductVariant.objects.get(id=variant_id)
+            variant = get_object_or_404(ProductVariant, id=variant_id)
 
             cart_item, created = CartItem.objects.get_or_create(
                 cart=cart,
                 variant=variant
             )
 
-            if not created:
-                cart_item.quantity += quantity
-            else:
+            if created:
                 cart_item.quantity = quantity
+            else:
+                cart_item.quantity += quantity
 
             cart_item.save()
 
         return JsonResponse({"status": "success"})
+
+    return JsonResponse({"error": "Invalid request"}, status=400)
