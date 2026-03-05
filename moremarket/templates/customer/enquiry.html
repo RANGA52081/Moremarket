@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+<h2>Quick Enquiry</h2>
+
+<form method="POST">
+{% csrf_token %}
+
+<div class="mb-3">
+<label>Name</label>
+<input type="text" name="name" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label>Phone</label>
+<input type="text" name="phone" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label>Email</label>
+<input type="email" name="email" class="form-control">
+</div>
+
+<div class="mb-3">
+<label>Product</label>
+<select name="product" class="form-control">
+<option>MS Scaffolding</option>
+<option>Aluminium Scaffolding</option>
+<option>Cuplock System</option>
+</select>
+</div>
+
+<div class="mb-3">
+<label>Project Details</label>
+<textarea name="message" class="form-control"></textarea>
+</div>
+
+<button class="btn btn-warning">Submit Enquiry</button>
+
+</form>
+</div>
+
+{% endblock %}
