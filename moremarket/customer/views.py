@@ -288,7 +288,7 @@ def customer_home(request):
     products = Product.objects.all()
     customers = HappyCustomer.objects.all()
 
-    return render(request, "customer/home.html", {
+    return render(request, "customer/customer.html", {
         "banners": banners,
         "products": products,
         "customers": customers
