@@ -62,6 +62,7 @@ class Address(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.city}"
 
+
 class HappyCustomer(models.Model):
     company_name = models.CharField(max_length=200)
     logo = models.ImageField(upload_to="customers/")
@@ -70,3 +71,4 @@ class HappyCustomer(models.Model):
 
     def __str__(self):
         return self.company_name
+

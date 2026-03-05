@@ -282,6 +282,7 @@ def delete_address(request, id):
     address.delete()
     return redirect("profile")
 
+
 def customer_home(request):
 
     banners = Banner.objects.all()
@@ -293,3 +294,4 @@ def customer_home(request):
         "products": products,
         "customers": customers
     })
+
