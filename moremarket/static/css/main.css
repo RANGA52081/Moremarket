@@ -1868,3 +1868,53 @@ footer i:hover {
 .variant-tag:hover {
     background: #e9ecef;
 }
+/* ================= HAPPY CUSTOMERS ================= */
+
+.customer-slider{
+    overflow:hidden;
+    position:relative;
+}
+
+.customer-track{
+    display:flex;
+    gap:40px;
+    animation: slideCustomers 25s linear infinite;
+}
+
+.customer-card{
+    min-width:220px;
+    background:#fff;
+    border-radius:14px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    transition:0.3s;
+}
+
+.customer-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 18px 35px rgba(0,0,0,0.15);
+}
+
+.customer-logo{
+    height:60px;
+    object-fit:contain;
+    margin-bottom:15px;
+}
+
+.company-name{
+    font-weight:600;
+    margin-bottom:6px;
+}
+
+.rating i{
+    color:#f4b400;
+    font-size:14px;
+}
+
+/* Smooth auto scroll */
+
+@keyframes slideCustomers{
+    0%{transform:translateX(0)}
+    100%{transform:translateX(-50%)}
+}

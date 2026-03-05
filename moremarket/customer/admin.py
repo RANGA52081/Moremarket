@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Banner, UserOTP, BannerImage
+from .models import Banner, UserOTP, BannerImage, HappyCustomer
 
 
 class BannerImageInline(admin.TabularInline):
@@ -14,3 +14,6 @@ class BannerAdmin(admin.ModelAdmin):
 @admin.register(UserOTP)
 class UserOTPAdmin(admin.ModelAdmin):
     list_display = ("user", "otp", "created_at")
+    
+
+admin.site.register(HappyCustomer)

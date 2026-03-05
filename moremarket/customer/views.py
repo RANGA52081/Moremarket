@@ -8,7 +8,7 @@ from products.models import Product
 import random
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import UserOTP, Address
+from .models import UserOTP, Address, HappyCustomer
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib.auth.decorators import login_required
@@ -18,6 +18,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from products.models import Wishlist
 from orders.models import Cart
+
 # ========================
 # HOME PAGE
 # ========================
@@ -280,3 +281,15 @@ def delete_address(request, id):
     address = Address.objects.get(id=id, user=request.user)
     address.delete()
     return redirect("profile")
+
+def customer_home(request):
+
+    banners = Banner.objects.all()
+    products = Product.objects.all()
+    customers = HappyCustomer.objects.all()
+
+    return render(request, "customer/home.html", {
+        "banners": banners,
+        "products": products,
+        "customers": customers
+    })

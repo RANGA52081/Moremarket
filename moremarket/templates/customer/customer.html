@@ -231,5 +231,51 @@
 
     </div>
 </div>
+<!-- ================= HAPPY CUSTOMERS ================= -->
 
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <h2 class="section-title">Trusted by Happy Customers</h2>
+        <p class="text-muted">
+            Companies that rely on MoreMarket scaffolding solutions
+        </p>
+    </div>
+
+    <div class="customer-slider">
+
+        <div class="customer-track">
+
+            {% for c in customers %}
+
+            <div class="customer-card">
+
+                <img src="{{ c.logo.url }}"
+                     class="customer-logo">
+
+                <h6 class="company-name">
+                    {{ c.company_name }}
+                </h6>
+
+                <div class="rating">
+
+                    {% for i in "12345"|make_list %}
+                        {% if forloop.counter <= c.rating %}
+                            <i class="bi bi-star-fill"></i>
+                        {% else %}
+                            <i class="bi bi-star"></i>
+                        {% endif %}
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
 {% endblock %}
