@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<h2 class="mb-4">Enquiry Summary</h2>
+
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>Product</th>
+<th>Size</th>
+<th>Quantity</th>
+<th>Price</th>
+<th>Total</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for item in cart.items.all %}
+
+<tr>
+<td>{{ item.variant.product.name }}</td>
+<td>{{ item.variant.size }}</td>
+<td>{{ item.quantity }}</td>
+<td>₹{{ item.variant.price }}</td>
+<td>₹{{ item.total_price }}</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+</table>
+
+<div class="text-end mt-3">
+<h4>Total: ₹{{ cart.total_price }}</h4>
+</div>
+
+<form method="POST" class="mt-4">
+{% csrf_token %}
+
+<button class="btn btn-warning btn-lg">
+Submit Enquiry
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}

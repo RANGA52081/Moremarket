@@ -1,4 +1,4 @@
-from pyexpat.errors import messages
+from django.contrib import messages
 from customer.models import Address
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -100,15 +100,7 @@ def remove_item(request, item_id):
         "cart_total": cart.total_price(),
         "cart_count": cart.total_quantity()
     })
-@login_required
-def cart_to_enquiry(request):
-    cart = Cart.objects.filter(user=request.user).first()
 
-    if not cart or not cart.items.exists():
-        return redirect("cart")
-
-    # Later we will convert cart to enquiry
-    return redirect("orders:enquiry_start")
 @login_required
 def add_multiple_to_cart(request):
 
@@ -149,7 +141,7 @@ def enquiry_start(request):
         return redirect("customer:add_address")   # ✅ changed here
 
     return redirect("orders:cart_to_enquiry")
-    return redirect("orders:cart_to_enquiry")
+    
 @login_required
 def cart_to_enquiry(request):
 

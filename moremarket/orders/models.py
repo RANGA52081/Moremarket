@@ -101,6 +101,7 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.variant.product.name} - {self.quantity}"
+        
 class Enquiry(models.Model):
 
     STATUS_CHOICES = (
@@ -138,3 +139,29 @@ class Enquiry(models.Model):
 
     def __str__(self):
         return f"Enquiry #{self.id} - {self.user.username}"
+    
+class EnquiryItem(models.Model):
+
+    enquiry = models.ForeignKey(
+        Enquiry,
+        on_delete=models.CASCADE,
+        related_name="items"
+    )
+
+    variant = models.ForeignKey(
+        ProductVariant,
+        on_delete=models.CASCADE
+    )
+
+    quantity = models.PositiveIntegerField()
+
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
+
+    def total_price(self):
+        return self.quantity * self.price
+
+    def __str__(self):
+        return f"{self.variant} - {self.quantity}"  
